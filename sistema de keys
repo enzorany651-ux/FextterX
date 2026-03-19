@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEXTTER ADMIN - GERADOR DE KEYS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        body {
+            background: #0a0a0f;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Matrix Background Roxo */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Painel Principal */
+        .panel {
+            width: 1300px;
+            background: #0f0f1a;
+            border: 2px solid #9b4dff;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(155, 77, 255, 0.3);
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #9b4dff40;
+        }
+
+        .header h1 {
+            color: #9b4dff;
+            font-size: 28px;
+            font-weight: 800;
+            text-shadow: 0 0 15px #9b4dff;
+        }
+
+        .admin-badge {
+            background: #9b4dff;
+            color: #0f0f1a;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px #9b4dff;
+        }
+
+        /* Barra de Controles Superior */
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Botões de Ação */
+        .action-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .generate-btn {
+            background: #00cc66;
+            color: #0f0f1a;
+            box-shadow: 0 0 20px #00cc66;
+        }
+
+        .generate-btn:hover {
+            background: #00ff88;
+            box-shadow: 0 0 30px #00ff88;
+        }
+
+        .remove-btn {
+            background: #ff3366;
+            color: white;
+            box-shadow: 0 0 20px #ff3366;
+        }
+
+        .remove-btn:hover {
+            background: #ff5588;
+            box-shadow: 0 0 30px #ff5588;
+        }
+
+        /* Seletor de Dias */
+        .days-selector {
+            display: flex;
+            gap: 5px;
+            background: #0a0a12;
+            padding: 5px;
+            border-radius: 30px;
+            border: 1px solid #9b4dff40;
+        }
+
+        .day-pill {
+            background: transparent;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 15px;
+            color: #9b4dff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .day-pill:hover {
+            background: #9b4dff20;
+        }
+
+        .day-pill.selected {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        /* Seletor de Telefones */
+        .phones-selector {
+            display: flex;
+            gap: 5px;
+            background: #0a0a12;
+            padding: 5px;
+            border-radius: 30px;
+            border: 1px solid #9b4dff40;
+        }
+
+        .phone-pill {
+            background: transparent;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 15px;
+            color: #9b4dff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .phone-pill:hover {
+            background: #9b4dff20;
+        }
+
+        .phone-pill.selected {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        /* Estatísticas */
+        .stats-mini {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .stat-mini {
+            background: #0a0a12;
+            border: 1px solid #9b4dff40;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+
+        .stat-mini span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .stat-mini strong {
+            color: #fff;
+        }
+
+        /* Botão Confirmar Key (aparece após selecionar) */
+        .confirm-key-btn {
+            background: #9b4dff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #9b4dff;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .confirm-key-btn.show {
+            display: flex;
+        }
+
+        .confirm-key-btn:hover {
+            background: #b87cff;
+        }
+
+        /* Área das Keys */
+        .keys-area {
+            background: rgba(155, 77, 255, 0.03);
+            border: 1px solid #9b4dff30;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .keys-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .keys-header h3 {
+            color: #9b4dff;
+            font-size: 18px;
+        }
+
+        .keys-count {
+            background: #0a0a12;
+            color: #9b4dff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid #9b4dff;
+        }
+
+        /* Lista de Keys */
+        .keys-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .key-item {
+            background: #0a0a12;
+            border: 1px solid #9b4dff30;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .key-item:hover {
+            border-color: #9b4dff;
+            box-shadow: 0 0 20px #9b4dff;
+        }
+
+        .key-info {
+            flex: 1;
+        }
+
+        .key-code {
+            color: #9b4dff;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .key-details {
+            display: flex;
+            gap: 25px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .key-details span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .key-users {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .key-users.active {
+            color: #9b4dff;
+        }
+
+        .key-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-small {
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #fff;
+        }
+
+        .copy-small {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        .copy-small:hover {
+            background: #b87cff;
+        }
+
+        .delete-small {
+            background: #ff3366;
+            color: white;
+        }
+
+        .delete-small:hover {
+            background: #ff5588;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #0f0f1a;
+            border: 3px solid #ff3366;
+            border-radius: 30px;
+            padding: 30px;
+            width: 400px;
+            box-shadow: 0 0 60px #ff3366;
+        }
+
+        .modal-content h2 {
+            color: #ff3366;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a12;
+            border: 2px solid #ff3366;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn-remove {
+            flex: 1;
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .modal-btn-cancel {
+            flex: 1;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #666;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9b4dff;
+            border-radius: 4px;
+        }
+
+        /* Música */
+        .music-control {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(155, 77, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #9b4dff60;
+            cursor: pointer;
+        }
+
+        .music-icon {
+            font-size: 16px;
+            color: #9b4dff;
+        }
+
+        .music-text {
+            color: #9b4dff;
+            font-size: 12px;
+        }
+
+        /* Informação da seleção */
+        .selection-info {
+            color: #9b4dff;
+            font-size: 13px;
+            margin-left: 10px;
+            background: #0a0a12;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid #9b4dff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="panel">
+        <!-- Header -->
+        <div class="header">
+            <h1>⚡ FEXTTER ADMIN</h1>
+            <div class="admin-badge">GERADOR DE KEYS</div>
+        </div>
+
+        <!-- Barra de Controles -->
+        <div class="controls-bar">
+            <!-- Botão GERAR - Abre os seletores -->
+            <button class="action-btn generate-btn" onclick="toggleSelectors()">
+                <span>🔑</span> GERAR KEY
+            </button>
+
+            <!-- Seletor de Dias -->
+            <div class="days-selector" id="daysSelector" style="display: none;">
+                <button class="day-pill" onclick="selectDays(3)">3 DIAS</button>
+                <button class="day-pill" onclick="selectDays(7)">7 DIAS</button>
+                <button class="day-pill" onclick="selectDays(30)">30 DIAS</button>
+                <button class="day-pill" onclick="selectDays(999)">∞ PERMANENTE</button>
+            </div>
+
+            <!-- Seletor de Telefones -->
+            <div class="phones-selector" id="phonesSelector" style="display: none;">
+                <button class="phone-pill" onclick="selectPhones(1)">1 TELEFONE</button>
+                <button class="phone-pill" onclick="selectPhones(2)">2 TELEFONES</button>
+                <button class="phone-pill" onclick="selectPhones(3)">3 TELEFONES</button>
+                <button class="phone-pill" onclick="selectPhones(10)">10 TELEFONES</button>
+            </div>
+
+            <!-- Informação da Seleção Atual -->
+            <div class="selection-info" id="selectionInfo" style="display: none;">
+                <span id="selectedDaysText">7 dias</span> | <span id="selectedPhonesText">1 tel</span>
+            </div>
+
+            <!-- Botão CONFIRMAR (só aparece após selecionar) -->
+            <button class="confirm-key-btn" id="confirmBtn" onclick="confirmAndGenerate()">
+                <span>✅</span> CONFIRMAR KEY
+            </button>
+
+            <!-- Botão REMOVER -->
+            <button class="action-btn remove-btn" onclick="showRemoveModal()">
+                <span>🗑️</span> REMOVER
+            </button>
+
+            <!-- Estatísticas -->
+            <div class="stats-mini">
+                <div class="stat-mini"><span>📊</span> <strong id="totalKeys">0</strong></div>
+                <div class="stat-mini"><span>✅</span> <strong id="activeKeys">0</strong></div>
+                <div class="stat-mini"><span>👤</span> <strong id="usedKeys">0</strong></div>
+            </div>
+        </div>
+
+        <!-- Área das Keys -->
+        <div class="keys-area">
+            <div class="keys-header">
+                <h3>📋 KEYS GERADAS</h3>
+                <div class="keys-count" id="keysCount">0 keys</div>
+            </div>
+
+            <div class="keys-list" id="keysList"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Remoção -->
+    <div class="modal" id="removeModal">
+        <div class="modal-content">
+            <h2>🗑️ REMOVER KEY</h2>
+            <input type="text" id="removeKeyInput" placeholder="Digite o código da key">
+            <div class="modal-buttons">
+                <button class="modal-btn-remove" onclick="removeKey()">REMOVER</button>
+                <button class="modal-btn-cancel" onclick="closeRemoveModal()">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Música -->
+    <div class="music-control" onclick="toggleMusic()">
+        <span class="music-icon" id="musicIcon">🔊</span>
+        <span class="music-text">DOORS LIGHT FUNK</span>
+    </div>
+
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://s3.amazonaws.com/audio-files/doors-light-funk-ultra-slowed.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ============================================
+        // VARIÁVEIS
+        // ============================================
+        let musicPlaying = false;
+        let selectedDays = 7;
+        let selectedPhones = 1;
+        let keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+        let selectorsVisible = false;
+
+        const music = document.getElementById('backgroundMusic');
+        const musicIcon = document.getElementById('musicIcon');
+
+        // ============================================
+        // MATRIX
+        // ============================================
+        function startMatrix() {
+            const canvas = document.getElementById('matrixCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const ctx = canvas.getContext('2d');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+            const charsArray = chars.split('');
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#9b4dff';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 35);
+        }
+
+        // ============================================
+        // MÚSICA
+        // ============================================
+        function toggleMusic() {
+            if (musicPlaying) {
+                music.pause();
+                musicIcon.textContent = '🔇';
+            } else {
+                music.play();
+                musicIcon.textContent = '🔊';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // ============================================
+        // MOSTRAR SELETORES
+        // ============================================
+        function toggleSelectors() {
+            selectorsVisible = !selectorsVisible;
+            const daysSelector = document.getElementById('daysSelector');
+            const phonesSelector = document.getElementById('phonesSelector');
+            const selectionInfo = document.getElementById('selectionInfo');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            if (selectorsVisible) {
+                daysSelector.style.display = 'flex';
+                phonesSelector.style.display = 'flex';
+                selectionInfo.style.display = 'inline-block';
+                confirmBtn.classList.add('show');
+                
+                // Seleciona padrão visualmente
+                selectDays(7);
+                selectPhones(1);
+            } else {
+                daysSelector.style.display = 'none';
+                phonesSelector.style.display = 'none';
+                selectionInfo.style.display = 'none';
+                confirmBtn.classList.remove('show');
+            }
+        }
+
+        // ============================================
+        // SELECIONAR DIAS
+        // ============================================
+        function selectDays(days) {
+            selectedDays = days;
+            
+            // Remove seleção de todos
+            document.querySelectorAll('.day-pill').forEach(pill => {
+                pill.classList.remove('selected');
+            });
+            
+            // Adiciona seleção no clicado
+            event.target.classList.add('selected');
+            
+            // Atualiza texto informativo
+            let daysText = days === 999 ? 'Permanente' : days + ' dias';
+            document.getElementById('selectedDaysText').textContent = daysText;
+        }
+
+        // ============================================
+        // SELECIONAR TELEFONES
+        // ============================================
+        function selectPhones(phones) {
+            selectedPhones = phones;
+            
+            // Remove seleção de todos
+            document.querySelectorAll('.phone-pill').forEach(pill => {
+                pill.classList.remove('selected');
+            });
+            
+            // Adiciona seleção no clicado
+            event.target.classList.add('selected');
+            
+            // Atualiza texto informativo
+            document.getElementById('selectedPhonesText').textContent = phones + ' tel';
+        }
+
+        // ============================================
+        // CONFIRMAR E GERAR KEY
+        // ============================================
+        function confirmAndGenerate() {
+            generateKey();
+            toggleSelectors(); // Esconde os seletores após gerar
+        }
+
+        // ============================================
+        // GERAR KEY
+        // ============================================
+        function generateKey() {
+            // Gera código
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+                if (i % 4 === 3 && i < 15) code += '-';
+            }
+
+            // Data de expiração
+            let expiryDate = null;
+            if (selectedDays !== 999) {
+                expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + selectedDays);
+            }
+
+            const newKey = {
+                code: code,
+                days: selectedDays,
+                phones: selectedPhones,
+                expiryDate: expiryDate,
+                createdAt: new Date().toLocaleString(),
+                usedBy: [],
+                isActive: true
+            };
+
+            keys.unshift(newKey);
+            saveKeys();
+            renderKeys();
+            updateStats();
+
+            alert(`✅ KEY GERADA!\n\nCódigo: ${code}\nDias: ${selectedDays === 999 ? 'Permanente' : selectedDays + ' dias'}\nTelefones: ${selectedPhones}`);
+        }
+
+        // ============================================
+        // RENDERIZAR KEYS
+        // ============================================
+        function renderKeys() {
+            const list = document.getElementById('keysList');
+            list.innerHTML = '';
+
+            keys.forEach(key => {
+                const keyElement = document.createElement('div');
+                keyElement.className = 'key-item';
+                
+                const daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
+                const usedCount = key.usedBy ? key.usedBy.length : 0;
+
+                keyElement.innerHTML = `
+                    <div class="key-info">
+                        <div class="key-code">${key.code}</div>
+                        <div class="key-details">
+                            <span>📅</span> ${daysText} 
+                            <span>📱</span> ${usedCount}/${key.phones}
+                            <span>🕐</span> ${key.createdAt}
+                        </div>
+                        <div class="key-users ${usedCount > 0 ? 'active' : ''}">
+                            ${usedCount > 0 ? `👤 ${key.usedBy.join(', ')}` : '👤 Nenhum usuário'}
+                        </div>
+                    </div>
+                    <div class="key-actions">
+                        <button class="action-small copy-small" onclick="copyKey('${key.code}')">📋 Copiar</button>
+                        <button class="action-small delete-small" onclick="deleteKey('${key.code}')">🗑️</button>
+                    </div>
+                `;
+
+                list.appendChild(keyElement);
+            });
+
+            document.getElementById('keysCount').textContent = keys.length + ' keys';
+        }
+
+        // ============================================
+        // COPIAR KEY
+        // ============================================
+        function copyKey(code) {
+            navigator.clipboard.writeText(code);
+            alert('✅ Key copiada!');
+        }
+
+        // ============================================
+        // DELETAR KEY
+        // ============================================
+        function deleteKey(code) {
+            if (confirm('Remover esta key?')) {
+                keys = keys.filter(k => k.code !== code);
+                saveKeys();
+                renderKeys();
+                updateStats();
+            }
+        }
+
+        // ============================================
+        // MODAL DE REMOÇÃO
+        // ============================================
+        function showRemoveModal() {
+            document.getElementById('removeModal').style.display = 'flex';
+        }
+
+        function closeRemoveModal() {
+            document.getElementById('removeModal').style.display = 'none';
+            document.getElementById('removeKeyInput').value = '';
+        }
+
+        function removeKey() {
+            const code = document.getElementById('removeKeyInput').value.trim();
+            if (code) {
+                deleteKey(code);
+                closeRemoveModal();
+            }
+        }
+
+        // ============================================
+        // SALVAR E ATUALIZAR
+        // ============================================
+        function saveKeys() {
+            localStorage.setItem('fextter_keys', JSON.stringify(keys));
+        }
+
+        function updateStats() {
+            const total = keys.length;
+            const active = keys.filter(k => k.isActive).length;
+            const used = keys.filter(k => k.usedBy && k.usedBy.length > 0).length;
+
+            document.getElementById('totalKeys').textContent = total;
+            document.getElementById('activeKeys').textContent = active;
+            document.getElementById('usedKeys').textContent = used;
+        }
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        window.onload = function() {
+            startMatrix();
+            music.volume = 0.3;
+            music.play().catch(() => {});
+            musicPlaying = true;
+            
+            renderKeys();
+            updateStats();
+        };
+    </script>
+</body>
+</html>
