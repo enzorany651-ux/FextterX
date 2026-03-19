@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass + MediaFire Downloader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input[type="url"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .resultado {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            display: none;
+        }
+        
+        .resultado.show {
+            display: block;
+        }
+        
+        .link-real {
+            word-break: break-all;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin: 15px 0;
+            padding: 10px;
+            background: #e8f0fe;
+            border-radius: 5px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .erro {
+            color: #dc3545;
+            padding: 15px;
+            background: #f8d7da;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .erro.show {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .lista-sites {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .lista-sites h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .lista-sites ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .lista-sites li {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progresso {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .progresso.show {
+            display: block;
+        }
+
+        .etapa {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background: white;
+            color: #666;
+        }
+
+        .etapa.concluida {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .etapa.ativa {
+            background: #fff3e0;
+            color: #e65100;
+            font-weight: bold;
+        }
+
+        .info-arquivo {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .badge-mediafire {
+            background: #ff5722;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>?? Bypass + MediaFire Downloader</h1>
+        <p class="subtitle">Cole o link encurtado e receba o download direto do MediaFire!</p>
+        
+        <div class="input-group">
+            <label for="link">?? Link Encurtado:</label>
+            <input type="url" id="link" placeholder="https://adf.ly/abc123" required>
+        </div>
+        
+        <button onclick="processarTudo()" id="btnProcessar">Processar Link</button>
+        
+        <div class="progresso" id="progresso">
+            <h4>?? Progresso:</h4>
+            <div id="etapa1" class="etapa">1?? Bypass no encurtador...</div>
+            <div id="etapa2" class="etapa">2?? Localizando link do MediaFire...</div>
+            <div id="etapa3" class="etapa">3?? Extraindo link direto do MediaFire...</div>
+            <div id="etapa4" class="etapa">4?? Preparando download...</div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px;">Processando, aguarde...</p>
+        </div>
+        
+        <div class="resultado" id="resultado">
+            <h3>? TUDO PRONTO!</h3>
+            
+            <div style="margin-bottom: 15px;">
+                <strong>Link original:</strong>
+                <div style="background: #f0f0f0; padding: 8px; border-radius: 5px; margin-top: 5px; font-size: 12px;" id="linkOriginal"></div>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong>Link do MediaFire:</strong>
+                <a href="#" id="linkMediaFire" class="link-real" target="_blank"></a>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong>Link direto para download:</strong>
+                <a href="#" id="linkDireto" class="link-real" target="_blank"></a>
+            </div>
+            
+            <div class="info-arquivo" id="infoArquivo">
+                <strong>?? Informações do arquivo:</strong>
+                <p>?? Nome: <span id="nomeArquivo">Carregando...</span></p>
+                <p>?? Hospedado em: <span id="hostArquivo">MediaFire</span> <span class="badge badge-mediafire">verificado</span></p>
+            </div>
+            
+            <a href="#" id="downloadFinal" class="download-btn" target="_blank">?? BAIXAR ARQUIVO AGORA</a>
+            
+            <p style="margin-top: 10px; font-size: 12px; color: #666; text-align: center;">
+                ? Download automático em 3 segundos...
+            </p>
+        </div>
+        
+        <div class="erro" id="erro">
+            <p id="mensagemErro"></p>
+        </div>
+        
+        <div class="lista-sites">
+            <h3>?? CADEIA COMPLETA SUPORTADA:</h3>
+            <ul>
+                <li>adf.ly ? MediaFire</li>
+                <li>shorte.st ? MediaFire</li>
+                <li>linkvertise.com ? MediaFire</li>
+                <li>ouo.io ? MediaFire</li>
+                <li>exe.io ? MediaFire</li>
+                <li>bit.ly ? MediaFire</li>
+                <li>tinyurl.com ? MediaFire</li>
+                <li>QUALQUER encurtador ? MediaFire</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function processarTudo() {
+            const link = document.getElementById('link').value;
+            const btn = document.getElementById('btnProcessar');
+            const loading = document.getElementById('loading');
+            const progresso = document.getElementById('progresso');
+            const resultado = document.getElementById('resultado');
+            const erro = document.getElementById('erro');
+            
+            if (!link) {
+                mostrarErro('Por favor, cole um link!');
+                return;
+            }
+            
+            btn.disabled = true;
+            loading.classList.add('show');
+            progresso.classList.add('show');
+            resultado.classList.remove('show');
+            erro.classList.remove('show');
+            
+            document.getElementById('etapa1').className = 'etapa ativa';
+            document.getElementById('etapa2').className = 'etapa';
+            document.getElementById('etapa3').className = 'etapa';
+            document.getElementById('etapa4').className = 'etapa';
+            
+            try {
+                await delay(1000);
+                const linkBypassado = await bypassEncurtador(link);
+                document.getElementById('etapa1').className = 'etapa concluida';
+                document.getElementById('etapa2').className = 'etapa ativa';
+                
+                console.log('Link após bypass:', linkBypassado);
+                
+                await delay(1000);
+                if (!linkBypassado.includes('mediafire.com')) {
+                    throw new Error('O link bypassado não é do MediaFire!');
+                }
+                
+                document.getElementById('etapa2').className = 'etapa concluida';
+                document.getElementById('etapa3').className = 'etapa ativa';
+                
+                await delay(1500);
+                const linkDiretoMediaFire = await extrairMediaFire(linkBypassado);
+                
+                document.getElementById('etapa3').className = 'etapa concluida';
+                document.getElementById('etapa4').className = 'etapa ativa';
+                
+                await delay(1000);
+                document.getElementById('etapa4').className = 'etapa concluida';
+                
+                document.getElementById('linkOriginal').textContent = link;
+                document.getElementById('linkMediaFire').textContent = linkBypassado;
+                document.getElementById('linkMediaFire').href = linkBypassado;
+                document.getElementById('linkDireto').textContent = linkDiretoMediaFire;
+                document.getElementById('linkDireto').href = linkDiretoMediaFire;
+                document.getElementById('downloadFinal').href = linkDiretoMediaFire;
+                
+                const nomeArquivo = linkDiretoMediaFire.split('/').pop().split('?')[0] || 'arquivo_mediafire.bin';
+                document.getElementById('nomeArquivo').textContent = nomeArquivo;
+                
+                resultado.classList.add('show');
+                
+                setTimeout(() => {
+                    window.open(linkDiretoMediaFire, '_blank');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                mostrarErro('Erro no processo: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                loading.classList.remove('show');
+            }
+        }
+        
+        async function bypassEncurtador(link) {
+            const apis = [
+                `https://api.bypass.vip/bypass?url=${encodeURIComponent(link)}`,
+                `https://bypass.pm/bypass2?url=${encodeURIComponent(link)}`
+            ];
+            
+            for (const api of apis) {
+                try {
+                    const response = await fetch(api);
+                    const data = await response.json();
+                    
+                    if (data.success && data.destination) {
+                        return data.destination;
+                    }
+                    if (data.destination) {
+                        return data.destination;
+                    }
+                } catch (e) {
+                    console.log('API bypass falhou:', e);
+                }
+            }
+            
+            try {
+                const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(link)}`);
+                return response.url;
+            } catch (e) {
+                throw new Error('Não foi possível fazer bypass no encurtador');
+            }
+        }
+        
+        async function extrairMediaFire(linkMediaFire) {
+            try {
+                const response = await fetch(`https://api.bypass.vip/bypass?url=${encodeURIComponent(linkMediaFire)}`);
+                const data = await response.json();
+                
+                if (data.success && data.destination) {
+                    return data.destination;
+                }
+                
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(linkMediaFire)}`;
+                const htmlResponse = await fetch(proxyUrl);
+                const html = await htmlResponse.text();
+                
+                const padroes = [
+                    /https:\/\/download[0-9]+\.mediafire\.com\/[^"'\s]+/,
+                    /https:\/\/[a-z0-9]+\.mediafire\.com\/[^"'\s]+\.(zip|rar|7z|exe|pdf|mp4|mp3|jpg|png)/i,
+                    /kNO = "([^"]+)"/,
+                    /downloadLink = "([^"]+)"/
+                ];
+                
+                for (const padrao of padroes) {
+                    const match = html.match(padrao);
+                    if (match) {
+                        return match[1] || match[0];
+                    }
+                }
+                
+                return linkMediaFire;
+                
+            } catch (error) {
+                console.log('Erro extração MediaFire:', error);
+                return linkMediaFire;
+            }
+        }
+        
+        function mostrarErro(mensagem) {
+            const erro = document.getElementById('erro');
+            const mensagemErro = document.getElementById('mensagemErro');
+            mensagemErro.textContent = mensagem;
+            erro.classList.add('show');
+        }
+        
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        document.getElementById('link').addEventListener('paste', function(e) {
+            setTimeout(() => {
+                if (this.value) {
+                    processarTudo();
+                }
+            }, 100);
+        });
+        
+        document.getElementById('link').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processarTudo();
+            }
+        });
+    </script>
+</body>
+</html>
