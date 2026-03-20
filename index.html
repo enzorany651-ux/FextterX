@@ -342,17 +342,6 @@
             text-shadow: 0 0 15px #9b4dff;
         }
 
-        .admin-badge {
-            background: #9b4dff;
-            color: #0f0f1a;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 14px;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px #9b4dff;
-        }
-
         .controls-bar {
             display: flex;
             gap: 10px;
@@ -661,7 +650,6 @@
             box-shadow: 0 0 20px #ff3366;
         }
 
-        /* Header do painel principal */
         .main-header {
             display: flex;
             align-items: center;
@@ -1199,10 +1187,8 @@
 
     <!-- PAINEL PRINCIPAL -->
     <div class="panel" id="panelContainer">
-        <!-- BOTÃO ADM -->
         <button class="admin-btn" onclick="showAdminModal()">ADM</button>
 
-        <!-- Modal Admin -->
         <div class="admin-modal" id="adminModal">
             <div class="admin-box">
                 <h2>🔐 ACESSO ADMIN</h2>
@@ -1212,7 +1198,6 @@
             </div>
         </div>
 
-        <!-- Header do usuário -->
         <div class="user-header">
             <div class="user-info">
                 <div class="user-avatar" id="userAvatar"></div>
@@ -1224,13 +1209,11 @@
             <button class="logout-btn" onclick="logout()">SAIR</button>
         </div>
 
-        <!-- Header do painel -->
         <div class="main-header">
             <span class="header-emoji">🎯</span>
             <h1>FEXTTER EXTERNAL</h1>
         </div>
 
-        <!-- Notificação -->
         <div class="iphone-notification" id="iphoneNotification">
             <span class="notification-emoji" id="notificationEmoji">😈</span>
             <div class="notification-text">
@@ -1238,14 +1221,12 @@
             </div>
         </div>
 
-        <!-- Música -->
         <div class="music-control" onclick="toggleMusic()">
             <span class="music-icon" id="musicIcon">🔊</span>
             <span class="music-text">DOORS LIGHT FUNK</span>
             <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="adjustVolume(this.value)">
         </div>
 
-        <!-- Tabs -->
         <div class="tabs-container">
             <div class="tabs-vertical">
                 <div class="tab-button active" data-tab="tab1"><span>⚡</span> Aimbot Legith</div>
@@ -1258,7 +1239,6 @@
             <div class="tab-content">
                 <canvas id="matrixEffect"></canvas>
                 
-                <!-- ABA 1 - Aimbot -->
                 <div id="tab1" class="tab-pane">
                     <div class="config-item">
                         <div class="config-title"><span>🎯</span> Aimbot Legith</div>
@@ -1278,7 +1258,6 @@
                     </div>
                 </div>
 
-                <!-- ABA 2 - Rastro -->
                 <div id="tab2" class="tab-pane hidden">
                     <div class="config-item">
                         <div class="config-title"><span>🎯</span> Rastro</div>
@@ -1303,7 +1282,6 @@
                     <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
                 </div>
 
-                <!-- ABA 3 - Capa Leve -->
                 <div id="tab3" class="tab-pane hidden">
                     <div class="professional-package">
                         <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
@@ -1328,7 +1306,6 @@
                     </div>
                 </div>
 
-                <!-- ABA 4 - iPhone -->
                 <div id="tab4" class="tab-pane hidden">
                     <div class="iphone-selector">
                         <div class="iphone-card" data-iphone="8plus">
@@ -1350,7 +1327,6 @@
                     <div id="selectedIphone" class="status-display">Nenhum iPhone selecionado</div>
                 </div>
 
-                <!-- ABA 5 - Injeção -->
                 <div id="tab5" class="tab-pane hidden">
                     <div class="injector-area">
                         <div class="config-title"><span>💉</span> INJETOR</div>
@@ -1432,7 +1408,6 @@
         </div>
     </div>
 
-    <!-- Modal de Remoção -->
     <div class="modal" id="removeModal">
         <div class="modal-content">
             <h2>🗑️ REMOVER KEY</h2>
@@ -1449,9 +1424,7 @@
     </audio>
 
     <script>
-        // ============================================
         // VARIÁVEIS GLOBAIS
-        // ============================================
         let matrixInterval = null;
         let audioContext = null;
         let musicPlaying = false;
@@ -1461,11 +1434,9 @@
         
         const music = document.getElementById('backgroundMusic');
         const musicIcon = document.getElementById('musicIcon');
-        
-        // KEY MESTRA
         const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
-        // CONFIGURAÇÕES ATIVAS
+        // CONFIGURAÇÕES
         const activeConfig = {
             aimbot: false,
             norecoil: 50,
@@ -1486,111 +1457,7 @@
         };
 
         // ============================================
-        // INICIALIZAR ÁUDIO
-        // ============================================
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-        }
-
-        // ============================================
-        // SONS
-        // ============================================
-        function playToggleSound() {
-            initAudio();
-            if (!audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 800;
-            gainNode.gain.value = 0.1;
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
-
-        function playSelectSound() {
-            initAudio();
-            if (!audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 600;
-            gainNode.gain.value = 0.1;
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.05);
-        }
-
-        function playSuccessSound() {
-            initAudio();
-            if (!audioContext) return;
-            
-            const oscillator1 = audioContext.createOscillator();
-            const oscillator2 = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator1.type = 'sine';
-            oscillator1.frequency.value = 600;
-            oscillator2.type = 'sine';
-            oscillator2.frequency.value = 800;
-            
-            oscillator1.connect(gainNode);
-            oscillator2.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            gainNode.gain.value = 0.1;
-            
-            oscillator1.start();
-            oscillator2.start();
-            oscillator1.stop(audioContext.currentTime + 0.1);
-            oscillator2.stop(audioContext.currentTime + 0.15);
-        }
-
-        // ============================================
-        // MÚSICA
-        // ============================================
-        function playMusic() {
-            music.play().catch(e => {
-                document.addEventListener('click', function playOnClick() {
-                    music.play();
-                    document.removeEventListener('click', playOnClick);
-                }, { once: true });
-            });
-        }
-
-        function toggleMusic() {
-            if (musicPlaying) {
-                music.pause();
-                musicIcon.textContent = '🔇';
-                musicPlaying = false;
-            } else {
-                music.play();
-                musicIcon.textContent = '🔊';
-                musicPlaying = true;
-            }
-        }
-
-        function adjustVolume(value) {
-            music.volume = value / 100;
-        }
-
-        // ============================================
-        // MATRIX BACKGROUND
+        // INICIALIZAÇÃO
         // ============================================
         function startMatrix() {
             const canvas = document.getElementById('matrixCanvas');
@@ -1628,13 +1495,114 @@
         }
 
         // ============================================
-        // LOGIN (SIMPLIFICADO)
+        // MÚSICA
+        // ============================================
+        function playMusic() {
+            music.play().catch(() => {
+                document.addEventListener('click', function playOnClick() {
+                    music.play();
+                    document.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                music.pause();
+                musicIcon.textContent = '🔇';
+                musicPlaying = false;
+            } else {
+                music.play();
+                musicIcon.textContent = '🔊';
+                musicPlaying = true;
+            }
+        }
+
+        function adjustVolume(value) {
+            music.volume = value / 100;
+        }
+
+        // ============================================
+        // SONS
+        // ============================================
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        function playToggleSound() {
+            initAudio();
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.1;
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function playSelectSound() {
+            initAudio();
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 600;
+            gainNode.gain.value = 0.1;
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.05);
+        }
+
+        function playSliderSound() {
+            initAudio();
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 400;
+            gainNode.gain.value = 0.05;
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.02);
+        }
+
+        function playSuccessSound() {
+            initAudio();
+            if (!audioContext) return;
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator1.type = 'sine';
+            oscillator1.frequency.value = 600;
+            oscillator2.type = 'sine';
+            oscillator2.frequency.value = 800;
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            gainNode.gain.value = 0.1;
+            oscillator1.start();
+            oscillator2.start();
+            oscillator1.stop(audioContext.currentTime + 0.1);
+            oscillator2.stop(audioContext.currentTime + 0.15);
+        }
+
+        // ============================================
+        // LOGIN
         // ============================================
         function validateKey() {
             const userName = document.getElementById('userName').value.trim();
             const userKey = document.getElementById('userKey').value.trim().toUpperCase();
             const rememberMe = document.getElementById('rememberMe').checked;
-            
             const errorMsg = document.getElementById('errorMessage');
             
             errorMsg.style.display = 'none';
@@ -1649,18 +1617,12 @@
             if (userKey === MASTER_KEY) {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
-                
                 document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
                 document.getElementById('userNameDisplay').textContent = userName;
                 document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-                
                 if (rememberMe) {
-                    localStorage.setItem('fextter_session', JSON.stringify({
-                        userName: userName,
-                        isMaster: true
-                    }));
+                    localStorage.setItem('fextter_session', JSON.stringify({ userName: userName, isMaster: true }));
                 }
-                
                 playSuccessSound();
                 showNotification('Acesso master liberado!', '👑', 'ADMIN');
                 return;
@@ -1715,18 +1677,13 @@
             // LOGIN OK
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('panelContainer').style.display = 'block';
-            
             document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
             document.getElementById('userNameDisplay').textContent = userName;
-            
             let keyText = key.days === 999 ? 'Permanente' : `${key.days} dias`;
             document.getElementById('userKeyType').textContent = keyText;
 
             if (rememberMe) {
-                localStorage.setItem('fextter_session', JSON.stringify({
-                    userName: userName,
-                    days: key.days
-                }));
+                localStorage.setItem('fextter_session', JSON.stringify({ userName: userName, days: key.days }));
             }
             
             playSuccessSound();
@@ -1743,26 +1700,15 @@
             playSelectSound();
         }
 
-        // ============================================
-        // VERIFICAR SESSÃO
-        // ============================================
         function checkSavedSession() {
             const savedSession = localStorage.getItem('fextter_session');
-            
             if (savedSession) {
                 const session = JSON.parse(savedSession);
-                
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
-                
                 document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
                 document.getElementById('userNameDisplay').textContent = session.userName;
-                
-                if (session.isMaster) {
-                    document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-                } else {
-                    document.getElementById('userKeyType').textContent = 'Permanente';
-                }
+                document.getElementById('userKeyType').textContent = session.isMaster ? 'ADMIN MASTER' : 'Permanente';
             }
         }
 
@@ -1782,15 +1728,12 @@
 
         function checkAdminKey() {
             const key = document.getElementById('adminKey').value;
-            
             if (key === MASTER_KEY) {
                 document.getElementById('panelContainer').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                
                 hideAdminModal();
                 playSuccessSound();
                 showNotification('Painel admin ativado!', '👑', 'ADMIN');
-                
                 loadKeys();
             } else {
                 document.getElementById('adminError').style.display = 'block';
@@ -1806,21 +1749,15 @@
 
         window.onclick = function(event) {
             const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
-                hideAdminModal();
-            }
+            if (event.target === modal) hideAdminModal();
         };
 
         // ============================================
-        // FUNÇÕES DO ADMIN
+        // GERADOR DE KEYS
         // ============================================
         function loadKeys() {
             const savedKeys = localStorage.getItem('fextter_keys');
-            if (savedKeys) {
-                window.keys = JSON.parse(savedKeys);
-            } else {
-                window.keys = [];
-            }
+            window.keys = savedKeys ? JSON.parse(savedKeys) : [];
             renderKeys();
             updateStats();
         }
@@ -1886,27 +1823,23 @@
             let existingKeys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
             existingKeys.unshift(newKey);
             localStorage.setItem('fextter_keys', JSON.stringify(existingKeys));
-            
             window.keys = existingKeys;
             
             renderKeys();
             updateStats();
             
-            alert('✅ KEY GERADA: ' + code);
+            alert('✅ KEY GERADA: ' + code + '\n\nUse esta key para fazer login!');
         }
 
         function renderKeys() {
             const list = document.getElementById('keysList');
             if (!list) return;
-            
             list.innerHTML = '';
 
             const keys = window.keys || [];
-            
             keys.forEach(key => {
                 const keyElement = document.createElement('div');
                 keyElement.className = 'key-item';
-                
                 const daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
                 const usedCount = key.usedBy ? key.usedBy.length : 0;
 
@@ -1990,12 +1923,8 @@
             document.getElementById('notificationEmoji').textContent = emoji;
             document.getElementById('notificationTitle').textContent = title;
             document.getElementById('notificationMessage').textContent = message;
-            
             notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            setTimeout(() => notification.classList.remove('show'), 3000);
         }
 
         // ============================================
@@ -2078,9 +2007,7 @@
                 } else if (this.id === 'removeDelayToggle') {
                     activeConfig.removeDelay = this.classList.contains('active');
                     const delayValue = document.getElementById('delayValue');
-                    if (delayValue) {
-                        delayValue.textContent = this.classList.contains('active') ? '0ms' : '16ms';
-                    }
+                    if (delayValue) delayValue.textContent = this.classList.contains('active') ? '0ms' : '16ms';
                 }
             });
         });
@@ -2096,10 +2023,7 @@
                 traceOptions.forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
                 playSelectSound();
-                
-                const value = this.getAttribute('data-value');
-                activeConfig.rastro = value;
-                
+                activeConfig.rastro = this.getAttribute('data-value');
                 updateTraceStatus();
             });
         });
@@ -2114,7 +2038,6 @@
         function updateHzFromSlider() {
             const value = parseInt(hzSlider.value);
             let hz = '60';
-            
             if (value === 0) hz = '60';
             else if (value === 1) hz = '120';
             else if (value === 2) hz = '144';
@@ -2123,13 +2046,9 @@
             activeConfig.hz = parseInt(hz);
             
             hzMarkers.forEach((marker, index) => {
-                if (index === value) {
-                    marker.classList.add('active');
-                } else {
-                    marker.classList.remove('active');
-                }
+                if (index === value) marker.classList.add('active');
+                else marker.classList.remove('active');
             });
-            
             updateTraceStatus();
         }
         
@@ -2140,17 +2059,13 @@
             }
         }
         
-        if (hzSlider) {
-            hzSlider.addEventListener('input', updateHzFromSlider);
-        }
+        if (hzSlider) hzSlider.addEventListener('input', updateHzFromSlider);
         
         function updateTraceStatus() {
             if (!traceStatus) return;
-            
             const activeTrace = document.querySelector('.trace-option.active');
             const traceText = activeTrace ? activeTrace.textContent.replace('🔹', '').replace('🔸', '').trim() : 'Nenhum';
             const hzText = hzValue ? hzValue.textContent : '60 Hz';
-            
             traceStatus.textContent = `Rastro: ${traceText} | ${hzText}`;
         }
 
@@ -2200,40 +2115,16 @@
             option.addEventListener('click', function() {
                 this.classList.toggle('active');
                 playToggleSound();
-                
                 const text = this.textContent;
-                
-                if (text.includes('Jogo Bonito')) {
-                    activeConfig.prof1 = this.classList.contains('active');
-                } else if (text.includes('Limpar Cache')) {
-                    activeConfig.prof2 = this.classList.contains('active');
-                } else if (text.includes('Melhorar Ping')) {
-                    activeConfig.prof3 = this.classList.contains('active');
-                }
+                if (text.includes('Jogo Bonito')) activeConfig.prof1 = this.classList.contains('active');
+                else if (text.includes('Limpar Cache')) activeConfig.prof2 = this.classList.contains('active');
+                else if (text.includes('Melhorar Ping')) activeConfig.prof3 = this.classList.contains('active');
             });
         });
 
         // ============================================
         // SLIDERS
         // ============================================
-        function playSliderSound() {
-            initAudio();
-            if (!audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 400;
-            gainNode.gain.value = 0.05;
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.02);
-        }
-
         document.getElementById('norecoilSlider')?.addEventListener('input', function(e) {
             activeConfig.norecoil = e.target.value;
             playSliderSound();
@@ -2270,7 +2161,6 @@
         function startMatrixEffect() {
             const canvas = document.getElementById('matrixEffect');
             if (!canvas) return;
-            
             canvas.classList.add('active');
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -2282,31 +2172,23 @@
             const columns = canvas.width / fontSize;
             const drops = [];
 
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
-            }
+            for (let i = 0; i < columns; i++) drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
             
             if (matrixInterval) clearInterval(matrixInterval);
             
             function drawMatrix() {
                 if (!canvas.classList.contains('active')) return;
-                
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#00e0ff';
                 ctx.font = fontSize + 'px monospace';
-                
                 for (let i = 0; i < drops.length; i++) {
                     const text = charsArray[Math.floor(Math.random() * charsArray.length)];
                     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                     drops[i]++;
                 }
             }
-            
             matrixInterval = setInterval(drawMatrix, 35);
         }
 
@@ -2328,7 +2210,6 @@
             }
             
             if (matrixInterval) clearInterval(matrixInterval);
-            
             startMatrixEffect();
             showNotification('configurações injetadas!', '💉', 'XIT');
             
@@ -2347,16 +2228,12 @@
         // ============================================
         window.onload = function() {
             startMatrix();
-            
             music.volume = 0.3;
             playMusic();
             musicPlaying = true;
-            
             updateHzFromSlider();
-            
             const delayValue = document.getElementById('delayValue');
             if (delayValue) delayValue.textContent = '16ms';
-            
             checkSavedSession();
         };
     </script>
