@@ -1303,7 +1303,7 @@
                     <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
                 </div>
 
-                <!-- ABA 3 - Capa Leve -->
+                <!-- ABA 3 - Capa Leve (COM PREDIÇÃO DE MOVIMENTO) -->
                 <div id="tab3" class="tab-pane hidden">
                     <div class="professional-package">
                         <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
@@ -1325,6 +1325,19 @@
                         <div class="config-title"><span>⏱️</span> Tirar Delay</div>
                         <div class="toggle-switch" id="removeDelayToggle"></div>
                         <p style="color:#fff; margin-top:10px;">Delay: <span id="delayValue">16ms</span></p>
+                    </div>
+                    <!-- 🔥 NOVO: PREDIÇÃO DE MOVIMENTO 🔥 -->
+                    <div class="config-item">
+                        <div class="config-title">
+                            <span>🔮</span> Predição de Movimento
+                        </div>
+                        <input type="range" min="0" max="100" value="60" class="slider" id="predictionSlider">
+                        <div style="display: flex; justify-content: space-between; color: #00e0ff;">
+                            <span>Suave</span>
+                            <span>60%</span>
+                            <span>Rápido</span>
+                        </div>
+                        <small style="color: #aaa;">Antecipa onde seu dedo vai parar, deixando a mira mais fluida</small>
                     </div>
                 </div>
 
@@ -1465,7 +1478,7 @@
         // KEY MESTRA
         const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
-        // CONFIGURAÇÕES ATIVAS
+        // CONFIGURAÇÕES ATIVAS (COM PREDIÇÃO)
         const activeConfig = {
             aimbot: false,
             norecoil: 50,
@@ -1482,7 +1495,8 @@
             iphone: null,
             instability: 50,
             pull: 50,
-            ff: 'normal'
+            ff: 'normal',
+            prediction: 60  // 🔥 NOVA CONFIGURAÇÃO
         };
 
         // ============================================
@@ -2037,6 +2051,22 @@
         }
 
         // ============================================
+        // PREDIÇÃO DE MOVIMENTO 🔥
+        // ============================================
+        const predictionSlider = document.getElementById('predictionSlider');
+        if (predictionSlider) {
+            predictionSlider.addEventListener('input', function(e) {
+                activeConfig.prediction = e.target.value;
+                // Atualiza o texto do slider
+                const labels = this.parentElement.querySelectorAll('span');
+                if (labels.length >= 2) {
+                    labels[1].textContent = e.target.value + '%';
+                }
+                playSliderSound();
+            });
+        }
+
+        // ============================================
         // ABAS
         // ============================================
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -2326,6 +2356,16 @@
             
             const delayValue = document.getElementById('delayValue');
             if (delayValue) delayValue.textContent = '16ms';
+            
+            // Inicializa slider de predição
+            const predSlider = document.getElementById('predictionSlider');
+            if (predSlider) {
+                predSlider.value = activeConfig.prediction;
+                const labels = predSlider.parentElement.querySelectorAll('span');
+                if (labels.length >= 2) {
+                    labels[1].textContent = activeConfig.prediction + '%';
+                }
+            }
             
             checkSavedSession();
         };
