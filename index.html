@@ -1303,7 +1303,7 @@
                     <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
                 </div>
 
-                <!-- ABA 3 - Capa Leve (COM PREDIÇÃO DE MOVIMENTO) -->
+                <!-- ABA 3 - Capa Leve -->
                 <div id="tab3" class="tab-pane hidden">
                     <div class="professional-package">
                         <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
@@ -1325,19 +1325,6 @@
                         <div class="config-title"><span>⏱️</span> Tirar Delay</div>
                         <div class="toggle-switch" id="removeDelayToggle"></div>
                         <p style="color:#fff; margin-top:10px;">Delay: <span id="delayValue">16ms</span></p>
-                    </div>
-                    <!-- 🔥 PREDIÇÃO DE MOVIMENTO -->
-                    <div class="config-item">
-                        <div class="config-title">
-                            <span>🔮</span> Predição de Movimento
-                        </div>
-                        <input type="range" min="0" max="100" value="60" class="slider" id="predictionSlider">
-                        <div style="display: flex; justify-content: space-between; color: #00e0ff;">
-                            <span>Suave</span>
-                            <span>60%</span>
-                            <span>Rápido</span>
-                        </div>
-                        <small style="color: #aaa;">Antecipa onde seu dedo vai parar, deixando a mira mais fluida</small>
                     </div>
                 </div>
 
@@ -1478,7 +1465,7 @@
         // KEY MESTRA
         const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
-        // CONFIGURAÇÕES ATIVAS (COM PREDIÇÃO)
+        // CONFIGURAÇÕES ATIVAS
         const activeConfig = {
             aimbot: false,
             norecoil: 50,
@@ -1495,8 +1482,7 @@
             iphone: null,
             instability: 50,
             pull: 50,
-            ff: 'normal',
-            prediction: 60
+            ff: 'normal'
         };
 
         // ============================================
@@ -1642,7 +1628,7 @@
         }
 
         // ============================================
-        // LOGIN (FUNCIONANDO 100%)
+        // LOGIN (SIMPLIFICADO)
         // ============================================
         function validateKey() {
             const userName = document.getElementById('userName').value.trim();
@@ -1681,7 +1667,14 @@
             }
 
             // BUSCA KEYS
-            const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            let keys = localStorage.getItem('fextter_keys');
+            if (!keys) {
+                errorMsg.textContent = '❌ Nenhuma key cadastrada!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+            
+            keys = JSON.parse(keys);
             const key = keys.find(k => k.code === userKey);
 
             if (!key) {
@@ -1819,7 +1812,7 @@
         };
 
         // ============================================
-        // FUNÇÕES DO ADMIN (GERADOR DE KEYS)
+        // FUNÇÕES DO ADMIN
         // ============================================
         function loadKeys() {
             const savedKeys = localStorage.getItem('fextter_keys');
@@ -1899,7 +1892,7 @@
             renderKeys();
             updateStats();
             
-            alert('✅ KEY GERADA COM SUCESSO!\n\n' + code);
+            alert('✅ KEY GERADA: ' + code);
         }
 
         function renderKeys() {
@@ -2047,21 +2040,6 @@
                 activeConfig.ff = 'normal';
                 playSelectSound();
                 showNotification('FF NORMAL selecionado', '📱', 'FF');
-            });
-        }
-
-        // ============================================
-        // PREDIÇÃO DE MOVIMENTO
-        // ============================================
-        const predictionSlider = document.getElementById('predictionSlider');
-        if (predictionSlider) {
-            predictionSlider.addEventListener('input', function(e) {
-                activeConfig.prediction = e.target.value;
-                const labels = this.parentElement.querySelectorAll('span');
-                if (labels.length >= 2) {
-                    labels[1].textContent = e.target.value + '%';
-                }
-                playSliderSound();
             });
         }
 
@@ -2378,16 +2356,6 @@
             
             const delayValue = document.getElementById('delayValue');
             if (delayValue) delayValue.textContent = '16ms';
-            
-            // Inicializa slider de predição
-            const predSlider = document.getElementById('predictionSlider');
-            if (predSlider) {
-                predSlider.value = activeConfig.prediction;
-                const labels = predSlider.parentElement.querySelectorAll('span');
-                if (labels.length >= 2) {
-                    labels[1].textContent = activeConfig.prediction + '%';
-                }
-            }
             
             checkSavedSession();
         };
