@@ -5,221 +5,2359 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEXTTER EXTERNAL</title>
     <style>
-        /* MANTIVE SEU CSS EXATAMENTE IGUAL */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #0a0f1e; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; overflow: hidden; }
-        #matrixCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.15; pointer-events: none; }
-        .login-container { width: 450px; background: #0d0f1a; border: 2px solid #00e0ff; border-radius: 30px; box-shadow: 0 0 50px rgba(0, 224, 255, 0.3); padding: 40px; position: relative; z-index: 2; backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; }
-        .login-container.hidden { display: none; }
-        .logo { text-align: center; margin-bottom: 30px; }
-        .logo h1 { color: #00e0ff; font-size: 36px; font-weight: 800; text-shadow: 0 0 20px #00e0ff; letter-spacing: 2px; }
-        .input-group { width: 100%; margin-bottom: 20px; }
-        .input-group label { color: #00e0ff; display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; }
-        .input-group input { width: 100%; padding: 15px; background: #131725; border: 2px solid #00e0ff40; border-radius: 15px; color: #fff; font-size: 16px; transition: 0.3s; }
-        .input-group input:focus { border-color: #00e0ff; outline: none; box-shadow: 0 0 20px #00e0ff; }
-        .remember-group { width: 100%; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #fff; }
-        .remember-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #00e0ff; }
-        .login-btn { width: 100%; padding: 15px; background: #00e0ff; color: #0d0f1a; border: none; border-radius: 40px; font-weight: 800; font-size: 18px; cursor: pointer; border: 2px solid #fff; box-shadow: 0 0 20px #00e0ff; transition: 0.3s; margin: 20px 0; }
-        .login-btn:hover { transform: scale(1.02); background: #fff; }
-        .error-message { color: #ff3366; text-align: center; margin: 10px 0; font-size: 14px; display: none; background: #ff336610; padding: 10px; border-radius: 10px; border: 1px solid #ff3366; width: 100%; }
-        
-        /* ESTILOS DO PAINEL E ADMIN */
-        .panel { width: 1000px; background: #0d0f1a; border: 2px solid #00e0ff; border-radius: 30px; box-shadow: 0 0 30px rgba(0, 224, 255, 0.3); padding: 25px; position: relative; z-index: 2; backdrop-filter: blur(5px); display: none; }
-        .panel.active { display: block; }
-        .user-header { display: flex; align-items: center; justify-content: space-between; background: rgba(0, 224, 255, 0.05); border: 1px solid #00e0ff40; border-radius: 50px; padding: 10px 20px; margin-bottom: 20px; }
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .user-avatar { width: 40px; height: 40px; background: #00e0ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0d0f1a; font-weight: bold; font-size: 20px; border: 2px solid #fff; }
-        .user-name { color: #00e0ff; font-weight: bold; font-size: 16px; }
-        .logout-btn { background: transparent; color: #ff3366; border: 1px solid #ff3366; border-radius: 30px; padding: 6px 15px; font-size: 12px; cursor: pointer; transition: 0.3s; }
-        .admin-btn { position: absolute; top: 100px; right: 30px; background: transparent; color: #00e0ff30; border: 1px solid #00e0ff30; border-radius: 20px; padding: 4px 12px; font-size: 10px; cursor: pointer; z-index: 100; }
-        
-        /* ADICIONAL PARA ADMIN PANEL VISIBILIDADE */
-        #adminPanel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 800px; background: #0f0f1a; border: 2px solid #9b4dff; border-radius: 30px; padding: 25px; z-index: 10000; display: none; overflow-y: auto; max-height: 90vh; }
-        .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
-        .admin-modal.active { display: flex; }
-        .admin-box { width: 400px; background: #0d0f1a; border: 3px solid #9b4dff; border-radius: 30px; padding: 30px; box-shadow: 0 0 60px #9b4dff; }
-        .admin-box h2 { color: #9b4dff; text-align: center; margin-bottom: 20px; }
-        .admin-box input { width: 100%; padding: 15px; background: #0a0a12; border: 2px solid #9b4dff; border-radius: 15px; color: #fff; margin-bottom: 20px; }
-        .admin-box button { width: 100%; padding: 15px; background: #9b4dff; color: #0a0a12; border-radius: 30px; font-weight: bold; cursor: pointer; border: 2px solid #fff; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        .music-control { position: fixed; bottom: 15px; right: 25px; z-index: 100; display: flex; align-items: center; gap: 10px; background: rgba(0, 224, 255, 0.1); backdrop-filter: blur(5px); padding: 8px 15px; border-radius: 50px; border: 1px solid #00e0ff40; cursor: pointer; }
+        body {
+            background: #0a0f1e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* TELA DE LOGIN */
+        .login-container {
+            width: 450px;
+            background: #0d0f1a;
+            border: 2px solid #00e0ff;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(0, 224, 255, 0.3);
+            padding: 40px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-container.hidden {
+            display: none;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #00e0ff;
+            font-size: 36px;
+            font-weight: 800;
+            text-shadow: 0 0 20px #00e0ff;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            color: #00e0ff;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            background: #131725;
+            border: 2px solid #00e0ff40;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #00e0ff;
+            outline: none;
+            box-shadow: 0 0 20px #00e0ff;
+        }
+
+        .remember-group {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .remember-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #00e0ff;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #00e0ff;
+            color: #0d0f1a;
+            border: none;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #00e0ff;
+            transition: 0.3s;
+            margin: 20px 0;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02);
+            background: #fff;
+        }
+
+        .error-message {
+            color: #ff3366;
+            text-align: center;
+            margin: 10px 0;
+            font-size: 14px;
+            display: none;
+            background: #ff336610;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ff3366;
+            width: 100%;
+        }
+
+        /* PAINEL PRINCIPAL */
+        .panel {
+            width: 1000px;
+            background: #0d0f1a;
+            border: 2px solid #00e0ff;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 224, 255, 0.3);
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Header do usuário */
+        .user-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 224, 255, 0.05);
+            border: 1px solid #00e0ff40;
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #00e0ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0d0f1a;
+            font-weight: bold;
+            font-size: 20px;
+            border: 2px solid #fff;
+        }
+
+        .user-name {
+            color: #00e0ff;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .user-key-type {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: #ff3366;
+            border: 1px solid #ff3366;
+            border-radius: 30px;
+            padding: 6px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff3366;
+            color: #fff;
+        }
+
+        /* BOTÃO ADM */
+        .admin-btn {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            background: transparent;
+            color: #00e0ff30;
+            border: 1px solid #00e0ff30;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 10px;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .admin-btn:hover {
+            color: #00e0ff;
+            border-color: #00e0ff;
+            background: #00e0ff10;
+        }
+
+        /* Modal Admin */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .admin-box {
+            width: 400px;
+            background: #0d0f1a;
+            border: 3px solid #9b4dff;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 0 60px #9b4dff;
+        }
+
+        .admin-box h2 {
+            color: #9b4dff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .admin-box input {
+            width: 100%;
+            padding: 15px;
+            background: #0a0a12;
+            border: 2px solid #9b4dff;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .admin-box button {
+            width: 100%;
+            padding: 15px;
+            background: #9b4dff;
+            color: #0a0a12;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .admin-error {
+            color: #ff3366;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* PAINEL ADMIN */
+        .admin-panel {
+            width: 1300px;
+            background: #0f0f1a;
+            border: 2px solid #9b4dff;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(155, 77, 255, 0.3);
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            display: none;
+            margin: 0 auto;
+        }
+
+        .admin-panel .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #9b4dff40;
+        }
+
+        .admin-panel .header h1 {
+            color: #9b4dff;
+            font-size: 28px;
+            font-weight: 800;
+            text-shadow: 0 0 15px #9b4dff;
+        }
+
+        .admin-badge {
+            background: #9b4dff;
+            color: #0f0f1a;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px #9b4dff;
+        }
+
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .generate-btn {
+            background: #00cc66;
+            color: #0f0f1a;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #00cc66;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .days-selector, .phones-selector {
+            display: flex;
+            gap: 5px;
+            background: #0a0a12;
+            padding: 5px;
+            border-radius: 30px;
+            border: 1px solid #9b4dff40;
+        }
+
+        .day-pill, .phone-pill {
+            background: transparent;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 15px;
+            color: #9b4dff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .day-pill.selected, .phone-pill.selected {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        .confirm-key-btn {
+            background: #9b4dff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #9b4dff;
+            display: none;
+        }
+
+        .confirm-key-btn.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .stat-mini {
+            background: #0a0a12;
+            border: 1px solid #9b4dff40;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .stat-mini span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .keys-area {
+            background: rgba(155, 77, 255, 0.03);
+            border: 1px solid #9b4dff30;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .keys-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .keys-header h3 {
+            color: #9b4dff;
+            font-size: 18px;
+        }
+
+        .keys-count {
+            background: #0a0a12;
+            color: #9b4dff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid #9b4dff;
+        }
+
+        .keys-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .key-item {
+            background: #0a0a12;
+            border: 1px solid #9b4dff30;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .key-item:hover {
+            border-color: #9b4dff;
+            box-shadow: 0 0 20px #9b4dff;
+        }
+
+        .key-code {
+            color: #9b4dff;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .key-details {
+            display: flex;
+            gap: 25px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .key-details span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .key-users {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .key-users.active {
+            color: #9b4dff;
+        }
+
+        .key-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .copy-small, .delete-small {
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #fff;
+        }
+
+        .copy-small {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        .delete-small {
+            background: #ff3366;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f0f1a;
+            border: 3px solid #ff3366;
+            border-radius: 30px;
+            padding: 30px;
+            width: 400px;
+            box-shadow: 0 0 60px #ff3366;
+        }
+
+        .modal-content h2 {
+            color: #ff3366;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a12;
+            border: 2px solid #ff3366;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn-remove {
+            flex: 1;
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .modal-btn-cancel {
+            flex: 1;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9b4dff;
+            border-radius: 4px;
+        }
+
+        .voltar-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+        }
+
+        /* Header do painel principal */
+        .main-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #00e0ff40;
+        }
+
+        .main-header .header-emoji {
+            font-size: 32px;
+            filter: drop-shadow(0 0 10px #00e0ff);
+            color: #00e0ff;
+        }
+
+        .main-header h1 {
+            color: #00e0ff;
+            font-size: 32px;
+            font-weight: 800;
+            text-shadow: 0 0 15px #00e0ff;
+        }
+
+        .tabs-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tabs-vertical {
+            width: 140px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tab-button {
+            background: #131725;
+            border: 2px solid #00e0ff;
+            border-radius: 25px;
+            padding: 15px 5px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tab-button span {
+            font-size: 24px;
+            filter: drop-shadow(0 0 8px #00e0ff);
+            color: #00e0ff;
+        }
+
+        .tab-button.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+            box-shadow: 0 0 25px #00e0ff;
+        }
+
+        .tab-content {
+            flex: 1;
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #00e0ff;
+            border-radius: 30px;
+            padding: 25px;
+            min-height: 550px;
+            position: relative;
+        }
+
+        #matrixEffect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: 30px;
+        }
+
+        #matrixEffect.active {
+            opacity: 0.9;
+        }
+
+        .config-item {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #00e0ff60;
+            padding-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .config-title {
+            color: #00e0ff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            background: #1e2538;
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px #00e0ff;
+            border: 2px solid white;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: #1e2538;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #00e0ff;
+            display: inline-block;
+        }
+
+        .toggle-switch.active {
+            background: #00e0ff;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .trace-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .trace-option {
+            background: #1e2538;
+            border: 2px solid #00e0ff60;
+            border-radius: 30px;
+            padding: 12px 20px;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .trace-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+            box-shadow: 0 0 20px #00e0ff;
+        }
+
+        .hz-slider-container {
+            margin: 30px 0;
+        }
+
+        .hz-slider {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #00e0ff 0%, #00e0ff 33%, #fff 33%, #fff 66%, #00e0ff 66%, #00e0ff 100%);
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .hz-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 20px #00e0ff;
+            border: 3px solid white;
+        }
+
+        .hz-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .hz-marker {
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: #1e2538;
+            border: 1px solid #00e0ff;
+            color: #00e0ff;
+        }
+
+        .hz-marker.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .hz-value {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #00e0ff;
+            font-weight: bold;
+        }
+
+        .iphone-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .iphone-card {
+            background: #131725;
+            border: 2px solid #00e0ff40;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .iphone-card.selected {
+            border-color: #00e0ff;
+            box-shadow: 0 0 30px #00e0ff;
+        }
+
+        .iphone-title {
+            color: #00e0ff;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .professional-package {
+            background: linear-gradient(145deg, #1a1f33, #0d0f1a);
+            border: 3px solid #00e0ff;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .professional-title {
+            color: #00e0ff;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .professional-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .professional-option {
+            background: #131725;
+            border: 2px solid #00e0ff60;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .professional-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .option-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .injector-area {
+            background: #0a0e17;
+            border-radius: 50px;
+            padding: 20px;
+            border: 2px solid #00e0ff;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .syringe-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin: 15px 0;
+            font-size: 40px;
+        }
+
+        .syringe {
+            font-size: 60px;
+            transform: rotate(45deg);
+            color: #00e0ff;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: rotate(45deg) scale(1); }
+            50% { opacity: 0.7; transform: rotate(45deg) scale(1.1); }
+        }
+
+        .code-display {
+            background: #00000040;
+            border-radius: 30px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            border: 1px solid #00e0ff;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .code-number {
+            color: #00e0ff;
+            font-size: 22px;
+            font-weight: bold;
+            background: #131725;
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid #00e0ff;
+        }
+
+        .ff-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .ff-option {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: #1e2538;
+            color: #fff;
+            border: 2px solid #00e0ff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .ff-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .ff-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .ff-button {
+            background: linear-gradient(145deg, #1e2538, #131725);
+            border: 2px solid #00e0ff;
+            border-radius: 50px;
+            padding: 15px 30px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ff-button:hover {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        button {
+            background: #00e0ff;
+            color: #0d0f1a;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .status-display {
+            color: #00e0ff;
+            font-size: 16px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #131725;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .music-control {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 224, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid #00e0ff40;
+            cursor: pointer;
+        }
+
+        .music-icon {
+            font-size: 18px;
+            color: #00e0ff;
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: #1e2538;
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+            margin-left: 5px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .iphone-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #00e0ff;
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 40px rgba(0, 224, 255, 0.5);
+            z-index: 9999;
+            transition: transform 0.4s;
+            color: white;
+            font-weight: bold;
+        }
+
+        .iphone-notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* BOTÃO DEBUG */
+        .debug-btn {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 9999;
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+        }
     </style>
 </head>
 <body>
     <canvas id="matrixCanvas"></canvas>
 
-    <audio id="bgMusic" loop>
-        <source src="ACIDO 1.mp3" type="audio/mpeg">
-    </audio>
-
+    <!-- TELA DE LOGIN -->
     <div class="login-container" id="loginContainer">
         <div class="logo">
             <h1>⚡ FEXTTER</h1>
         </div>
+
         <div class="error-message" id="errorMessage"></div>
+
         <div class="input-group">
             <label>👤 NOME</label>
-            <input type="text" id="userName" placeholder="Digite seu nome">
+            <input type="text" id="userName" placeholder="Digite seu nome" maxlength="30">
         </div>
+
         <div class="input-group">
             <label>🔑 KEY</label>
             <input type="text" id="userKey" placeholder="XXXX-XXXX-XXXX-XXXX" style="text-transform:uppercase;">
         </div>
+
         <div class="remember-group">
             <input type="checkbox" id="rememberMe" checked>
             <label for="rememberMe">Manter conectado</label>
         </div>
-        <button class="login-btn" onclick="validateKey()">🚀 ENTRAR</button>
+
+        <button class="login-btn" onclick="validateKey()">
+            🚀 ENTRAR
+        </button>
     </div>
 
+    <!-- PAINEL PRINCIPAL -->
     <div class="panel" id="panelContainer">
+        <!-- BOTÃO ADM -->
         <button class="admin-btn" onclick="showAdminModal()">ADM</button>
+
+        <!-- Modal Admin -->
+        <div class="admin-modal" id="adminModal">
+            <div class="admin-box">
+                <h2>🔐 ACESSO ADMIN</h2>
+                <input type="password" id="adminKey" placeholder="Digite a key de admin">
+                <button onclick="checkAdminKey()">VALIDAR</button>
+                <div class="admin-error" id="adminError">❌ Key incorreta!</div>
+            </div>
+        </div>
+
+        <!-- Header do usuário -->
         <div class="user-header">
             <div class="user-info">
-                <div class="user-avatar" id="userAvatar">F</div>
+                <div class="user-avatar" id="userAvatar"></div>
                 <div>
-                    <div class="user-name" id="userNameDisplay">Usuário</div>
-                    <div class="user-key-type" id="userKeyType">Plano Ativo</div>
+                    <div class="user-name" id="userNameDisplay"></div>
+                    <div class="user-key-type" id="userKeyType"></div>
                 </div>
             </div>
             <button class="logout-btn" onclick="logout()">SAIR</button>
         </div>
-        <h1 style="color:#00e0ff; text-align:center;">PAINEL ATIVADO</h1>
-        <p style="color:#fff; text-align:center; margin-top:20px;">Bem-vindo ao FEXTTER EXTERNAL.</p>
-    </div>
 
-    <div class="admin-modal" id="adminModal">
-        <div class="admin-box">
-            <h2>🔐 ACESSO ADMIN</h2>
-            <input type="password" id="adminKeyInput" placeholder="Senha Master">
-            <button onclick="checkAdminKey()">VALIDAR</button>
-            <button onclick="closeAdminModal()" style="margin-top:10px; background:#333; color:#fff;">FECHAR</button>
+        <!-- Header do painel -->
+        <div class="main-header">
+            <span class="header-emoji">🎯</span>
+            <h1>FEXTTER EXTERNAL</h1>
+        </div>
+
+        <!-- Notificação -->
+        <div class="iphone-notification" id="iphoneNotification">
+            <span class="notification-emoji" id="notificationEmoji">😈</span>
+            <div class="notification-text">
+                <span id="notificationTitle">XIT</span> <span id="notificationMessage">ativado com sucesso!</span>
+            </div>
+        </div>
+
+        <!-- Música -->
+        <div class="music-control" onclick="toggleMusic()">
+            <span class="music-icon" id="musicIcon">🔊</span>
+            <span class="music-text">DOORS LIGHT FUNK</span>
+            <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="adjustVolume(this.value)">
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs-vertical">
+                <div class="tab-button active" data-tab="tab1"><span>⚡</span> Aimbot Legith</div>
+                <div class="tab-button" data-tab="tab2"><span>🎯</span> Controle de Rastro</div>
+                <div class="tab-button" data-tab="tab3"><span>⚙️</span> Capa Leve</div>
+                <div class="tab-button" data-tab="tab4"><span>📱</span> Perfis iPhone</div>
+                <div class="tab-button" data-tab="tab5"><span>💉</span> Sistema de Injeção</div>
+            </div>
+
+            <div class="tab-content">
+                <canvas id="matrixEffect"></canvas>
+                
+                <!-- ABA 1 - Aimbot -->
+                <div id="tab1" class="tab-pane">
+                    <div class="config-item">
+                        <div class="config-title"><span>🎯</span> Aimbot Legith</div>
+                        <div class="toggle-switch" id="aimbotToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>📦</span> Norecoil</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="norecoilSlider">
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⚡</span> Input Lag</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="inputlagSlider">
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>💥</span> Spread</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="spreadSlider">
+                    </div>
+                </div>
+
+                <!-- ABA 2 - Rastro -->
+                <div id="tab2" class="tab-pane hidden">
+                    <div class="config-item">
+                        <div class="config-title"><span>🎯</span> Rastro</div>
+                        <div class="trace-vertical">
+                            <div class="trace-option" data-value="curto">🔹 CURTO</div>
+                            <div class="trace-option" data-value="medio">🔸 MÉDIO</div>
+                            <div class="trace-option" data-value="longo">🔹 LONGO</div>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⚡</span> Hz</div>
+                        <div class="hz-slider-container">
+                            <input type="range" min="0" max="2" step="1" value="0" class="hz-slider" id="hzSlider">
+                            <div class="hz-markers">
+                                <div class="hz-marker" data-hz="60">60 Hz</div>
+                                <div class="hz-marker" data-hz="120">120 Hz</div>
+                                <div class="hz-marker" data-hz="144">144 Hz</div>
+                            </div>
+                        </div>
+                        <div class="hz-value" id="hzValue">60 Hz</div>
+                    </div>
+                    <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
+                </div>
+
+                <!-- ABA 3 - Capa Leve -->
+                <div id="tab3" class="tab-pane hidden">
+                    <div class="professional-package">
+                        <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
+                        <div class="professional-options">
+                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Bonito</div>
+                            <div class="professional-option" data-prof="2"><span class="option-icon">🧹</span>Limpar Cache</div>
+                            <div class="professional-option" data-prof="3"><span class="option-icon">📶</span>Melhorar Ping</div>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>🧹</span> Otimização</div>
+                        <div class="toggle-switch" id="optimizeToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>🚀</span> Resposta Rápida</div>
+                        <div class="toggle-switch" id="fastResponseToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⏱️</span> Tirar Delay</div>
+                        <div class="toggle-switch" id="removeDelayToggle"></div>
+                        <p style="color:#fff; margin-top:10px;">Delay: <span id="delayValue">16ms</span></p>
+                    </div>
+                </div>
+
+                <!-- ABA 4 - iPhone -->
+                <div id="tab4" class="tab-pane hidden">
+                    <div class="iphone-selector">
+                        <div class="iphone-card" data-iphone="8plus">
+                            <div class="iphone-title">📱 iPhone 8 Plus</div>
+                        </div>
+                        <div class="iphone-card" data-iphone="14promax">
+                            <div class="iphone-title">📱 iPhone 14 Pro Max</div>
+                        </div>
+                        <div class="iphone-card" data-iphone="16">
+                            <div class="iphone-title">📱 iPhone 16</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:30px;">
+                        <div class="config-title">Instabilidade</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="iphoneInstability">
+                        <div class="config-title" style="margin-top:15px;">Puxada</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="iphonePull">
+                    </div>
+                    <div id="selectedIphone" class="status-display">Nenhum iPhone selecionado</div>
+                </div>
+
+                <!-- ABA 5 - Injeção -->
+                <div id="tab5" class="tab-pane hidden">
+                    <div class="injector-area">
+                        <div class="config-title"><span>💉</span> INJETOR</div>
+                        <div class="syringe-container">
+                            <span class="bubble">💊</span>
+                            <span class="syringe">💉</span>
+                            <span class="bubble">💊</span>
+                        </div>
+                        <div class="code-display">
+                            <span class="code-number">0x7A4F</span>
+                            <span class="code-number">0x3B8C</span>
+                            <span class="code-number">0x9D2E</span>
+                            <span class="code-number">0x5F1A</span>
+                            <span class="code-number">0xC6E3</span>
+                        </div>
+                        <div class="ff-selector">
+                            <div class="ff-option" id="ffMax">FF MAX</div>
+                            <div class="ff-option active" id="ffNormal">FF NORMAL</div>
+                        </div>
+                        <div class="ff-buttons">
+                            <button class="ff-button" onclick="abrirFF()"><span>🔥</span> Free Fire</button>
+                            <button class="ff-button" onclick="abrirFFMax()"><span>⚡</span> Free Fire MAX</button>
+                        </div>
+                        <button onclick="injectWithMatrix()">💉 INJETAR</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="adminPanel">
-        <h2 style="color:#9b4dff; margin-bottom:15px;">GERENCIADOR DE KEYS</h2>
-        <button onclick="generateNewKey()" style="background:#00cc66; padding:10px; border-radius:10px; cursor:pointer; font-weight:bold;">+ GERAR NOVA KEY (24H)</button>
-        <div id="keysList" style="margin-top:20px; color:#fff;"></div>
-        <button onclick="closeAdminPanel()" style="margin-top:20px; background:#ff3366; padding:10px; border-radius:10px; color:#fff;">VOLTAR</button>
+    <!-- PAINEL ADMIN -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="header">
+            <h1>⚡ FEXTTER ADMIN</h1>
+            <button class="voltar-btn" onclick="voltarAoPainel()">VOLTAR</button>
+        </div>
+
+        <div class="controls-bar">
+            <button class="generate-btn" onclick="toggleSelectors()">
+                <span>🔑</span> GERAR KEY
+            </button>
+
+            <div class="days-selector" id="daysSelector" style="display: none;">
+                <button class="day-pill" onclick="selectDays(3)">3 DIAS</button>
+                <button class="day-pill" onclick="selectDays(7)">7 DIAS</button>
+                <button class="day-pill" onclick="selectDays(30)">30 DIAS</button>
+                <button class="day-pill" onclick="selectDays(999)">∞ PERMANENTE</button>
+            </div>
+
+            <div class="phones-selector" id="phonesSelector" style="display: none;">
+                <button class="phone-pill" onclick="selectPhones(1)">1 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(2)">2 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(3)">3 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(10)">10 TEL</button>
+            </div>
+
+            <button class="confirm-key-btn" id="confirmBtn" onclick="confirmAndGenerate()">
+                <span>✅</span> CONFIRMAR
+            </button>
+
+            <button class="remove-btn" onclick="showRemoveModal()">
+                <span>🗑️</span> REMOVER
+            </button>
+
+            <div class="stats-mini">
+                <div class="stat-mini"><span>📊</span> <strong id="totalKeys">0</strong></div>
+                <div class="stat-mini"><span>✅</span> <strong id="activeKeys">0</strong></div>
+                <div class="stat-mini"><span>👤</span> <strong id="usedKeys">0</strong></div>
+            </div>
+        </div>
+
+        <div class="keys-area">
+            <div class="keys-header">
+                <h3>📋 KEYS GERADAS</h3>
+                <div class="keys-count" id="keysCount">0 keys</div>
+            </div>
+
+            <div class="keys-list" id="keysList"></div>
+        </div>
     </div>
 
-    <div class="music-control" id="musicUI" onclick="toggleMusic()">
-        <span id="musicIcon">🔇</span>
-        <span style="color:#00e0ff; font-size:12px;">ACIDO 1</span>
+    <!-- Modal de Remoção -->
+    <div class="modal" id="removeModal">
+        <div class="modal-content">
+            <h2>🗑️ REMOVER KEY</h2>
+            <input type="text" id="removeKeyInput" placeholder="Digite o código da key">
+            <div class="modal-buttons">
+                <button class="modal-btn-remove" onclick="removeKey()">REMOVER</button>
+                <button class="modal-btn-cancel" onclick="closeRemoveModal()">CANCELAR</button>
+            </div>
+        </div>
     </div>
+
+    <!-- BOTÃO DEBUG -->
+    <button class="debug-btn" onclick="debugKeys()">🔍 VER KEYS</button>
+
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://s3.amazonaws.com/audio-files/doors-light-funk-ultra-slowed.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // --- SISTEMA DE KEYS (CORRIGIDO) ---
-        let validKeys = JSON.parse(localStorage.getItem('fextter_keys')) || ["ADMIN-FREE-2024", "TESTE-123"];
+        // ============================================
+        // VARIÁVEIS GLOBAIS
+        // ============================================
+        let matrixInterval = null;
+        let audioContext = null;
+        let musicPlaying = false;
+        let selectedDays = 7;
+        let selectedPhones = 1;
+        let selectorsVisible = false;
+        
+        const music = document.getElementById('backgroundMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        
+        // KEY MESTRA
+        const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
-        function saveKeys() {
-            localStorage.setItem('fextter_keys', JSON.stringify(validKeys));
+        // CONFIGURAÇÕES ATIVAS
+        const activeConfig = {
+            aimbot: false,
+            norecoil: 50,
+            inputLag: 50,
+            spread: 50,
+            rastro: null,
+            hz: 60,
+            prof1: false,
+            prof2: false,
+            prof3: false,
+            optimize: false,
+            fastResponse: false,
+            removeDelay: false,
+            iphone: null,
+            instability: 50,
+            pull: 50,
+            ff: 'normal'
+        };
+
+        // ============================================
+        // FUNÇÃO DEBUG
+        // ============================================
+        function debugKeys() {
+            const keys = localStorage.getItem('fextter_keys');
+            alert('KEYS NO LOCALSTORAGE:\n' + keys);
+            console.log('KEYS:', keys);
         }
 
-        function generateNewKey() {
-            const pattern = "XXXX-XXXX-XXXX-XXXX";
-            const newKey = pattern.replace(/X/g, () => "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[Math.floor(Math.random() * 36)]);
-            validKeys.push(newKey);
-            saveKeys();
+        // ============================================
+        // INICIALIZAR ÁUDIO
+        // ============================================
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // ============================================
+        // SONS
+        // ============================================
+        function playToggleSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function playSelectSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 600;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.05);
+        }
+
+        function playSuccessSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator1.type = 'sine';
+            oscillator1.frequency.value = 600;
+            oscillator2.type = 'sine';
+            oscillator2.frequency.value = 800;
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            gainNode.gain.value = 0.1;
+            
+            oscillator1.start();
+            oscillator2.start();
+            oscillator1.stop(audioContext.currentTime + 0.1);
+            oscillator2.stop(audioContext.currentTime + 0.15);
+        }
+
+        // ============================================
+        // MÚSICA
+        // ============================================
+        function playMusic() {
+            music.play().catch(e => {
+                document.addEventListener('click', function playOnClick() {
+                    music.play();
+                    document.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                music.pause();
+                musicIcon.textContent = '🔇';
+                musicPlaying = false;
+            } else {
+                music.play();
+                musicIcon.textContent = '🔊';
+                musicPlaying = true;
+            }
+        }
+
+        function adjustVolume(value) {
+            music.volume = value / 100;
+        }
+
+        // ============================================
+        // MATRIX BACKGROUND
+        // ============================================
+        function startMatrix() {
+            const canvas = document.getElementById('matrixCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const ctx = canvas.getContext('2d');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+            const charsArray = chars.split('');
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00e0ff';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 35);
+        }
+
+        // ============================================
+        // LOGIN
+        // ============================================
+        function validateKey() {
+            const userName = document.getElementById('userName').value.trim();
+            const userKey = document.getElementById('userKey').value.trim().toUpperCase();
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            const errorMsg = document.getElementById('errorMessage');
+            
+            errorMsg.style.display = 'none';
+
+            if (!userName || !userKey) {
+                errorMsg.textContent = '❌ Preencha todos os campos!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // KEY MESTRA
+            if (userKey === MASTER_KEY) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').style.display = 'block';
+                
+                document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+                document.getElementById('userNameDisplay').textContent = userName;
+                document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+                
+                if (rememberMe) {
+                    localStorage.setItem('fextter_session', JSON.stringify({
+                        userName: userName,
+                        isMaster: true
+                    }));
+                }
+                
+                playSuccessSound();
+                showNotification('Acesso master liberado!', '👑', 'ADMIN');
+                return;
+            }
+
+            // BUSCA KEYS
+            const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            const key = keys.find(k => k.code === userKey);
+
+            if (!key) {
+                errorMsg.textContent = '❌ Key inválida!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (!key.isActive) {
+                errorMsg.textContent = '❌ Key desativada!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // VERIFICA EXPIRAÇÃO
+            if (key.days !== 999 && key.expiryDate) {
+                const expiry = new Date(key.expiryDate);
+                if (new Date() > expiry) {
+                    errorMsg.textContent = '❌ Key expirada!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+            }
+
+            // VERIFICA LIMITE
+            if (!key.usedBy) key.usedBy = [];
+
+            if (!key.usedBy.includes(userName)) {
+                if (key.usedBy.length >= key.phones) {
+                    errorMsg.textContent = `❌ Limite de ${key.phones} usuários!`;
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                key.usedBy.push(userName);
+                localStorage.setItem('fextter_keys', JSON.stringify(keys));
+            }
+
+            // LOGIN OK
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('panelContainer').style.display = 'block';
+            
+            document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+            document.getElementById('userNameDisplay').textContent = userName;
+            
+            let keyText = key.days === 999 ? 'Permanente' : `${key.days} dias`;
+            document.getElementById('userKeyType').textContent = keyText;
+
+            if (rememberMe) {
+                localStorage.setItem('fextter_session', JSON.stringify({
+                    userName: userName,
+                    days: key.days
+                }));
+            }
+            
+            playSuccessSound();
+            showNotification(`Bem-vindo, ${userName}!`, '✅', 'LOGIN');
+        }
+
+        function logout() {
+            localStorage.removeItem('fextter_session');
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('panelContainer').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('userName').value = '';
+            document.getElementById('userKey').value = '';
+            playSelectSound();
+        }
+
+        // ============================================
+        // VERIFICAR SESSÃO
+        // ============================================
+        function checkSavedSession() {
+            const savedSession = localStorage.getItem('fextter_session');
+            
+            if (savedSession) {
+                const session = JSON.parse(savedSession);
+                
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').style.display = 'block';
+                
+                document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
+                document.getElementById('userNameDisplay').textContent = session.userName;
+                
+                if (session.isMaster) {
+                    document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+                } else {
+                    document.getElementById('userKeyType').textContent = 'Permanente';
+                }
+            }
+        }
+
+        // ============================================
+        // ADMIN
+        // ============================================
+        function showAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+            playSelectSound();
+        }
+
+        function hideAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('adminKey').value = '';
+            document.getElementById('adminError').style.display = 'none';
+        }
+
+        function checkAdminKey() {
+            const key = document.getElementById('adminKey').value;
+            
+            if (key === MASTER_KEY) {
+                document.getElementById('panelContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                
+                hideAdminModal();
+                playSuccessSound();
+                showNotification('Painel admin ativado!', '👑', 'ADMIN');
+                
+                loadKeys();
+            } else {
+                document.getElementById('adminError').style.display = 'block';
+                playToggleSound();
+            }
+        }
+
+        function voltarAoPainel() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('panelContainer').style.display = 'block';
+            playSelectSound();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('adminModal');
+            if (event.target === modal) {
+                hideAdminModal();
+            }
+        };
+
+        // ============================================
+        // FUNÇÕES DO ADMIN
+        // ============================================
+        function loadKeys() {
+            const savedKeys = localStorage.getItem('fextter_keys');
+            if (savedKeys) {
+                window.keys = JSON.parse(savedKeys);
+            } else {
+                window.keys = [];
+            }
             renderKeys();
-            alert("Key Gerada: " + newKey);
+            updateStats();
+        }
+
+        function toggleSelectors() {
+            selectorsVisible = !selectorsVisible;
+            const daysSelector = document.getElementById('daysSelector');
+            const phonesSelector = document.getElementById('phonesSelector');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            if (selectorsVisible) {
+                daysSelector.style.display = 'flex';
+                phonesSelector.style.display = 'flex';
+                confirmBtn.classList.add('show');
+            } else {
+                daysSelector.style.display = 'none';
+                phonesSelector.style.display = 'none';
+                confirmBtn.classList.remove('show');
+            }
+        }
+
+        function selectDays(days) {
+            selectedDays = days;
+            document.querySelectorAll('.day-pill').forEach(pill => pill.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        function selectPhones(phones) {
+            selectedPhones = phones;
+            document.querySelectorAll('.phone-pill').forEach(pill => pill.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        function confirmAndGenerate() {
+            generateKey();
+            toggleSelectors();
+        }
+
+        function generateKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+                if (i % 4 === 3 && i < 15) code += '-';
+            }
+
+            let expiryDate = null;
+            if (selectedDays !== 999) {
+                expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + selectedDays);
+            }
+
+            const newKey = {
+                code: code,
+                days: selectedDays,
+                phones: selectedPhones,
+                expiryDate: expiryDate,
+                createdAt: new Date().toLocaleString(),
+                usedBy: [],
+                isActive: true
+            };
+
+            let existingKeys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            existingKeys.unshift(newKey);
+            localStorage.setItem('fextter_keys', JSON.stringify(existingKeys));
+            
+            window.keys = existingKeys;
+            
+            renderKeys();
+            updateStats();
+            
+            alert('✅ KEY GERADA COM SUCESSO!\n\n' + code);
         }
 
         function renderKeys() {
             const list = document.getElementById('keysList');
-            list.innerHTML = validKeys.map(k => `<div style="padding:5px; border-bottom:1px solid #333">${k}</div>`).join('');
-        }
+            if (!list) return;
+            
+            list.innerHTML = '';
 
-        function validateKey() {
-            const name = document.getElementById('userName').value;
-            const key = document.getElementById('userKey').value.toUpperCase();
-            const error = document.getElementById('errorMessage');
-
-            if (name.length < 3) {
-                error.textContent = "Nome muito curto!";
-                error.style.display = "block";
-                return;
-            }
-
-            if (validKeys.includes(key)) {
-                // Entrar no painel
-                document.getElementById('loginContainer').classList.add('hidden');
-                document.getElementById('panelContainer').classList.add('active');
-                document.getElementById('userNameDisplay').textContent = name;
-                document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+            const keys = window.keys || [];
+            
+            keys.forEach(key => {
+                const keyElement = document.createElement('div');
+                keyElement.className = 'key-item';
                 
-                // Tenta tocar a música na entrada
-                startMusic();
-            } else {
-                error.textContent = "Key inválida ou expirada!";
-                error.style.display = "block";
-            }
+                const daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
+                const usedCount = key.usedBy ? key.usedBy.length : 0;
+
+                keyElement.innerHTML = `
+                    <div class="key-info">
+                        <div class="key-code">${key.code}</div>
+                        <div class="key-details">
+                            <span>📅</span> ${daysText} 
+                            <span>📱</span> ${usedCount}/${key.phones}
+                            <span>🕐</span> ${key.createdAt}
+                        </div>
+                        <div class="key-users ${usedCount > 0 ? 'active' : ''}">
+                            ${usedCount > 0 ? '👤 ' + key.usedBy.join(', ') : '👤 Nenhum usuário'}
+                        </div>
+                    </div>
+                    <div class="key-actions">
+                        <button class="copy-small" onclick="copyKey('${key.code}')">📋 Copiar</button>
+                        <button class="delete-small" onclick="deleteKey('${key.code}')">🗑️</button>
+                    </div>
+                `;
+                list.appendChild(keyElement);
+            });
+
+            const keysCount = document.getElementById('keysCount');
+            if (keysCount) keysCount.textContent = keys.length + ' keys';
         }
 
-        // --- SISTEMA DE MÚSICA ---
-        const audio = document.getElementById('bgMusic');
-        let isPlaying = false;
-
-        function startMusic() {
-            audio.play().then(() => {
-                isPlaying = true;
-                document.getElementById('musicIcon').textContent = "🔊";
-            }).catch(e => console.log("Aguardando interação para tocar áudio."));
+        function copyKey(code) {
+            navigator.clipboard.writeText(code);
+            alert('✅ Key copiada!');
         }
 
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                document.getElementById('musicIcon').textContent = "🔇";
-            } else {
-                audio.play();
-                document.getElementById('musicIcon').textContent = "🔊";
-            }
-            isPlaying = !isPlaying;
-        }
-
-        // --- ADMIN CONTROLS ---
-        function showAdminModal() { document.getElementById('adminModal').classList.add('active'); }
-        function closeAdminModal() { document.getElementById('adminModal').classList.remove('active'); }
-        
-        function checkAdminKey() {
-            const pass = document.getElementById('adminKeyInput').value;
-            if (pass === "123") { // Sua senha de admin aqui
-                closeAdminModal();
-                document.getElementById('adminPanel').style.display = 'block';
+        function deleteKey(code) {
+            if (confirm('Remover esta key?')) {
+                let keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+                keys = keys.filter(k => k.code !== code);
+                localStorage.setItem('fextter_keys', JSON.stringify(keys));
+                window.keys = keys;
                 renderKeys();
-            } else {
-                alert("Senha Master Incorreta!");
+                updateStats();
             }
         }
 
-        function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
-        function logout() { location.reload(); }
+        function showRemoveModal() {
+            document.getElementById('removeModal').classList.add('active');
+        }
 
-        // --- MATRIX BACKGROUND ---
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-        const fontSize = 15;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+        function closeRemoveModal() {
+            document.getElementById('removeModal').classList.remove('active');
+            document.getElementById('removeKeyInput').value = '';
+        }
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(10, 15, 30, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00e0ff";
-            ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+        function removeKey() {
+            const code = document.getElementById('removeKeyInput').value.trim();
+            if (code) {
+                deleteKey(code);
+                closeRemoveModal();
             }
         }
-        setInterval(drawMatrix, 50);
+
+        function updateStats() {
+            const keys = window.keys || [];
+            const total = keys.length;
+            const active = keys.filter(k => k.isActive).length;
+            const used = keys.filter(k => k.usedBy && k.usedBy.length > 0).length;
+
+            const totalEl = document.getElementById('totalKeys');
+            const activeEl = document.getElementById('activeKeys');
+            const usedEl = document.getElementById('usedKeys');
+            
+            if (totalEl) totalEl.textContent = total;
+            if (activeEl) activeEl.textContent = active;
+            if (usedEl) usedEl.textContent = used;
+        }
+
+        // ============================================
+        // NOTIFICAÇÃO
+        // ============================================
+        function showNotification(message, emoji = '😈', title = 'XIT') {
+            const notification = document.getElementById('iphoneNotification');
+            document.getElementById('notificationEmoji').textContent = emoji;
+            document.getElementById('notificationTitle').textContent = title;
+            document.getElementById('notificationMessage').textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================
+        // FUNÇÕES DO FREE FIRE
+        // ============================================
+        function abrirFF() {
+            localStorage.setItem('ffConfig', JSON.stringify(activeConfig));
+            window.location.href = "freefire://";
+            setTimeout(() => {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefireth";
+            }, 2000);
+            playSelectSound();
+        }
+
+        function abrirFFMax() {
+            localStorage.setItem('ffConfig', JSON.stringify(activeConfig));
+            window.location.href = "ffmax://";
+            setTimeout(() => {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefiremax";
+            }, 2000);
+            playSelectSound();
+        }
+
+        // ============================================
+        // SELETOR FF
+        // ============================================
+        const ffMax = document.getElementById('ffMax');
+        const ffNormal = document.getElementById('ffNormal');
+
+        if (ffMax && ffNormal) {
+            ffMax.addEventListener('click', function() {
+                ffMax.classList.add('active');
+                ffNormal.classList.remove('active');
+                activeConfig.ff = 'max';
+                playSelectSound();
+                showNotification('FF MAX selecionado', '🔥', 'FF');
+            });
+
+            ffNormal.addEventListener('click', function() {
+                ffNormal.classList.add('active');
+                ffMax.classList.remove('active');
+                activeConfig.ff = 'normal';
+                playSelectSound();
+                showNotification('FF NORMAL selecionado', '📱', 'FF');
+            });
+        }
+
+        // ============================================
+        // ABAS
+        // ============================================
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabPanes.forEach(pane => pane.classList.add('hidden'));
+                document.getElementById(tabId).classList.remove('hidden');
+                playSelectSound();
+            });
+        });
+
+        // ============================================
+        // TOGGLES
+        // ============================================
+        const toggles = document.querySelectorAll('.toggle-switch');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                playToggleSound();
+                
+                if (this.id === 'aimbotToggle') {
+                    activeConfig.aimbot = this.classList.contains('active');
+                } else if (this.id === 'optimizeToggle') {
+                    activeConfig.optimize = this.classList.contains('active');
+                } else if (this.id === 'fastResponseToggle') {
+                    activeConfig.fastResponse = this.classList.contains('active');
+                } else if (this.id === 'removeDelayToggle') {
+                    activeConfig.removeDelay = this.classList.contains('active');
+                    const delayValue = document.getElementById('delayValue');
+                    if (delayValue) {
+                        delayValue.textContent = this.classList.contains('active') ? '0ms' : '16ms';
+                    }
+                }
+            });
+        });
+
+        // ============================================
+        // RASTRO
+        // ============================================
+        const traceOptions = document.querySelectorAll('.trace-option');
+        const traceStatus = document.getElementById('traceStatus');
+
+        traceOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                traceOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                playSelectSound();
+                
+                const value = this.getAttribute('data-value');
+                activeConfig.rastro = value;
+                
+                updateTraceStatus();
+            });
+        });
+
+        // ============================================
+        // HZ
+        // ============================================
+        const hzSlider = document.getElementById('hzSlider');
+        const hzMarkers = document.querySelectorAll('.hz-marker');
+        const hzValue = document.getElementById('hzValue');
+        
+        function updateHzFromSlider() {
+            const value = parseInt(hzSlider.value);
+            let hz = '60';
+            
+            if (value === 0) hz = '60';
+            else if (value === 1) hz = '120';
+            else if (value === 2) hz = '144';
+            
+            if (hzValue) hzValue.textContent = hz + ' Hz';
+            activeConfig.hz = parseInt(hz);
+            
+            hzMarkers.forEach((marker, index) => {
+                if (index === value) {
+                    marker.classList.add('active');
+                } else {
+                    marker.classList.remove('active');
+                }
+            });
+            
+            updateTraceStatus();
+        }
+        
+        function setHz(value) {
+            if (hzSlider) {
+                hzSlider.value = value;
+                updateHzFromSlider();
+            }
+        }
+        
+        if (hzSlider) {
+            hzSlider.addEventListener('input', updateHzFromSlider);
+        }
+        
+        function updateTraceStatus() {
+            if (!traceStatus) return;
+            
+            const activeTrace = document.querySelector('.trace-option.active');
+            const traceText = activeTrace ? activeTrace.textContent.replace('🔹', '').replace('🔸', '').trim() : 'Nenhum';
+            const hzText = hzValue ? hzValue.textContent : '60 Hz';
+            
+            traceStatus.textContent = `Rastro: ${traceText} | ${hzText}`;
+        }
+
+        // ============================================
+        // IPHONE
+        // ============================================
+        const iphoneCards = document.querySelectorAll('.iphone-card');
+        const selectedIphoneDiv = document.getElementById('selectedIphone');
+
+        iphoneCards.forEach(card => {
+            card.addEventListener('click', function() {
+                iphoneCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                playSelectSound();
+                
+                const iphoneModel = this.getAttribute('data-iphone');
+                let modelName = '';
+                
+                if (iphoneModel === '8plus') {
+                    modelName = 'iPhone 8 Plus';
+                    activeConfig.iphone = '8plus';
+                    activeConfig.hz = 60;
+                    setHz(0);
+                } else if (iphoneModel === '14promax') {
+                    modelName = 'iPhone 14 Pro Max';
+                    activeConfig.iphone = '14promax';
+                    activeConfig.hz = 120;
+                    setHz(1);
+                } else if (iphoneModel === '16') {
+                    modelName = 'iPhone 16';
+                    activeConfig.iphone = '16';
+                    activeConfig.hz = 144;
+                    setHz(2);
+                }
+                
+                if (selectedIphoneDiv) selectedIphoneDiv.textContent = `✅ Perfil ativo: ${modelName}`;
+                showNotification(`Perfil ${modelName} ativado`, '📱', 'IPHONE');
+            });
+        });
+
+        // ============================================
+        // PACOTE PROFISSIONAL
+        // ============================================
+        const professionalOptions = document.querySelectorAll('.professional-option');
+        
+        professionalOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('active');
+                playToggleSound();
+                
+                const text = this.textContent;
+                
+                if (text.includes('Jogo Bonito')) {
+                    activeConfig.prof1 = this.classList.contains('active');
+                } else if (text.includes('Limpar Cache')) {
+                    activeConfig.prof2 = this.classList.contains('active');
+                } else if (text.includes('Melhorar Ping')) {
+                    activeConfig.prof3 = this.classList.contains('active');
+                }
+            });
+        });
+
+        // ============================================
+        // SLIDERS
+        // ============================================
+        document.getElementById('norecoilSlider')?.addEventListener('input', function(e) {
+            activeConfig.norecoil = e.target.value;
+        });
+        
+        document.getElementById('inputlagSlider')?.addEventListener('input', function(e) {
+            activeConfig.inputLag = e.target.value;
+        });
+        
+        document.getElementById('spreadSlider')?.addEventListener('input', function(e) {
+            activeConfig.spread = e.target.value;
+        });
+        
+        document.getElementById('iphoneInstability')?.addEventListener('input', function(e) {
+            activeConfig.instability = e.target.value;
+        });
+        
+        document.getElementById('iphonePull')?.addEventListener('input', function(e) {
+            activeConfig.pull = e.target.value;
+        });
+
+        // ============================================
+        // INJEÇÃO
+        // ============================================
+        function injectConfig() {
+            localStorage.setItem('ffActiveConfig', JSON.stringify(activeConfig));
+            return true;
+        }
+
+        function startMatrixEffect() {
+            const canvas = document.getElementById('matrixEffect');
+            if (!canvas) return;
+            
+            canvas.classList.add('active');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const ctx = canvas.getContext('2d');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+            const charsArray = chars.split('');
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
+            }
+            
+            if (matrixInterval) clearInterval(matrixInterval);
+            
+            function drawMatrix() {
+                if (!canvas.classList.contains('active')) return;
+                
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00e0ff';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            matrixInterval = setInterval(drawMatrix, 35);
+        }
+
+        function injectWithMatrix() {
+            injectConfig();
+            playSuccessSound();
+            
+            const codeDisplay = document.getElementById('codeDisplay');
+            const codes = codeDisplay?.querySelectorAll('.code-number');
+            const newCodes = ['0xE4B9', '0x2C7F', '0xD15A', '0x8E32', '0xF0C6'];
+            
+            if (codes) {
+                codes.forEach((code, index) => {
+                    code.style.animation = 'none';
+                    code.offsetHeight;
+                    code.style.animation = 'flicker 0.5s';
+                    code.textContent = newCodes[index];
+                });
+            }
+            
+            if (matrixInterval) clearInterval(matrixInterval);
+            
+            startMatrixEffect();
+            showNotification('configurações injetadas!', '💉', 'XIT');
+            
+            setTimeout(() => {
+                const effect = document.getElementById('matrixEffect');
+                if (effect) effect.classList.remove('active');
+                if (matrixInterval) {
+                    clearInterval(matrixInterval);
+                    matrixInterval = null;
+                }
+            }, 5000);
+        }
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        window.onload = function() {
+            startMatrix();
+            
+            music.volume = 0.3;
+            playMusic();
+            musicPlaying = true;
+            
+            updateHzFromSlider();
+            
+            const delayValue = document.getElementById('delayValue');
+            if (delayValue) delayValue.textContent = '16ms';
+            
+            checkSavedSession();
+        };
     </script>
 </body>
 </html>
