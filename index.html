@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEXTTER EXTERNAL</title>
     <style>
-        /* SEU CSS COMPLETO AQUI (igual ao anterior) */
         * {
             margin: 0;
             padding: 0;
@@ -422,6 +421,10 @@
             gap: 8px;
         }
 
+        .config-title span {
+            font-size: 22px;
+        }
+
         .slider {
             width: 100%;
             height: 8px;
@@ -563,12 +566,31 @@
             box-shadow: 0 0 30px #00e0ff;
         }
 
+        .iphone-title {
+            color: #00e0ff;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .professional-package {
             background: linear-gradient(145deg, #1a1f33, #0d0f1a);
             border: 3px solid #00e0ff;
             border-radius: 30px;
             padding: 20px;
             margin-bottom: 25px;
+        }
+
+        .professional-title {
+            color: #00e0ff;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .professional-options {
@@ -592,6 +614,12 @@
             color: #0d0f1a;
         }
 
+        .option-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
         .injector-area {
             background: #0a0e17;
             border-radius: 50px;
@@ -599,8 +627,6 @@
             border: 2px solid #00e0ff;
             margin-top: 20px;
             text-align: center;
-            position: relative;
-            z-index: 20;
         }
 
         .syringe-container {
@@ -705,12 +731,20 @@
             font-size: 16px;
             cursor: pointer;
             border: 2px solid #fff;
-            position: relative;
-            z-index: 30;
         }
 
         .hidden {
             display: none;
+        }
+
+        .status-display {
+            color: #00e0ff;
+            font-size: 16px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #131725;
+            border-radius: 15px;
+            text-align: center;
         }
 
         .music-control {
@@ -800,10 +834,9 @@
             <input type="text" id="userKey" placeholder="XXXX-XXXX-XXXX-XXXX" style="text-transform:uppercase;">
         </div>
 
-        <!-- OPÇÃO DE MANTER CONECTADO -->
         <div class="remember-group">
             <input type="checkbox" id="rememberMe" checked>
-            <label for="rememberMe">Manter conectado (ficar logado mesmo fechando)</label>
+            <label for="rememberMe">Manter conectado</label>
         </div>
 
         <button class="login-btn" onclick="validateKey()">
@@ -875,19 +908,19 @@
                 <!-- ABA 1 - Aimbot -->
                 <div id="tab1" class="tab-pane">
                     <div class="config-item">
-                        <div class="config-title"><span>🎯</span> Aimbot Legith (Não passa da cabeça)</div>
+                        <div class="config-title"><span>🎯</span> Aimbot Legith</div>
                         <div class="toggle-switch" id="aimbotToggle"></div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>📦</span> Norecoil / Precisão</div>
+                        <div class="config-title"><span>📦</span> Norecoil</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="norecoilSlider">
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⚡</span> Resposta Instantânea (Input Lag)</div>
+                        <div class="config-title"><span>⚡</span> Input Lag</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="inputlagSlider">
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>💥</span> Balas Espalhando (Precisão)</div>
+                        <div class="config-title"><span>💥</span> Spread</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="spreadSlider">
                     </div>
                 </div>
@@ -895,7 +928,7 @@
                 <!-- ABA 2 - Rastro -->
                 <div id="tab2" class="tab-pane hidden">
                     <div class="config-item">
-                        <div class="config-title"><span>🎯</span> Alcance do Rastro</div>
+                        <div class="config-title"><span>🎯</span> Rastro</div>
                         <div class="trace-vertical">
                             <div class="trace-option" data-value="curto">🔹 CURTO</div>
                             <div class="trace-option" data-value="medio">🔸 MÉDIO</div>
@@ -903,7 +936,7 @@
                         </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⚡</span> Taxa de Atualização (Hz)</div>
+                        <div class="config-title"><span>⚡</span> Hz</div>
                         <div class="hz-slider-container">
                             <input type="range" min="0" max="2" step="1" value="0" class="hz-slider" id="hzSlider">
                             <div class="hz-markers">
@@ -921,13 +954,13 @@
                     <div class="professional-package">
                         <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
                         <div class="professional-options">
-                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Mais Bonito</div>
+                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Bonito</div>
                             <div class="professional-option" data-prof="2"><span class="option-icon">🧹</span>Limpar Cache</div>
                             <div class="professional-option" data-prof="3"><span class="option-icon">📶</span>Melhorar Ping</div>
                         </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>🧹</span> Otimização de Recursos</div>
+                        <div class="config-title"><span>🧹</span> Otimização</div>
                         <div class="toggle-switch" id="optimizeToggle"></div>
                     </div>
                     <div class="config-item">
@@ -935,9 +968,9 @@
                         <div class="toggle-switch" id="fastResponseToggle"></div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⏱️</span> TIRAR DELAY</div>
+                        <div class="config-title"><span>⏱️</span> Tirar Delay</div>
                         <div class="toggle-switch" id="removeDelayToggle"></div>
-                        <p style="color: #fff; margin-top: 10px;">Delay atual: <span id="delayValue" style="color: #00e0ff;">16ms (normal)</span></p>
+                        <p style="color:#fff; margin-top:10px;">Delay: <span id="delayValue">16ms</span></p>
                     </div>
                 </div>
 
@@ -954,19 +987,19 @@
                             <div class="iphone-title">📱 iPhone 16</div>
                         </div>
                     </div>
-                    <div style="margin-top: 30px;">
-                        <div class="config-title">Instabilidade da mira</div>
+                    <div style="margin-top:30px;">
+                        <div class="config-title">Instabilidade</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="iphoneInstability">
-                        <div class="config-title" style="margin-top:15px;">Intensidade da puxada</div>
+                        <div class="config-title" style="margin-top:15px;">Puxada</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="iphonePull">
                     </div>
-                    <div id="selectedIphone" class="status-display" style="margin-top:20px;">Nenhum iPhone selecionado</div>
+                    <div id="selectedIphone" class="status-display">Nenhum iPhone selecionado</div>
                 </div>
 
                 <!-- ABA 5 - Injeção -->
                 <div id="tab5" class="tab-pane hidden">
                     <div class="injector-area">
-                        <div class="config-title"><span>💉</span> INJETOR DYNAMIC</div>
+                        <div class="config-title"><span>💉</span> INJETOR</div>
                         <div class="syringe-container">
                             <span class="bubble">💊</span>
                             <span class="syringe">💉</span>
@@ -981,13 +1014,13 @@
                         </div>
                         <div class="ff-selector">
                             <div class="ff-option" id="ffMax">FF MAX</div>
-                            <div class="ff-option" id="ffNormal">FF NORMAL</div>
+                            <div class="ff-option active" id="ffNormal">FF NORMAL</div>
                         </div>
                         <div class="ff-buttons">
                             <button class="ff-button" onclick="abrirFF()"><span>🔥</span> Free Fire</button>
                             <button class="ff-button" onclick="abrirFFMax()"><span>⚡</span> Free Fire MAX</button>
                         </div>
-                        <button id="injectButton" onclick="injectWithMatrix()">💉 INJETAR CÓDIGOS</button>
+                        <button onclick="injectWithMatrix()">💉 INJETAR</button>
                     </div>
                 </div>
             </div>
@@ -1033,6 +1066,110 @@
         };
 
         // ============================================
+        // INICIALIZAR ÁUDIO
+        // ============================================
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // ============================================
+        // SONS
+        // ============================================
+        function playToggleSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function playSelectSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 600;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.05);
+        }
+
+        function playSuccessSound() {
+            initAudio();
+            if (!audioContext) return;
+            
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator1.type = 'sine';
+            oscillator1.frequency.value = 600;
+            oscillator2.type = 'sine';
+            oscillator2.frequency.value = 800;
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            gainNode.gain.value = 0.1;
+            
+            oscillator1.start();
+            oscillator2.start();
+            oscillator1.stop(audioContext.currentTime + 0.1);
+            oscillator2.stop(audioContext.currentTime + 0.15);
+        }
+
+        // ============================================
+        // MÚSICA
+        // ============================================
+        function playMusic() {
+            music.play().catch(e => {
+                document.addEventListener('click', function playOnClick() {
+                    music.play();
+                    document.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                music.pause();
+                musicIcon.textContent = '🔇';
+                musicPlaying = false;
+            } else {
+                music.play();
+                musicIcon.textContent = '🔊';
+                musicPlaying = true;
+            }
+        }
+
+        function adjustVolume(value) {
+            music.volume = value / 100;
+        }
+
+        // ============================================
         // MATRIX BACKGROUND
         // ============================================
         function startMatrix() {
@@ -1071,53 +1208,6 @@
         }
 
         // ============================================
-        // VERIFICAR SESSÃO SALVA
-        // ============================================
-        function checkSavedSession() {
-            const savedSession = localStorage.getItem('fextter_session');
-            
-            if (savedSession) {
-                const session = JSON.parse(savedSession);
-                
-                // Verifica se a sessão ainda é válida
-                if (session.expiresAt) {
-                    const expiry = new Date(session.expiresAt);
-                    if (new Date() > expiry) {
-                        localStorage.removeItem('fextter_session');
-                        return false;
-                    }
-                }
-                
-                // Se for key permanente ou master, mantém logado
-                if (session.days === 999 || session.isMaster) {
-                    restoreSession(session);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // ============================================
-        // RESTAURAR SESSÃO
-        // ============================================
-        function restoreSession(session) {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('panelContainer').classList.add('active');
-            
-            document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
-            document.getElementById('userNameDisplay').textContent = session.userName;
-            
-            if (session.isMaster) {
-                document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-            } else {
-                let keyText = session.days === 999 ? 'Permanente' : `${session.days} dias`;
-                document.getElementById('userKeyType').textContent = keyText;
-            }
-            
-            console.log('🔄 Sessão restaurada para:', session.userName);
-        }
-
-        // ============================================
         // LOGIN
         // ============================================
         function validateKey() {
@@ -1135,9 +1225,8 @@
                 return;
             }
 
-            // VERIFICA KEY MESTRA
+            // KEY MESTRA
             if (userKey === MASTER_KEY) {
-                // Key mestra - acesso total!
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').classList.add('active');
                 
@@ -1145,7 +1234,6 @@
                 document.getElementById('userNameDisplay').textContent = userName;
                 document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
                 
-                // Salva sessão se "Manter conectado" estiver marcado
                 if (rememberMe) {
                     const session = {
                         userName: userName,
@@ -1157,11 +1245,12 @@
                     localStorage.setItem('fextter_session', JSON.stringify(session));
                 }
                 
+                playSuccessSound();
                 showNotification('Acesso master liberado!', '👑', 'ADMIN');
                 return;
             }
 
-            // VERIFICA KEYS NORMAIS
+            // KEYS NORMAIS
             const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
             const key = keys.find(k => k.code === userKey);
 
@@ -1171,34 +1260,6 @@
                 return;
             }
 
-            if (!key.isActive) {
-                errorMsg.textContent = '❌ Key desativada!';
-                errorMsg.style.display = 'block';
-                return;
-            }
-
-            if (key.days !== 999 && key.expiryDate) {
-                const expiry = new Date(key.expiryDate);
-                if (new Date() > expiry) {
-                    errorMsg.textContent = '❌ Key expirada!';
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-            }
-
-            if (!key.usedBy) key.usedBy = [];
-
-            if (!key.usedBy.includes(userName)) {
-                if (key.usedBy.length >= key.phones) {
-                    errorMsg.textContent = `❌ Limite de ${key.phones} usuários!`;
-                    errorMsg.style.display = 'block';
-                    return;
-                }
-                key.usedBy.push(userName);
-                localStorage.setItem('fextter_keys', JSON.stringify(keys));
-            }
-
-            // Mostra painel
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('panelContainer').classList.add('active');
             
@@ -1208,36 +1269,60 @@
             let keyText = key.days === 999 ? 'Permanente' : `${key.days} dias`;
             document.getElementById('userKeyType').textContent = keyText;
 
-            // Salva sessão se "Manter conectado" estiver marcado
             if (rememberMe) {
                 const session = {
                     userName: userName,
                     key: key.code,
                     loginTime: new Date().toISOString(),
-                    expiresAt: key.expiryDate,
                     days: key.days,
                     isMaster: false
                 };
                 localStorage.setItem('fextter_session', JSON.stringify(session));
             }
+            
+            playSuccessSound();
         }
 
-        // ============================================
-        // LOGOUT (LIMPAR SESSÃO)
-        // ============================================
         function logout() {
             localStorage.removeItem('fextter_session');
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('panelContainer').classList.remove('active');
             document.getElementById('userName').value = '';
             document.getElementById('userKey').value = '';
+            playSelectSound();
         }
 
         // ============================================
-        // FUNÇÕES ADMIN
+        // VERIFICAR SESSÃO
+        // ============================================
+        function checkSavedSession() {
+            const savedSession = localStorage.getItem('fextter_session');
+            
+            if (savedSession) {
+                const session = JSON.parse(savedSession);
+                
+                if (session.days === 999 || session.isMaster) {
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('panelContainer').classList.add('active');
+                    
+                    document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
+                    document.getElementById('userNameDisplay').textContent = session.userName;
+                    
+                    if (session.isMaster) {
+                        document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+                    } else {
+                        document.getElementById('userKeyType').textContent = 'Permanente';
+                    }
+                }
+            }
+        }
+
+        // ============================================
+        // ADMIN
         // ============================================
         function showAdminModal() {
             document.getElementById('adminModal').classList.add('active');
+            playSelectSound();
         }
 
         function hideAdminModal() {
@@ -1250,11 +1335,13 @@
             const key = document.getElementById('adminKey').value;
             
             if (key === MASTER_KEY) {
-                window.open('https://seuusuario.github.io/repositorio/admin.html', '_blank');
+                window.open('https://enzorany651-ux.github.io/FextterX/admin.html', '_blank');
                 hideAdminModal();
+                playSuccessSound();
                 showNotification('Acesso admin liberado!', '👑', 'ADMIN');
             } else {
                 document.getElementById('adminError').style.display = 'block';
+                playToggleSound();
             }
         }
 
@@ -1282,24 +1369,6 @@
         }
 
         // ============================================
-        // MÚSICA
-        // ============================================
-        function toggleMusic() {
-            if (musicPlaying) {
-                music.pause();
-                musicIcon.textContent = '🔇';
-            } else {
-                music.play();
-                musicIcon.textContent = '🔊';
-            }
-            musicPlaying = !musicPlaying;
-        }
-
-        function adjustVolume(value) {
-            music.volume = value / 100;
-        }
-
-        // ============================================
         // FUNÇÕES DO FREE FIRE
         // ============================================
         function abrirFF() {
@@ -1308,6 +1377,7 @@
             setTimeout(() => {
                 window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefireth";
             }, 2000);
+            playSelectSound();
         }
 
         function abrirFFMax() {
@@ -1316,37 +1386,35 @@
             setTimeout(() => {
                 window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefiremax";
             }, 2000);
+            playSelectSound();
         }
 
-        function selectFF(type) {
-            const ffMax = document.getElementById('ffMax');
-            const ffNormal = document.getElementById('ffNormal');
-            
-            if (type === 'max') {
+        // ============================================
+        // SELETOR FF NORMAL/MAX
+        // ============================================
+        const ffMax = document.getElementById('ffMax');
+        const ffNormal = document.getElementById('ffNormal');
+
+        if (ffMax && ffNormal) {
+            ffMax.addEventListener('click', function() {
                 ffMax.classList.add('active');
                 ffNormal.classList.remove('active');
                 activeConfig.ff = 'max';
-            } else {
+                playSelectSound();
+                showNotification('FF MAX selecionado', '🔥', 'FF');
+            });
+
+            ffNormal.addEventListener('click', function() {
                 ffNormal.classList.add('active');
                 ffMax.classList.remove('active');
                 activeConfig.ff = 'normal';
-            }
+                playSelectSound();
+                showNotification('FF NORMAL selecionado', '📱', 'FF');
+            });
         }
 
         // ============================================
-        // FUNÇÕES DO PACOTE PROFISSIONAL
-        // ============================================
-        function toggleProfessionalOption(option) {
-            option.classList.toggle('active');
-            
-            const text = option.querySelector('.option-text')?.textContent || option.textContent;
-            if (text.includes('Jogo Mais Bonito')) activeConfig.prof1 = option.classList.contains('active');
-            else if (text.includes('Limpar Cache')) activeConfig.prof2 = option.classList.contains('active');
-            else if (text.includes('Melhorar Ping')) activeConfig.prof3 = option.classList.contains('active');
-        }
-
-        // ============================================
-        // FUNÇÕES DAS ABAS
+        // ABAS
         // ============================================
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabPanes = document.querySelectorAll('.tab-pane');
@@ -1358,16 +1426,18 @@
                 button.classList.add('active');
                 tabPanes.forEach(pane => pane.classList.add('hidden'));
                 document.getElementById(tabId).classList.remove('hidden');
+                playSelectSound();
             });
         });
 
         // ============================================
-        // FUNÇÕES DOS TOGGLES
+        // TOGGLES
         // ============================================
         const toggles = document.querySelectorAll('.toggle-switch');
         toggles.forEach(toggle => {
             toggle.addEventListener('click', function() {
                 this.classList.toggle('active');
+                playToggleSound();
                 
                 if (this.id === 'aimbotToggle') {
                     activeConfig.aimbot = this.classList.contains('active');
@@ -1377,16 +1447,13 @@
                     activeConfig.fastResponse = this.classList.contains('active');
                 } else if (this.id === 'removeDelayToggle') {
                     activeConfig.removeDelay = this.classList.contains('active');
-                    const delayValue = document.getElementById('delayValue');
-                    if (delayValue) {
-                        delayValue.textContent = this.classList.contains('active') ? '0ms (eliminado)' : '16ms (normal)';
-                    }
+                    document.getElementById('delayValue').textContent = this.classList.contains('active') ? '0ms' : '16ms';
                 }
             });
         });
 
         // ============================================
-        // FUNÇÕES DO RASTRO
+        // RASTRO
         // ============================================
         const traceOptions = document.querySelectorAll('.trace-option');
         const traceStatus = document.getElementById('traceStatus');
@@ -1395,6 +1462,7 @@
             option.addEventListener('click', function() {
                 traceOptions.forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
+                playSelectSound();
                 
                 const value = this.getAttribute('data-value');
                 activeConfig.rastro = value;
@@ -1404,7 +1472,7 @@
         });
 
         // ============================================
-        // FUNÇÕES DO HZ
+        // HZ
         // ============================================
         const hzSlider = document.getElementById('hzSlider');
         const hzMarkers = document.querySelectorAll('.hz-marker');
@@ -1454,7 +1522,7 @@
         }
 
         // ============================================
-        // FUNÇÕES DO IPHONE
+        // IPHONE
         // ============================================
         const iphoneCards = document.querySelectorAll('.iphone-card');
         const selectedIphoneDiv = document.getElementById('selectedIphone');
@@ -1463,6 +1531,7 @@
             card.addEventListener('click', function() {
                 iphoneCards.forEach(c => c.classList.remove('selected'));
                 this.classList.add('selected');
+                playSelectSound();
                 
                 const iphoneModel = this.getAttribute('data-iphone');
                 let modelName = '';
@@ -1490,7 +1559,29 @@
         });
 
         // ============================================
-        // FUNÇÕES DOS SLIDERS
+        // PACOTE PROFISSIONAL
+        // ============================================
+        const professionalOptions = document.querySelectorAll('.professional-option');
+        
+        professionalOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('active');
+                playToggleSound();
+                
+                const text = this.textContent;
+                
+                if (text.includes('Jogo Bonito')) {
+                    activeConfig.prof1 = this.classList.contains('active');
+                } else if (text.includes('Limpar Cache')) {
+                    activeConfig.prof2 = this.classList.contains('active');
+                } else if (text.includes('Melhorar Ping')) {
+                    activeConfig.prof3 = this.classList.contains('active');
+                }
+            });
+        });
+
+        // ============================================
+        // SLIDERS
         // ============================================
         document.getElementById('norecoilSlider')?.addEventListener('input', function(e) {
             activeConfig.norecoil = e.target.value;
@@ -1513,17 +1604,13 @@
         });
 
         // ============================================
-        // FUNÇÃO DE INJEÇÃO
+        // INJEÇÃO
         // ============================================
         function injectConfig() {
-            console.log('🚀 CONFIGURAÇÕES INJETADAS:', activeConfig);
             localStorage.setItem('ffActiveConfig', JSON.stringify(activeConfig));
             return true;
         }
 
-        // ============================================
-        // EFEITO MATRIX
-        // ============================================
         function startMatrixEffect() {
             const canvas = document.getElementById('matrixEffect');
             if (!canvas) return;
@@ -1569,6 +1656,7 @@
 
         function injectWithMatrix() {
             injectConfig();
+            playSuccessSound();
             
             const codeDisplay = document.getElementById('codeDisplay');
             const codes = codeDisplay?.querySelectorAll('.code-number');
@@ -1603,25 +1691,16 @@
         // ============================================
         window.onload = function() {
             startMatrix();
+            
             music.volume = 0.3;
-            music.play().catch(() => {});
+            playMusic();
             musicPlaying = true;
             
             updateHzFromSlider();
-            updateTraceStatus();
             
             const delayValue = document.getElementById('delayValue');
-            if (delayValue) delayValue.textContent = '16ms (normal)';
+            if (delayValue) delayValue.textContent = '16ms';
             
-            // Inicializa FF Normal como ativo
-            const ffNormal = document.getElementById('ffNormal');
-            const ffMax = document.getElementById('ffMax');
-            if (ffNormal && ffMax) {
-                ffNormal.classList.add('active');
-                activeConfig.ff = 'normal';
-            }
-            
-            // VERIFICA SE TEM SESSÃO SALVA
             checkSavedSession();
         };
     </script>
