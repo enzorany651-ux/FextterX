@@ -1164,23 +1164,6 @@
         .iphone-notification.show {
             transform: translateX(-50%) translateY(0);
         }
-
-        /* BOTÃO DEBUG */
-        .debug-btn {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 9999;
-            background: #ff3366;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            border: 2px solid #fff;
-            box-shadow: 0 0 20px #ff3366;
-        }
     </style>
 </head>
 <body>
@@ -1461,9 +1444,6 @@
         </div>
     </div>
 
-    <!-- BOTÃO DEBUG -->
-    <button class="debug-btn" onclick="debugKeys()">🔍 VER KEYS</button>
-
     <audio id="backgroundMusic" loop preload="auto">
         <source src="https://s3.amazonaws.com/audio-files/doors-light-funk-ultra-slowed.mp3" type="audio/mpeg">
     </audio>
@@ -1504,15 +1484,6 @@
             pull: 50,
             ff: 'normal'
         };
-
-        // ============================================
-        // FUNÇÃO DEBUG
-        // ============================================
-        function debugKeys() {
-            const keys = localStorage.getItem('fextter_keys');
-            alert('KEYS NO LOCALSTORAGE:\n' + keys);
-            console.log('KEYS:', keys);
-        }
 
         // ============================================
         // INICIALIZAR ÁUDIO
