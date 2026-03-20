@@ -1621,7 +1621,7 @@
         }
 
         // ============================================
-        // LOGIN
+        // LOGIN (CORRIGIDO)
         // ============================================
         function validateKey() {
             const userName = document.getElementById('userName').value.trim();
@@ -1638,7 +1638,7 @@
                 return;
             }
 
-            // KEY MESTRA
+            // KEY MESTRA (ADMIN)
             if (userKey === MASTER_KEY) {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
@@ -1663,16 +1663,50 @@
                 return;
             }
 
-            // KEYS NORMAIS
+            // 🔴 CORREÇÃO: Busca as keys do localStorage
             const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            console.log('Keys disponíveis:', keys); // Debug
+            
+            // Procura a key exata
             const key = keys.find(k => k.code === userKey);
 
             if (!key) {
                 errorMsg.textContent = '❌ Key inválida!';
                 errorMsg.style.display = 'block';
+                console.log('Key não encontrada:', userKey); // Debug
                 return;
             }
 
+            if (!key.isActive) {
+                errorMsg.textContent = '❌ Key desativada!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Verifica expiração
+            if (key.days !== 999 && key.expiryDate) {
+                const expiry = new Date(key.expiryDate);
+                if (new Date() > expiry) {
+                    errorMsg.textContent = '❌ Key expirada!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+            }
+
+            // Verifica limite de usuários
+            if (!key.usedBy) key.usedBy = [];
+
+            if (!key.usedBy.includes(userName)) {
+                if (key.usedBy.length >= key.phones) {
+                    errorMsg.textContent = `❌ Limite de ${key.phones} usuários!`;
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                key.usedBy.push(userName);
+                localStorage.setItem('fextter_keys', JSON.stringify(keys));
+            }
+
+            // LOGIN BEM SUCEDIDO
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('panelContainer').style.display = 'block';
             
@@ -1694,6 +1728,7 @@
             }
             
             playSuccessSound();
+            showNotification(`Bem-vindo, ${userName}!`, '✅', 'LOGIN');
         }
 
         function logout() {
