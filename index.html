@@ -891,6 +891,14 @@
             color: #0d0f1a;
         }
 
+        .hz-value {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #00e0ff;
+            font-weight: bold;
+        }
+
         .iphone-selector {
             display: flex;
             flex-direction: column;
@@ -1156,6 +1164,23 @@
         .iphone-notification.show {
             transform: translateX(-50%) translateY(0);
         }
+
+        /* BOTÃO DEBUG */
+        .debug-btn {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 9999;
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+        }
     </style>
 </head>
 <body>
@@ -1373,7 +1398,7 @@
         </div>
     </div>
 
-    <!-- PAINEL ADMIN (inicialmente oculto) -->
+    <!-- PAINEL ADMIN -->
     <div class="admin-panel" id="adminPanel">
         <div class="header">
             <h1>⚡ FEXTTER ADMIN</h1>
@@ -1424,7 +1449,7 @@
         </div>
     </div>
 
-    <!-- Modal de Remoção (Admin) -->
+    <!-- Modal de Remoção -->
     <div class="modal" id="removeModal">
         <div class="modal-content">
             <h2>🗑️ REMOVER KEY</h2>
@@ -1435,6 +1460,9 @@
             </div>
         </div>
     </div>
+
+    <!-- BOTÃO DEBUG -->
+    <button class="debug-btn" onclick="debugKeys()">🔍 VER KEYS</button>
 
     <audio id="backgroundMusic" loop preload="auto">
         <source src="https://s3.amazonaws.com/audio-files/doors-light-funk-ultra-slowed.mp3" type="audio/mpeg">
@@ -1449,13 +1477,12 @@
         let musicPlaying = false;
         let selectedDays = 7;
         let selectedPhones = 1;
-        let keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
         let selectorsVisible = false;
         
         const music = document.getElementById('backgroundMusic');
         const musicIcon = document.getElementById('musicIcon');
         
-        // KEY MESTRA DO ADMIN
+        // KEY MESTRA
         const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
         // CONFIGURAÇÕES ATIVAS
@@ -1477,6 +1504,15 @@
             pull: 50,
             ff: 'normal'
         };
+
+        // ============================================
+        // FUNÇÃO DEBUG
+        // ============================================
+        function debugKeys() {
+            const keys = localStorage.getItem('fextter_keys');
+            alert('KEYS NO LOCALSTORAGE:\n' + keys);
+            console.log('KEYS:', keys);
+        }
 
         // ============================================
         // INICIALIZAR ÁUDIO
@@ -1621,7 +1657,7 @@
         }
 
         // ============================================
-        // LOGIN (CORRIGIDO)
+        // LOGIN
         // ============================================
         function validateKey() {
             const userName = document.getElementById('userName').value.trim();
@@ -1638,7 +1674,7 @@
                 return;
             }
 
-            // KEY MESTRA (ADMIN)
+            // KEY MESTRA
             if (userKey === MASTER_KEY) {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
@@ -1648,14 +1684,10 @@
                 document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
                 
                 if (rememberMe) {
-                    const session = {
+                    localStorage.setItem('fextter_session', JSON.stringify({
                         userName: userName,
-                        key: MASTER_KEY,
-                        loginTime: new Date().toISOString(),
-                        isMaster: true,
-                        days: 999
-                    };
-                    localStorage.setItem('fextter_session', JSON.stringify(session));
+                        isMaster: true
+                    }));
                 }
                 
                 playSuccessSound();
@@ -1663,17 +1695,13 @@
                 return;
             }
 
-            // 🔴 CORREÇÃO: Busca as keys do localStorage
+            // BUSCA KEYS
             const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
-            console.log('Keys disponíveis:', keys); // Debug
-            
-            // Procura a key exata
             const key = keys.find(k => k.code === userKey);
 
             if (!key) {
                 errorMsg.textContent = '❌ Key inválida!';
                 errorMsg.style.display = 'block';
-                console.log('Key não encontrada:', userKey); // Debug
                 return;
             }
 
@@ -1683,7 +1711,7 @@
                 return;
             }
 
-            // Verifica expiração
+            // VERIFICA EXPIRAÇÃO
             if (key.days !== 999 && key.expiryDate) {
                 const expiry = new Date(key.expiryDate);
                 if (new Date() > expiry) {
@@ -1693,7 +1721,7 @@
                 }
             }
 
-            // Verifica limite de usuários
+            // VERIFICA LIMITE
             if (!key.usedBy) key.usedBy = [];
 
             if (!key.usedBy.includes(userName)) {
@@ -1706,7 +1734,7 @@
                 localStorage.setItem('fextter_keys', JSON.stringify(keys));
             }
 
-            // LOGIN BEM SUCEDIDO
+            // LOGIN OK
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('panelContainer').style.display = 'block';
             
@@ -1717,14 +1745,10 @@
             document.getElementById('userKeyType').textContent = keyText;
 
             if (rememberMe) {
-                const session = {
+                localStorage.setItem('fextter_session', JSON.stringify({
                     userName: userName,
-                    key: key.code,
-                    loginTime: new Date().toISOString(),
-                    days: key.days,
-                    isMaster: false
-                };
-                localStorage.setItem('fextter_session', JSON.stringify(session));
+                    days: key.days
+                }));
             }
             
             playSuccessSound();
@@ -1750,24 +1774,22 @@
             if (savedSession) {
                 const session = JSON.parse(savedSession);
                 
-                if (session.days === 999 || session.isMaster) {
-                    document.getElementById('loginContainer').style.display = 'none';
-                    document.getElementById('panelContainer').style.display = 'block';
-                    
-                    document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
-                    document.getElementById('userNameDisplay').textContent = session.userName;
-                    
-                    if (session.isMaster) {
-                        document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-                    } else {
-                        document.getElementById('userKeyType').textContent = 'Permanente';
-                    }
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').style.display = 'block';
+                
+                document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
+                document.getElementById('userNameDisplay').textContent = session.userName;
+                
+                if (session.isMaster) {
+                    document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+                } else {
+                    document.getElementById('userKeyType').textContent = 'Permanente';
                 }
             }
         }
 
         // ============================================
-        // ADMIN (MOSTRA PAINEL NA MESMA PÁGINA)
+        // ADMIN
         // ============================================
         function showAdminModal() {
             document.getElementById('adminModal').classList.add('active');
@@ -1784,19 +1806,14 @@
             const key = document.getElementById('adminKey').value;
             
             if (key === MASTER_KEY) {
-                // ESCONDE PAINEL PRINCIPAL
                 document.getElementById('panelContainer').style.display = 'none';
-                
-                // MOSTRA PAINEL ADMIN
                 document.getElementById('adminPanel').style.display = 'block';
                 
                 hideAdminModal();
                 playSuccessSound();
                 showNotification('Painel admin ativado!', '👑', 'ADMIN');
                 
-                // Renderiza as keys no admin
-                renderKeys();
-                updateStats();
+                loadKeys();
             } else {
                 document.getElementById('adminError').style.display = 'block';
                 playToggleSound();
@@ -1817,8 +1834,19 @@
         };
 
         // ============================================
-        // FUNÇÕES DO ADMIN (GERADOR DE KEYS)
+        // FUNÇÕES DO ADMIN
         // ============================================
+        function loadKeys() {
+            const savedKeys = localStorage.getItem('fextter_keys');
+            if (savedKeys) {
+                window.keys = JSON.parse(savedKeys);
+            } else {
+                window.keys = [];
+            }
+            renderKeys();
+            updateStats();
+        }
+
         function toggleSelectors() {
             selectorsVisible = !selectorsVisible;
             const daysSelector = document.getElementById('daysSelector');
@@ -1829,8 +1857,6 @@
                 daysSelector.style.display = 'flex';
                 phonesSelector.style.display = 'flex';
                 confirmBtn.classList.add('show');
-                selectDays(7);
-                selectPhones(1);
             } else {
                 daysSelector.style.display = 'none';
                 phonesSelector.style.display = 'none';
@@ -1879,11 +1905,16 @@
                 isActive: true
             };
 
-            keys.unshift(newKey);
-            saveKeys();
+            let existingKeys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            existingKeys.unshift(newKey);
+            localStorage.setItem('fextter_keys', JSON.stringify(existingKeys));
+            
+            window.keys = existingKeys;
+            
             renderKeys();
             updateStats();
-            alert('✅ Key gerada: ' + code);
+            
+            alert('✅ KEY GERADA COM SUCESSO!\n\n' + code);
         }
 
         function renderKeys() {
@@ -1892,6 +1923,8 @@
             
             list.innerHTML = '';
 
+            const keys = window.keys || [];
+            
             keys.forEach(key => {
                 const keyElement = document.createElement('div');
                 keyElement.className = 'key-item';
@@ -1930,8 +1963,10 @@
 
         function deleteKey(code) {
             if (confirm('Remover esta key?')) {
+                let keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
                 keys = keys.filter(k => k.code !== code);
-                saveKeys();
+                localStorage.setItem('fextter_keys', JSON.stringify(keys));
+                window.keys = keys;
                 renderKeys();
                 updateStats();
             }
@@ -1954,11 +1989,8 @@
             }
         }
 
-        function saveKeys() {
-            localStorage.setItem('fextter_keys', JSON.stringify(keys));
-        }
-
         function updateStats() {
+            const keys = window.keys || [];
             const total = keys.length;
             const active = keys.filter(k => k.isActive).length;
             const used = keys.filter(k => k.usedBy && k.usedBy.length > 0).length;
@@ -2010,7 +2042,7 @@
         }
 
         // ============================================
-        // SELETOR FF NORMAL/MAX
+        // SELETOR FF
         // ============================================
         const ffMax = document.getElementById('ffMax');
         const ffNormal = document.getElementById('ffNormal');
