@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FEXTTER - LOGIN</title>
+    <title>FEXTTER EXTERNAL</title>
     <style>
+        /* SEU CSS COMPLETO AQUI (igual ao anterior) */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +24,6 @@
             overflow: hidden;
         }
 
-        /* Matrix Background */
         #matrixCanvas {
             position: fixed;
             top: 0;
@@ -31,12 +31,12 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.2;
+            opacity: 0.15;
             pointer-events: none;
         }
 
-        /* Painel de Login */
-        .login-panel {
+        /* TELA DE LOGIN */
+        .login-container {
             width: 450px;
             background: #0d0f1a;
             border: 2px solid #00e0ff;
@@ -44,8 +44,15 @@
             box-shadow: 0 0 50px rgba(0, 224, 255, 0.3);
             padding: 40px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-container.hidden {
+            display: none;
         }
 
         .logo {
@@ -61,13 +68,8 @@
             letter-spacing: 2px;
         }
 
-        .logo span {
-            color: #fff;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-
         .input-group {
+            width: 100%;
             margin-bottom: 20px;
         }
 
@@ -96,8 +98,20 @@
             box-shadow: 0 0 20px #00e0ff;
         }
 
-        .input-group input::placeholder {
-            color: #ffffff40;
+        .remember-group {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .remember-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #00e0ff;
         }
 
         .login-btn {
@@ -131,99 +145,853 @@
             padding: 10px;
             border-radius: 10px;
             border: 1px solid #ff3366;
+            width: 100%;
         }
 
-        .success-message {
-            color: #00e0ff;
-            text-align: center;
-            margin: 10px 0;
-            font-size: 14px;
+        /* PAINEL PRINCIPAL */
+        .panel {
+            width: 1000px;
+            background: #0d0f1a;
+            border: 2px solid #00e0ff;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(0, 224, 255, 0.3);
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
             display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Header do usuário */
+        .user-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 224, 255, 0.05);
+            border: 1px solid #00e0ff40;
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #00e0ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0d0f1a;
+            font-weight: bold;
+            font-size: 20px;
+            border: 2px solid #fff;
+        }
+
+        .user-name {
+            color: #00e0ff;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .user-key-type {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: #ff3366;
+            border: 1px solid #ff3366;
+            border-radius: 30px;
+            padding: 6px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff3366;
+            color: #fff;
+        }
+
+        /* BOTÃO ADM */
+        .admin-btn {
+            position: absolute;
+            top: 100px;
+            right: 30px;
+            background: transparent;
+            color: #00e0ff30;
+            border: 1px solid #00e0ff30;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 10px;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .admin-btn:hover {
+            color: #00e0ff;
+            border-color: #00e0ff;
             background: #00e0ff10;
-            padding: 10px;
+        }
+
+        /* Modal Admin */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .admin-box {
+            width: 400px;
+            background: #0d0f1a;
+            border: 3px solid #9b4dff;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 0 60px #9b4dff;
+        }
+
+        .admin-box h2 {
+            color: #9b4dff;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .admin-box input {
+            width: 100%;
+            padding: 15px;
+            background: #0a0a12;
+            border: 2px solid #9b4dff;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .admin-box button {
+            width: 100%;
+            padding: 15px;
+            background: #9b4dff;
+            color: #0a0a12;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .admin-error {
+            color: #ff3366;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* Header do painel */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #00e0ff40;
+        }
+
+        .header-emoji {
+            font-size: 32px;
+            filter: drop-shadow(0 0 10px #00e0ff);
+            color: #00e0ff;
+        }
+
+        .header h1 {
+            color: #00e0ff;
+            font-size: 32px;
+            font-weight: 800;
+            text-shadow: 0 0 15px #00e0ff;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tabs-vertical {
+            width: 140px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tab-button {
+            background: #131725;
+            border: 2px solid #00e0ff;
+            border-radius: 25px;
+            padding: 15px 5px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tab-button span {
+            font-size: 24px;
+            filter: drop-shadow(0 0 8px #00e0ff);
+            color: #00e0ff;
+        }
+
+        .tab-button.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+            box-shadow: 0 0 25px #00e0ff;
+        }
+
+        .tab-content {
+            flex: 1;
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #00e0ff;
+            border-radius: 30px;
+            padding: 25px;
+            min-height: 550px;
+            position: relative;
+        }
+
+        #matrixEffect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: 30px;
+        }
+
+        #matrixEffect.active {
+            opacity: 0.9;
+        }
+
+        .config-item {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #00e0ff60;
+            padding-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .config-title {
+            color: #00e0ff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            background: #1e2538;
             border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px #00e0ff;
+            border: 2px solid white;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: #1e2538;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #00e0ff;
+            display: inline-block;
+        }
+
+        .toggle-switch.active {
+            background: #00e0ff;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .trace-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .trace-option {
+            background: #1e2538;
+            border: 2px solid #00e0ff60;
+            border-radius: 30px;
+            padding: 12px 20px;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .trace-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+            box-shadow: 0 0 20px #00e0ff;
+        }
+
+        .hz-slider-container {
+            margin: 30px 0;
+        }
+
+        .hz-slider {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #00e0ff 0%, #00e0ff 33%, #fff 33%, #fff 66%, #00e0ff 66%, #00e0ff 100%);
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .hz-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 20px #00e0ff;
+            border: 3px solid white;
+        }
+
+        .hz-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .hz-marker {
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: #1e2538;
+            border: 1px solid #00e0ff;
+            color: #00e0ff;
+        }
+
+        .hz-marker.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .iphone-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .iphone-card {
+            background: #131725;
+            border: 2px solid #00e0ff40;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .iphone-card.selected {
+            border-color: #00e0ff;
+            box-shadow: 0 0 30px #00e0ff;
+        }
+
+        .professional-package {
+            background: linear-gradient(145deg, #1a1f33, #0d0f1a);
+            border: 3px solid #00e0ff;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .professional-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .professional-option {
+            background: #131725;
+            border: 2px solid #00e0ff60;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .professional-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .injector-area {
+            background: #0a0e17;
+            border-radius: 50px;
+            padding: 20px;
+            border: 2px solid #00e0ff;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .syringe-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin: 15px 0;
+            font-size: 40px;
+        }
+
+        .syringe {
+            font-size: 60px;
+            transform: rotate(45deg);
+            color: #00e0ff;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: rotate(45deg) scale(1); }
+            50% { opacity: 0.7; transform: rotate(45deg) scale(1.1); }
+        }
+
+        .code-display {
+            background: #00000040;
+            border-radius: 30px;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            border: 1px solid #00e0ff;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .code-number {
+            color: #00e0ff;
+            font-size: 22px;
+            font-weight: bold;
+            background: #131725;
+            padding: 8px 15px;
+            border-radius: 30px;
             border: 1px solid #00e0ff;
         }
 
-        .key-info {
-            background: #131725;
-            border: 1px solid #00e0ff40;
-            border-radius: 15px;
-            padding: 15px;
-            color: #aaa;
-            font-size: 13px;
-            line-height: 1.8;
-            text-align: center;
+        .ff-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 15px 0;
         }
 
-        .key-info span {
-            color: #00e0ff;
+        .ff-option {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: #1e2538;
+            color: #fff;
+            border: 2px solid #00e0ff;
+            cursor: pointer;
             font-weight: bold;
+        }
+
+        .ff-option.active {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        .ff-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .ff-button {
+            background: linear-gradient(145deg, #1e2538, #131725);
+            border: 2px solid #00e0ff;
+            border-radius: 50px;
+            padding: 15px 30px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ff-button:hover {
+            background: #00e0ff;
+            color: #0d0f1a;
+        }
+
+        button {
+            background: #00e0ff;
+            color: #0d0f1a;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            position: relative;
+            z-index: 30;
+        }
+
+        .hidden {
+            display: none;
         }
 
         .music-control {
             position: absolute;
-            bottom: 20px;
-            right: 30px;
+            bottom: 15px;
+            right: 25px;
             z-index: 100;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: rgba(0, 224, 255, 0.1);
             backdrop-filter: blur(5px);
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid #00e0ff60;
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid #00e0ff40;
             cursor: pointer;
         }
 
         .music-icon {
-            font-size: 16px;
+            font-size: 18px;
             color: #00e0ff;
         }
 
-        .music-text {
-            color: #00e0ff;
-            font-size: 12px;
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: #1e2538;
+            border-radius: 10px;
+            outline: none;
+            -webkit-appearance: none;
+            margin-left: 5px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #00e0ff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .iphone-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #00e0ff;
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 40px rgba(0, 224, 255, 0.5);
+            z-index: 9999;
+            transition: transform 0.4s;
+            color: white;
+            font-weight: bold;
+        }
+
+        .iphone-notification.show {
+            transform: translateX(-50%) translateY(0);
         }
     </style>
 </head>
 <body>
     <canvas id="matrixCanvas"></canvas>
 
-    <div class="login-panel">
+    <!-- TELA DE LOGIN -->
+    <div class="login-container" id="loginContainer">
         <div class="logo">
             <h1>⚡ FEXTTER</h1>
-            <span>DIGITE SUA KEY PARA ACESSAR</span>
         </div>
 
         <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
 
         <div class="input-group">
-            <label>👤 SEU NOME</label>
+            <label>👤 NOME</label>
             <input type="text" id="userName" placeholder="Digite seu nome" maxlength="30">
         </div>
 
         <div class="input-group">
-            <label>🔑 SUA KEY</label>
+            <label>🔑 KEY</label>
             <input type="text" id="userKey" placeholder="XXXX-XXXX-XXXX-XXXX" style="text-transform:uppercase;">
         </div>
 
-        <button class="login-btn" onclick="validateKey()">
-            🚀 ENTRAR NO PAINEL
-        </button>
-
-        <div class="key-info">
-            <span>⚠️ IMPORTANTE:</span><br>
-            Use a key gerada no painel ADMIN<br>
-            Cada key tem limite de usuários
+        <!-- OPÇÃO DE MANTER CONECTADO -->
+        <div class="remember-group">
+            <input type="checkbox" id="rememberMe" checked>
+            <label for="rememberMe">Manter conectado (ficar logado mesmo fechando)</label>
         </div>
+
+        <button class="login-btn" onclick="validateKey()">
+            🚀 ENTRAR
+        </button>
     </div>
 
-    <div class="music-control" onclick="toggleMusic()">
-        <span class="music-icon" id="musicIcon">🔊</span>
-        <span class="music-text">DOORS LIGHT FUNK</span>
+    <!-- PAINEL PRINCIPAL -->
+    <div class="panel" id="panelContainer">
+        <!-- BOTÃO ADM -->
+        <button class="admin-btn" onclick="showAdminModal()">ADM</button>
+
+        <!-- Modal Admin -->
+        <div class="admin-modal" id="adminModal">
+            <div class="admin-box">
+                <h2>🔐 ACESSO ADMIN</h2>
+                <input type="password" id="adminKey" placeholder="Digite a key de admin">
+                <button onclick="checkAdminKey()">VALIDAR</button>
+                <div class="admin-error" id="adminError">❌ Key incorreta!</div>
+            </div>
+        </div>
+
+        <!-- Header do usuário -->
+        <div class="user-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar"></div>
+                <div>
+                    <div class="user-name" id="userNameDisplay"></div>
+                    <div class="user-key-type" id="userKeyType"></div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">SAIR</button>
+        </div>
+
+        <!-- Header do painel -->
+        <div class="header">
+            <span class="header-emoji">🎯</span>
+            <h1>FEXTTER EXTERNAL</h1>
+        </div>
+
+        <!-- Notificação -->
+        <div class="iphone-notification" id="iphoneNotification">
+            <span class="notification-emoji" id="notificationEmoji">😈</span>
+            <div class="notification-text">
+                <span id="notificationTitle">XIT</span> <span id="notificationMessage">ativado com sucesso!</span>
+            </div>
+        </div>
+
+        <!-- Música -->
+        <div class="music-control" onclick="toggleMusic()">
+            <span class="music-icon" id="musicIcon">🔊</span>
+            <span class="music-text">DOORS LIGHT FUNK</span>
+            <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="adjustVolume(this.value)">
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs-vertical">
+                <div class="tab-button active" data-tab="tab1"><span>⚡</span> Aimbot Legith</div>
+                <div class="tab-button" data-tab="tab2"><span>🎯</span> Controle de Rastro</div>
+                <div class="tab-button" data-tab="tab3"><span>⚙️</span> Capa Leve</div>
+                <div class="tab-button" data-tab="tab4"><span>📱</span> Perfis iPhone</div>
+                <div class="tab-button" data-tab="tab5"><span>💉</span> Sistema de Injeção</div>
+            </div>
+
+            <div class="tab-content">
+                <canvas id="matrixEffect"></canvas>
+                
+                <!-- ABA 1 - Aimbot -->
+                <div id="tab1" class="tab-pane">
+                    <div class="config-item">
+                        <div class="config-title"><span>🎯</span> Aimbot Legith (Não passa da cabeça)</div>
+                        <div class="toggle-switch" id="aimbotToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>📦</span> Norecoil / Precisão</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="norecoilSlider">
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⚡</span> Resposta Instantânea (Input Lag)</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="inputlagSlider">
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>💥</span> Balas Espalhando (Precisão)</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="spreadSlider">
+                    </div>
+                </div>
+
+                <!-- ABA 2 - Rastro -->
+                <div id="tab2" class="tab-pane hidden">
+                    <div class="config-item">
+                        <div class="config-title"><span>🎯</span> Alcance do Rastro</div>
+                        <div class="trace-vertical">
+                            <div class="trace-option" data-value="curto">🔹 CURTO</div>
+                            <div class="trace-option" data-value="medio">🔸 MÉDIO</div>
+                            <div class="trace-option" data-value="longo">🔹 LONGO</div>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⚡</span> Taxa de Atualização (Hz)</div>
+                        <div class="hz-slider-container">
+                            <input type="range" min="0" max="2" step="1" value="0" class="hz-slider" id="hzSlider">
+                            <div class="hz-markers">
+                                <div class="hz-marker" data-hz="60">60 Hz</div>
+                                <div class="hz-marker" data-hz="120">120 Hz</div>
+                                <div class="hz-marker" data-hz="144">144 Hz</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
+                </div>
+
+                <!-- ABA 3 - Capa Leve -->
+                <div id="tab3" class="tab-pane hidden">
+                    <div class="professional-package">
+                        <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
+                        <div class="professional-options">
+                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Mais Bonito</div>
+                            <div class="professional-option" data-prof="2"><span class="option-icon">🧹</span>Limpar Cache</div>
+                            <div class="professional-option" data-prof="3"><span class="option-icon">📶</span>Melhorar Ping</div>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>🧹</span> Otimização de Recursos</div>
+                        <div class="toggle-switch" id="optimizeToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>🚀</span> Resposta Rápida</div>
+                        <div class="toggle-switch" id="fastResponseToggle"></div>
+                    </div>
+                    <div class="config-item">
+                        <div class="config-title"><span>⏱️</span> TIRAR DELAY</div>
+                        <div class="toggle-switch" id="removeDelayToggle"></div>
+                        <p style="color: #fff; margin-top: 10px;">Delay atual: <span id="delayValue" style="color: #00e0ff;">16ms (normal)</span></p>
+                    </div>
+                </div>
+
+                <!-- ABA 4 - iPhone -->
+                <div id="tab4" class="tab-pane hidden">
+                    <div class="iphone-selector">
+                        <div class="iphone-card" data-iphone="8plus">
+                            <div class="iphone-title">📱 iPhone 8 Plus</div>
+                        </div>
+                        <div class="iphone-card" data-iphone="14promax">
+                            <div class="iphone-title">📱 iPhone 14 Pro Max</div>
+                        </div>
+                        <div class="iphone-card" data-iphone="16">
+                            <div class="iphone-title">📱 iPhone 16</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <div class="config-title">Instabilidade da mira</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="iphoneInstability">
+                        <div class="config-title" style="margin-top:15px;">Intensidade da puxada</div>
+                        <input type="range" min="0" max="100" value="50" class="slider" id="iphonePull">
+                    </div>
+                    <div id="selectedIphone" class="status-display" style="margin-top:20px;">Nenhum iPhone selecionado</div>
+                </div>
+
+                <!-- ABA 5 - Injeção -->
+                <div id="tab5" class="tab-pane hidden">
+                    <div class="injector-area">
+                        <div class="config-title"><span>💉</span> INJETOR DYNAMIC</div>
+                        <div class="syringe-container">
+                            <span class="bubble">💊</span>
+                            <span class="syringe">💉</span>
+                            <span class="bubble">💊</span>
+                        </div>
+                        <div class="code-display">
+                            <span class="code-number">0x7A4F</span>
+                            <span class="code-number">0x3B8C</span>
+                            <span class="code-number">0x9D2E</span>
+                            <span class="code-number">0x5F1A</span>
+                            <span class="code-number">0xC6E3</span>
+                        </div>
+                        <div class="ff-selector">
+                            <div class="ff-option" id="ffMax">FF MAX</div>
+                            <div class="ff-option" id="ffNormal">FF NORMAL</div>
+                        </div>
+                        <div class="ff-buttons">
+                            <button class="ff-button" onclick="abrirFF()"><span>🔥</span> Free Fire</button>
+                            <button class="ff-button" onclick="abrirFFMax()"><span>⚡</span> Free Fire MAX</button>
+                        </div>
+                        <button id="injectButton" onclick="injectWithMatrix()">💉 INJETAR CÓDIGOS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <audio id="backgroundMusic" loop preload="auto">
@@ -232,14 +1000,40 @@
 
     <script>
         // ============================================
-        // VARIÁVEIS
+        // VARIÁVEIS GLOBAIS
         // ============================================
+        let matrixInterval = null;
+        let audioContext = null;
         let musicPlaying = false;
+        
         const music = document.getElementById('backgroundMusic');
         const musicIcon = document.getElementById('musicIcon');
+        
+        // KEY MESTRA DO ADMIN
+        const MASTER_KEY = 'FEXTTER-MASTER-2025';
+
+        // CONFIGURAÇÕES ATIVAS
+        const activeConfig = {
+            aimbot: false,
+            norecoil: 50,
+            inputLag: 50,
+            spread: 50,
+            rastro: null,
+            hz: 60,
+            prof1: false,
+            prof2: false,
+            prof3: false,
+            optimize: false,
+            fastResponse: false,
+            removeDelay: false,
+            iphone: null,
+            instability: 50,
+            pull: 50,
+            ff: 'normal'
+        };
 
         // ============================================
-        // MATRIX EFFECT
+        // MATRIX BACKGROUND
         // ============================================
         function startMatrix() {
             const canvas = document.getElementById('matrixCanvas');
@@ -277,6 +1071,217 @@
         }
 
         // ============================================
+        // VERIFICAR SESSÃO SALVA
+        // ============================================
+        function checkSavedSession() {
+            const savedSession = localStorage.getItem('fextter_session');
+            
+            if (savedSession) {
+                const session = JSON.parse(savedSession);
+                
+                // Verifica se a sessão ainda é válida
+                if (session.expiresAt) {
+                    const expiry = new Date(session.expiresAt);
+                    if (new Date() > expiry) {
+                        localStorage.removeItem('fextter_session');
+                        return false;
+                    }
+                }
+                
+                // Se for key permanente ou master, mantém logado
+                if (session.days === 999 || session.isMaster) {
+                    restoreSession(session);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // ============================================
+        // RESTAURAR SESSÃO
+        // ============================================
+        function restoreSession(session) {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('panelContainer').classList.add('active');
+            
+            document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
+            document.getElementById('userNameDisplay').textContent = session.userName;
+            
+            if (session.isMaster) {
+                document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+            } else {
+                let keyText = session.days === 999 ? 'Permanente' : `${session.days} dias`;
+                document.getElementById('userKeyType').textContent = keyText;
+            }
+            
+            console.log('🔄 Sessão restaurada para:', session.userName);
+        }
+
+        // ============================================
+        // LOGIN
+        // ============================================
+        function validateKey() {
+            const userName = document.getElementById('userName').value.trim();
+            const userKey = document.getElementById('userKey').value.trim().toUpperCase();
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            const errorMsg = document.getElementById('errorMessage');
+            
+            errorMsg.style.display = 'none';
+
+            if (!userName || !userKey) {
+                errorMsg.textContent = '❌ Preencha todos os campos!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // VERIFICA KEY MESTRA
+            if (userKey === MASTER_KEY) {
+                // Key mestra - acesso total!
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').classList.add('active');
+                
+                document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+                document.getElementById('userNameDisplay').textContent = userName;
+                document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
+                
+                // Salva sessão se "Manter conectado" estiver marcado
+                if (rememberMe) {
+                    const session = {
+                        userName: userName,
+                        key: MASTER_KEY,
+                        loginTime: new Date().toISOString(),
+                        isMaster: true,
+                        days: 999
+                    };
+                    localStorage.setItem('fextter_session', JSON.stringify(session));
+                }
+                
+                showNotification('Acesso master liberado!', '👑', 'ADMIN');
+                return;
+            }
+
+            // VERIFICA KEYS NORMAIS
+            const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+            const key = keys.find(k => k.code === userKey);
+
+            if (!key) {
+                errorMsg.textContent = '❌ Key inválida!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (!key.isActive) {
+                errorMsg.textContent = '❌ Key desativada!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (key.days !== 999 && key.expiryDate) {
+                const expiry = new Date(key.expiryDate);
+                if (new Date() > expiry) {
+                    errorMsg.textContent = '❌ Key expirada!';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+            }
+
+            if (!key.usedBy) key.usedBy = [];
+
+            if (!key.usedBy.includes(userName)) {
+                if (key.usedBy.length >= key.phones) {
+                    errorMsg.textContent = `❌ Limite de ${key.phones} usuários!`;
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                key.usedBy.push(userName);
+                localStorage.setItem('fextter_keys', JSON.stringify(keys));
+            }
+
+            // Mostra painel
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('panelContainer').classList.add('active');
+            
+            document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+            document.getElementById('userNameDisplay').textContent = userName;
+            
+            let keyText = key.days === 999 ? 'Permanente' : `${key.days} dias`;
+            document.getElementById('userKeyType').textContent = keyText;
+
+            // Salva sessão se "Manter conectado" estiver marcado
+            if (rememberMe) {
+                const session = {
+                    userName: userName,
+                    key: key.code,
+                    loginTime: new Date().toISOString(),
+                    expiresAt: key.expiryDate,
+                    days: key.days,
+                    isMaster: false
+                };
+                localStorage.setItem('fextter_session', JSON.stringify(session));
+            }
+        }
+
+        // ============================================
+        // LOGOUT (LIMPAR SESSÃO)
+        // ============================================
+        function logout() {
+            localStorage.removeItem('fextter_session');
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('panelContainer').classList.remove('active');
+            document.getElementById('userName').value = '';
+            document.getElementById('userKey').value = '';
+        }
+
+        // ============================================
+        // FUNÇÕES ADMIN
+        // ============================================
+        function showAdminModal() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function hideAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('adminKey').value = '';
+            document.getElementById('adminError').style.display = 'none';
+        }
+
+        function checkAdminKey() {
+            const key = document.getElementById('adminKey').value;
+            
+            if (key === MASTER_KEY) {
+                window.open('https://seuusuario.github.io/repositorio/admin.html', '_blank');
+                hideAdminModal();
+                showNotification('Acesso admin liberado!', '👑', 'ADMIN');
+            } else {
+                document.getElementById('adminError').style.display = 'block';
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('adminModal');
+            if (event.target === modal) {
+                hideAdminModal();
+            }
+        };
+
+        // ============================================
+        // NOTIFICAÇÃO
+        // ============================================
+        function showNotification(message, emoji = '😈', title = 'XIT') {
+            const notification = document.getElementById('iphoneNotification');
+            document.getElementById('notificationEmoji').textContent = emoji;
+            document.getElementById('notificationTitle').textContent = title;
+            document.getElementById('notificationMessage').textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================
         // MÚSICA
         // ============================================
         function toggleMusic() {
@@ -290,105 +1295,307 @@
             musicPlaying = !musicPlaying;
         }
 
+        function adjustVolume(value) {
+            music.volume = value / 100;
+        }
+
         // ============================================
-        // VALIDAR KEY (INTEGRAÇÃO COM O PAINEL DE KEY)
+        // FUNÇÕES DO FREE FIRE
         // ============================================
-        function validateKey() {
-            const userName = document.getElementById('userName').value.trim();
-            const userKey = document.getElementById('userKey').value.trim().toUpperCase();
-            
-            const errorMsg = document.getElementById('errorMessage');
-            const successMsg = document.getElementById('successMessage');
-            
-            errorMsg.style.display = 'none';
-            successMsg.style.display = 'none';
-
-            // Valida campos
-            if (!userName || !userKey) {
-                showError('❌ Preencha todos os campos!');
-                return;
-            }
-
-            if (userName.length < 3) {
-                showError('❌ Nome deve ter pelo menos 3 caracteres!');
-                return;
-            }
-
-            // Busca as keys que foram geradas no admin.html
-            const keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
-            
-            // Procura a key digitada
-            const key = keys.find(k => k.code === userKey);
-
-            if (!key) {
-                showError('❌ Key inválida!');
-                return;
-            }
-
-            if (!key.isActive) {
-                showError('❌ Key desativada!');
-                return;
-            }
-
-            // Verifica se a key expirou
-            if (key.days !== 999 && key.expiryDate) {
-                const expiry = new Date(key.expiryDate);
-                if (new Date() > expiry) {
-                    showError('❌ Key expirada!');
-                    return;
-                }
-            }
-
-            // Verifica limite de usuários
-            if (key.usedBy && key.usedBy.length >= key.phones) {
-                showError(`❌ Esta key já atingiu o limite de ${key.phones} usuário(s)!`);
-                return;
-            }
-
-            // Verifica se este usuário já está registrado
-            if (!key.usedBy) {
-                key.usedBy = [];
-            }
-
-            if (!key.usedBy.includes(userName)) {
-                // Adiciona novo usuário se ainda tem espaço
-                if (key.usedBy.length < key.phones) {
-                    key.usedBy.push(userName);
-                    
-                    // Atualiza o localStorage com o novo usuário
-                    localStorage.setItem('fextter_keys', JSON.stringify(keys));
-                } else {
-                    showError(`❌ Limite de ${key.phones} usuários atingido!`);
-                    return;
-                }
-            }
-
-            // Salva a sessão do usuário
-            const session = {
-                userName: userName,
-                key: key.code,
-                loginTime: new Date().toISOString(),
-                expiresAt: key.expiryDate,
-                days: key.days
-            };
-            
-            localStorage.setItem('fextter_session', JSON.stringify(session));
-            
-            // Mostra mensagem de sucesso
-            let daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
-            successMsg.innerHTML = `✅ Acesso liberado!<br>Bem-vindo, ${userName}<br>Key: ${daysText}`;
-            successMsg.style.display = 'block';
-            
-            // Redireciona para o painel principal
+        function abrirFF() {
+            localStorage.setItem('ffConfig', JSON.stringify(activeConfig));
+            window.location.href = "freefire://";
             setTimeout(() => {
-                window.location.href = 'painel.html'; // Seu painel de auxílio
+                window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefireth";
             }, 2000);
         }
 
-        function showError(msg) {
-            const errorMsg = document.getElementById('errorMessage');
-            errorMsg.textContent = msg;
-            errorMsg.style.display = 'block';
+        function abrirFFMax() {
+            localStorage.setItem('ffConfig', JSON.stringify(activeConfig));
+            window.location.href = "ffmax://";
+            setTimeout(() => {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.dts.freefiremax";
+            }, 2000);
+        }
+
+        function selectFF(type) {
+            const ffMax = document.getElementById('ffMax');
+            const ffNormal = document.getElementById('ffNormal');
+            
+            if (type === 'max') {
+                ffMax.classList.add('active');
+                ffNormal.classList.remove('active');
+                activeConfig.ff = 'max';
+            } else {
+                ffNormal.classList.add('active');
+                ffMax.classList.remove('active');
+                activeConfig.ff = 'normal';
+            }
+        }
+
+        // ============================================
+        // FUNÇÕES DO PACOTE PROFISSIONAL
+        // ============================================
+        function toggleProfessionalOption(option) {
+            option.classList.toggle('active');
+            
+            const text = option.querySelector('.option-text')?.textContent || option.textContent;
+            if (text.includes('Jogo Mais Bonito')) activeConfig.prof1 = option.classList.contains('active');
+            else if (text.includes('Limpar Cache')) activeConfig.prof2 = option.classList.contains('active');
+            else if (text.includes('Melhorar Ping')) activeConfig.prof3 = option.classList.contains('active');
+        }
+
+        // ============================================
+        // FUNÇÕES DAS ABAS
+        // ============================================
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                tabPanes.forEach(pane => pane.classList.add('hidden'));
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // ============================================
+        // FUNÇÕES DOS TOGGLES
+        // ============================================
+        const toggles = document.querySelectorAll('.toggle-switch');
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                
+                if (this.id === 'aimbotToggle') {
+                    activeConfig.aimbot = this.classList.contains('active');
+                } else if (this.id === 'optimizeToggle') {
+                    activeConfig.optimize = this.classList.contains('active');
+                } else if (this.id === 'fastResponseToggle') {
+                    activeConfig.fastResponse = this.classList.contains('active');
+                } else if (this.id === 'removeDelayToggle') {
+                    activeConfig.removeDelay = this.classList.contains('active');
+                    const delayValue = document.getElementById('delayValue');
+                    if (delayValue) {
+                        delayValue.textContent = this.classList.contains('active') ? '0ms (eliminado)' : '16ms (normal)';
+                    }
+                }
+            });
+        });
+
+        // ============================================
+        // FUNÇÕES DO RASTRO
+        // ============================================
+        const traceOptions = document.querySelectorAll('.trace-option');
+        const traceStatus = document.getElementById('traceStatus');
+
+        traceOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                traceOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                const value = this.getAttribute('data-value');
+                activeConfig.rastro = value;
+                
+                updateTraceStatus();
+            });
+        });
+
+        // ============================================
+        // FUNÇÕES DO HZ
+        // ============================================
+        const hzSlider = document.getElementById('hzSlider');
+        const hzMarkers = document.querySelectorAll('.hz-marker');
+        const hzValue = document.getElementById('hzValue');
+        
+        function updateHzFromSlider() {
+            const value = parseInt(hzSlider.value);
+            let hz = '60';
+            
+            if (value === 0) hz = '60';
+            else if (value === 1) hz = '120';
+            else if (value === 2) hz = '144';
+            
+            if (hzValue) hzValue.textContent = hz + ' Hz';
+            activeConfig.hz = parseInt(hz);
+            
+            hzMarkers.forEach((marker, index) => {
+                if (index === value) {
+                    marker.classList.add('active');
+                } else {
+                    marker.classList.remove('active');
+                }
+            });
+            
+            updateTraceStatus();
+        }
+        
+        function setHz(value) {
+            if (hzSlider) {
+                hzSlider.value = value;
+                updateHzFromSlider();
+            }
+        }
+        
+        if (hzSlider) {
+            hzSlider.addEventListener('input', updateHzFromSlider);
+        }
+        
+        function updateTraceStatus() {
+            if (!traceStatus) return;
+            
+            const activeTrace = document.querySelector('.trace-option.active');
+            const traceText = activeTrace ? activeTrace.textContent.replace('🔹', '').replace('🔸', '').trim() : 'Nenhum';
+            const hzText = hzValue ? hzValue.textContent : '60 Hz';
+            
+            traceStatus.textContent = `Rastro: ${traceText} | ${hzText}`;
+        }
+
+        // ============================================
+        // FUNÇÕES DO IPHONE
+        // ============================================
+        const iphoneCards = document.querySelectorAll('.iphone-card');
+        const selectedIphoneDiv = document.getElementById('selectedIphone');
+
+        iphoneCards.forEach(card => {
+            card.addEventListener('click', function() {
+                iphoneCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                const iphoneModel = this.getAttribute('data-iphone');
+                let modelName = '';
+                
+                if (iphoneModel === '8plus') {
+                    modelName = 'iPhone 8 Plus';
+                    activeConfig.iphone = '8plus';
+                    activeConfig.hz = 60;
+                    setHz(0);
+                } else if (iphoneModel === '14promax') {
+                    modelName = 'iPhone 14 Pro Max';
+                    activeConfig.iphone = '14promax';
+                    activeConfig.hz = 120;
+                    setHz(1);
+                } else if (iphoneModel === '16') {
+                    modelName = 'iPhone 16';
+                    activeConfig.iphone = '16';
+                    activeConfig.hz = 144;
+                    setHz(2);
+                }
+                
+                if (selectedIphoneDiv) selectedIphoneDiv.textContent = `✅ Perfil ativo: ${modelName}`;
+                showNotification(`Perfil ${modelName} ativado`, '📱', 'IPHONE');
+            });
+        });
+
+        // ============================================
+        // FUNÇÕES DOS SLIDERS
+        // ============================================
+        document.getElementById('norecoilSlider')?.addEventListener('input', function(e) {
+            activeConfig.norecoil = e.target.value;
+        });
+        
+        document.getElementById('inputlagSlider')?.addEventListener('input', function(e) {
+            activeConfig.inputLag = e.target.value;
+        });
+        
+        document.getElementById('spreadSlider')?.addEventListener('input', function(e) {
+            activeConfig.spread = e.target.value;
+        });
+        
+        document.getElementById('iphoneInstability')?.addEventListener('input', function(e) {
+            activeConfig.instability = e.target.value;
+        });
+        
+        document.getElementById('iphonePull')?.addEventListener('input', function(e) {
+            activeConfig.pull = e.target.value;
+        });
+
+        // ============================================
+        // FUNÇÃO DE INJEÇÃO
+        // ============================================
+        function injectConfig() {
+            console.log('🚀 CONFIGURAÇÕES INJETADAS:', activeConfig);
+            localStorage.setItem('ffActiveConfig', JSON.stringify(activeConfig));
+            return true;
+        }
+
+        // ============================================
+        // EFEITO MATRIX
+        // ============================================
+        function startMatrixEffect() {
+            const canvas = document.getElementById('matrixEffect');
+            if (!canvas) return;
+            
+            canvas.classList.add('active');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const ctx = canvas.getContext('2d');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+            const charsArray = chars.split('');
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
+            }
+            
+            if (matrixInterval) clearInterval(matrixInterval);
+            
+            function drawMatrix() {
+                if (!canvas.classList.contains('active')) return;
+                
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00e0ff';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            matrixInterval = setInterval(drawMatrix, 35);
+        }
+
+        function injectWithMatrix() {
+            injectConfig();
+            
+            const codeDisplay = document.getElementById('codeDisplay');
+            const codes = codeDisplay?.querySelectorAll('.code-number');
+            const newCodes = ['0xE4B9', '0x2C7F', '0xD15A', '0x8E32', '0xF0C6'];
+            
+            if (codes) {
+                codes.forEach((code, index) => {
+                    code.style.animation = 'none';
+                    code.offsetHeight;
+                    code.style.animation = 'flicker 0.5s';
+                    code.textContent = newCodes[index];
+                });
+            }
+            
+            if (matrixInterval) clearInterval(matrixInterval);
+            
+            startMatrixEffect();
+            showNotification('configurações injetadas!', '💉', 'XIT');
+            
+            setTimeout(() => {
+                const effect = document.getElementById('matrixEffect');
+                if (effect) effect.classList.remove('active');
+                if (matrixInterval) {
+                    clearInterval(matrixInterval);
+                    matrixInterval = null;
+                }
+            }, 5000);
         }
 
         // ============================================
@@ -399,23 +1606,23 @@
             music.volume = 0.3;
             music.play().catch(() => {});
             musicPlaying = true;
-
-            // Verifica se já tem sessão ativa
-            const session = localStorage.getItem('fextter_session');
-            if (session) {
-                const sessionData = JSON.parse(session);
-                // Verifica se a sessão ainda é válida
-                if (sessionData.expiresAt) {
-                    const expiry = new Date(sessionData.expiresAt);
-                    if (new Date() < expiry) {
-                        // Sessão válida, vai direto pro painel
-                        window.location.href = 'painel.html';
-                    }
-                } else if (sessionData.days === 999) {
-                    // Key permanente, vai direto pro painel
-                    window.location.href = 'painel.html';
-                }
+            
+            updateHzFromSlider();
+            updateTraceStatus();
+            
+            const delayValue = document.getElementById('delayValue');
+            if (delayValue) delayValue.textContent = '16ms (normal)';
+            
+            // Inicializa FF Normal como ativo
+            const ffNormal = document.getElementById('ffNormal');
+            const ffMax = document.getElementById('ffMax');
+            if (ffNormal && ffMax) {
+                ffNormal.classList.add('active');
+                activeConfig.ff = 'normal';
             }
+            
+            // VERIFICA SE TEM SESSÃO SALVA
+            checkSavedSession();
         };
     </script>
 </body>
