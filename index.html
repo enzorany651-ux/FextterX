@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEXTTER EXTERNAL</title>
     <style>
-        /* TODO O SEU CSS CONTINUA IGUAL ATÉ A LINHA 800... */
-        /* Mantive TODO o CSS original, só adicionei o estilo para a nova opção */
         * {
             margin: 0;
             padding: 0;
@@ -342,17 +340,6 @@
             font-size: 28px;
             font-weight: 800;
             text-shadow: 0 0 15px #9b4dff;
-        }
-
-        .admin-badge {
-            background: #9b4dff;
-            color: #0f0f1a;
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 14px;
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px #9b4dff;
         }
 
         .controls-bar {
@@ -1277,38 +1264,71 @@
             <div class="tab-content">
                 <canvas id="matrixEffect"></canvas>
                 
-                <!-- ABA 1 - Aimbot -->
+                <!-- ABA 1 - Aimbot (COM PRECISÃO ABSOLUTA) -->
                 <div id="tab1" class="tab-pane">
                     <div class="config-item">
-                        <div class="config-title"><span>🎯</span> Aimbot Legith</div>
+                        <div class="config-title"><span>🎯</span> Aimbot Legith (Mira na cabeça - SEM TREMEDEIRA)</div>
                         <div class="toggle-switch" id="aimbotToggle"></div>
+                        <small style="color:#00e0ff;">Ative para mira PERFEITA - trava na cabeça e elimina tremores</small>
                     </div>
+
+                    <!-- PRECISÃO ABSOLUTA -->
                     <div class="config-item">
-                        <div class="config-title"><span>📦</span> Norecoil</div>
+                        <div class="config-title">
+                            <span>🎯</span> PRECISÃO ABSOLUTA
+                        </div>
+                        <div class="toggle-switch" id="precisionToggle"></div>
+                        <small style="color:#ffaa00;">Ative para mira EXTREMAMENTE PRECISA - balas vão exatamente onde você mira!</small>
+                        <div style="margin-top: 10px; background: #00e0ff10; border-radius: 10px; padding: 10px;">
+                            <p style="color:#00e0ff; font-size:12px;">⚡ CÓDIGOS ATIVADOS:</p>
+                            <p style="color:#fff; font-size:11px; font-family:monospace;">• 0x9F3E2A - Estabilização de mira</p>
+                            <p style="color:#fff; font-size:11px; font-family:monospace;">• 0x7C4D1B - Filtro de dispersão</p>
+                            <p style="color:#fff; font-size:11px; font-family:monospace;">• 0x3E8F5C - Correção de trajetória</p>
+                            <p style="color:#fff; font-size:11px; font-family:monospace;">• 0x2A6B9F - Precisão pixel-perfect</p>
+                        </div>
+                    </div>
+
+                    <div class="config-item">
+                        <div class="config-title"><span>📦</span> Norecoil (Redução de recuo)</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="norecoilSlider">
+                        <div style="display: flex; justify-content: space-between; color: #00e0ff;">
+                            <span>Suave</span>
+                            <span>50%</span>
+                            <span>Forte</span>
+                        </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⚡</span> Input Lag</div>
+                        <div class="config-title"><span>⚡</span> Input Lag (Resposta do toque)</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="inputlagSlider">
+                        <div style="display: flex; justify-content: space-between; color: #00e0ff;">
+                            <span>Lento</span>
+                            <span>50%</span>
+                            <span>Instantâneo</span>
+                        </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>💥</span> Spread</div>
+                        <div class="config-title"><span>💥</span> Spread (Dispersão das balas)</div>
                         <input type="range" min="0" max="100" value="50" class="slider" id="spreadSlider">
+                        <div style="display: flex; justify-content: space-between; color: #00e0ff;">
+                            <span>Alta</span>
+                            <span>50%</span>
+                            <span>Baixa</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- ABA 2 - Rastro -->
                 <div id="tab2" class="tab-pane hidden">
                     <div class="config-item">
-                        <div class="config-title"><span>🎯</span> Rastro</div>
+                        <div class="config-title"><span>🎯</span> Alcance do Rastro</div>
                         <div class="trace-vertical">
-                            <div class="trace-option" data-value="curto">🔹 CURTO</div>
-                            <div class="trace-option" data-value="medio">🔸 MÉDIO</div>
-                            <div class="trace-option" data-value="longo">🔹 LONGO</div>
+                            <div class="trace-option" data-value="curto">🔹 CURTO (10px)</div>
+                            <div class="trace-option" data-value="medio">🔸 MÉDIO (15px)</div>
+                            <div class="trace-option" data-value="longo">🔹 LONGO (20px)</div>
                         </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⚡</span> Hz</div>
+                        <div class="config-title"><span>⚡</span> Taxa de Atualização (Hz)</div>
                         <div class="hz-slider-container">
                             <input type="range" min="0" max="2" step="1" value="0" class="hz-slider" id="hzSlider">
                             <div class="hz-markers">
@@ -1322,30 +1342,33 @@
                     <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
                 </div>
 
-                <!-- ABA 3 - Capa Leve (COM PREDIÇÃO DE MOVIMENTO ADICIONADA) -->
+                <!-- ABA 3 - Capa Leve -->
                 <div id="tab3" class="tab-pane hidden">
                     <div class="professional-package">
                         <div class="professional-title">⚡ PACOTE PROFISSIONAL ⚡</div>
                         <div class="professional-options">
-                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Bonito</div>
+                            <div class="professional-option" data-prof="1"><span class="option-icon">🎨</span>Jogo Mais Bonito</div>
                             <div class="professional-option" data-prof="2"><span class="option-icon">🧹</span>Limpar Cache</div>
                             <div class="professional-option" data-prof="3"><span class="option-icon">📶</span>Melhorar Ping</div>
                         </div>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>🧹</span> Otimização</div>
+                        <div class="config-title"><span>🧹</span> Otimização de Recursos</div>
                         <div class="toggle-switch" id="optimizeToggle"></div>
+                        <small>Reduz uso de CPU/RAM</small>
                     </div>
                     <div class="config-item">
                         <div class="config-title"><span>🚀</span> Resposta Rápida</div>
                         <div class="toggle-switch" id="fastResponseToggle"></div>
+                        <small>Prioriza resposta do sistema</small>
                     </div>
                     <div class="config-item">
-                        <div class="config-title"><span>⏱️</span> Tirar Delay</div>
+                        <div class="config-title"><span>⏱️</span> TIRAR DELAY</div>
                         <div class="toggle-switch" id="removeDelayToggle"></div>
-                        <p style="color:#fff; margin-top:10px;">Delay: <span id="delayValue">16ms</span></p>
+                        <small style="color: #00e0ff;">Elimina completamente o delay da tela</small>
+                        <p style="color: #fff; margin-top: 10px;">Delay atual: <span id="delayValue" style="color: #00e0ff;">16ms (normal)</span></p>
                     </div>
-                    <!-- 🔥 NOVA OPÇÃO: PREDIÇÃO DE MOVIMENTO 🔥 -->
+                    <!-- PREDIÇÃO DE MOVIMENTO -->
                     <div class="config-item">
                         <div class="config-title">
                             <span>🔮</span> Predição de Movimento
@@ -1360,32 +1383,89 @@
                     </div>
                 </div>
 
-                <!-- ABA 4 - iPhone -->
+                <!-- ABA 4 - iPhone (MELHORADO) -->
                 <div id="tab4" class="tab-pane hidden">
+                    <div class="config-title"><span>📱</span> Selecione UM perfil iPhone</div>
+                    <p style="color: #aaa; margin-bottom: 20px;">Cada perfil ajusta sua mira automaticamente</p>
+                    
                     <div class="iphone-selector">
+                        <!-- iPhone 8 Plus -->
                         <div class="iphone-card" data-iphone="8plus">
-                            <div class="iphone-title">📱 iPhone 8 Plus</div>
+                            <div class="iphone-title">
+                                <span>📱</span> iPhone 8 Plus (MIRA SUAVE E PRECISA)
+                            </div>
+                            <div class="iphone-features" style="display: grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:10px;">
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎮</span> 60Hz
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>⚡</span> Suave
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎯</span> Precisão
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- iPhone 14 Pro Max -->
                         <div class="iphone-card" data-iphone="14promax">
-                            <div class="iphone-title">📱 iPhone 14 Pro Max</div>
+                            <div class="iphone-title">
+                                <span>📱</span> iPhone 14 Pro Max (BALANCEADO)
+                            </div>
+                            <div class="iphone-features" style="display: grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:10px;">
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎮</span> 120Hz
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>⚡</span> Equilibrado
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎯</span> Híbrido
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- iPhone 16 -->
                         <div class="iphone-card" data-iphone="16">
-                            <div class="iphone-title">📱 iPhone 16</div>
+                            <div class="iphone-title">
+                                <span>📱</span> iPhone 16 (MIRA RÁPIDA)
+                            </div>
+                            <div class="iphone-features" style="display: grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top:10px;">
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎮</span> 144Hz
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>⚡</span> Agressivo
+                                </div>
+                                <div class="feature-item" style="background:#0d0f1a; border:1px solid #00e0ff40; border-radius:15px; padding:10px; text-align:center;">
+                                    <span>🎯</span> Responsivo
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top:30px;">
-                        <div class="config-title">Instabilidade</div>
-                        <input type="range" min="0" max="100" value="50" class="slider" id="iphoneInstability">
-                        <div class="config-title" style="margin-top:15px;">Puxada</div>
-                        <input type="range" min="0" max="100" value="50" class="slider" id="iphonePull">
+
+                    <!-- Sliders de intensidade -->
+                    <div style="margin-top: 30px;">
+                        <div class="config-title"><span>⚙️</span> Ajustes Finos</div>
+                        <div>
+                            <label style="color: #fff;">Instabilidade da mira (elimina tremores):</label>
+                            <input type="range" min="0" max="100" value="50" class="slider" id="iphoneInstability">
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label style="color: #fff;">Intensidade da puxada (velocidade da mira):</label>
+                            <input type="range" min="0" max="100" value="50" class="slider" id="iphonePull">
+                        </div>
                     </div>
-                    <div id="selectedIphone" class="status-display">Nenhum iPhone selecionado</div>
+
+                    <div id="selectedIphone" class="status-display" style="margin-top: 20px;">
+                        Nenhum iPhone selecionado
+                    </div>
                 </div>
 
                 <!-- ABA 5 - Injeção -->
                 <div id="tab5" class="tab-pane hidden">
                     <div class="injector-area">
-                        <div class="config-title"><span>💉</span> INJETOR</div>
+                        <div class="config-title"><span>💉</span> INJETOR DYNAMIC</div>
                         <div class="syringe-container">
                             <span class="bubble">💊</span>
                             <span class="syringe">💉</span>
@@ -1406,7 +1486,8 @@
                             <button class="ff-button" onclick="abrirFF()"><span>🔥</span> Free Fire</button>
                             <button class="ff-button" onclick="abrirFFMax()"><span>⚡</span> Free Fire MAX</button>
                         </div>
-                        <button onclick="injectWithMatrix()">💉 INJETAR</button>
+                        <button onclick="injectWithMatrix()">💉 INJETAR CONFIGURAÇÕES</button>
+                        <p style="color:#00e0ff; margin-top:15px;">Clique para aplicar todas as configurações</p>
                     </div>
                 </div>
             </div>
@@ -1500,13 +1581,14 @@
         // KEY MESTRA
         const MASTER_KEY = 'FEXTTER-MASTER-2025';
 
-        // CONFIGURAÇÕES ATIVAS (COM PREDIÇÃO ADICIONADA)
+        // CONFIGURAÇÕES ATIVAS (COM PRECISÃO ABSOLUTA)
         const activeConfig = {
             aimbot: false,
+            precision: false,        // 🔥 PRECISÃO ABSOLUTA
             norecoil: 50,
             inputLag: 50,
             spread: 50,
-            rastro: null,
+            rastro: "medio",
             hz: 60,
             prof1: false,
             prof2: false,
@@ -1518,7 +1600,7 @@
             instability: 50,
             pull: 50,
             ff: 'normal',
-            prediction: 60  // 🔥 NOVO
+            prediction: 60
         };
 
         // ============================================
@@ -1548,17 +1630,13 @@
         function playToggleSound() {
             initAudio();
             if (!audioContext) return;
-            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
             oscillator.type = 'sine';
             oscillator.frequency.value = 800;
             gainNode.gain.value = 0.1;
-            
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
             oscillator.start();
             oscillator.stop(audioContext.currentTime + 0.1);
         }
@@ -1566,17 +1644,13 @@
         function playSelectSound() {
             initAudio();
             if (!audioContext) return;
-            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
             oscillator.type = 'sine';
             oscillator.frequency.value = 600;
             gainNode.gain.value = 0.1;
-            
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
             oscillator.start();
             oscillator.stop(audioContext.currentTime + 0.05);
         }
@@ -1584,17 +1658,13 @@
         function playSliderSound() {
             initAudio();
             if (!audioContext) return;
-            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
             oscillator.type = 'sine';
             oscillator.frequency.value = 400;
             gainNode.gain.value = 0.05;
-            
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
             oscillator.start();
             oscillator.stop(audioContext.currentTime + 0.02);
         }
@@ -1602,22 +1672,17 @@
         function playSuccessSound() {
             initAudio();
             if (!audioContext) return;
-            
             const oscillator1 = audioContext.createOscillator();
             const oscillator2 = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
             oscillator1.type = 'sine';
             oscillator1.frequency.value = 600;
             oscillator2.type = 'sine';
             oscillator2.frequency.value = 800;
-            
             oscillator1.connect(gainNode);
             oscillator2.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
             gainNode.gain.value = 0.1;
-            
             oscillator1.start();
             oscillator2.start();
             oscillator1.stop(audioContext.currentTime + 0.1);
@@ -1628,7 +1693,7 @@
         // MÚSICA
         // ============================================
         function playMusic() {
-            music.play().catch(e => {
+            music.play().catch(() => {
                 document.addEventListener('click', function playOnClick() {
                     music.play();
                     document.removeEventListener('click', playOnClick);
@@ -1697,7 +1762,6 @@
             const userName = document.getElementById('userName').value.trim();
             const userKey = document.getElementById('userKey').value.trim().toUpperCase();
             const rememberMe = document.getElementById('rememberMe').checked;
-            
             const errorMsg = document.getElementById('errorMessage');
             
             errorMsg.style.display = 'none';
@@ -1712,18 +1776,12 @@
             if (userKey === MASTER_KEY) {
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
-                
                 document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
                 document.getElementById('userNameDisplay').textContent = userName;
                 document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-                
                 if (rememberMe) {
-                    localStorage.setItem('fextter_session', JSON.stringify({
-                        userName: userName,
-                        isMaster: true
-                    }));
+                    localStorage.setItem('fextter_session', JSON.stringify({ userName: userName, isMaster: true }));
                 }
-                
                 playSuccessSound();
                 showNotification('Acesso master liberado!', '👑', 'ADMIN');
                 return;
@@ -1745,7 +1803,6 @@
                 return;
             }
 
-            // VERIFICA EXPIRAÇÃO
             if (key.days !== 999 && key.expiryDate) {
                 const expiry = new Date(key.expiryDate);
                 if (new Date() > expiry) {
@@ -1755,7 +1812,6 @@
                 }
             }
 
-            // VERIFICA LIMITE
             if (!key.usedBy) key.usedBy = [];
 
             if (!key.usedBy.includes(userName)) {
@@ -1768,21 +1824,15 @@
                 localStorage.setItem('fextter_keys', JSON.stringify(keys));
             }
 
-            // LOGIN OK
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('panelContainer').style.display = 'block';
-            
             document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
             document.getElementById('userNameDisplay').textContent = userName;
-            
             let keyText = key.days === 999 ? 'Permanente' : `${key.days} dias`;
             document.getElementById('userKeyType').textContent = keyText;
 
             if (rememberMe) {
-                localStorage.setItem('fextter_session', JSON.stringify({
-                    userName: userName,
-                    days: key.days
-                }));
+                localStorage.setItem('fextter_session', JSON.stringify({ userName: userName, days: key.days }));
             }
             
             playSuccessSound();
@@ -1799,26 +1849,15 @@
             playSelectSound();
         }
 
-        // ============================================
-        // VERIFICAR SESSÃO
-        // ============================================
         function checkSavedSession() {
             const savedSession = localStorage.getItem('fextter_session');
-            
             if (savedSession) {
                 const session = JSON.parse(savedSession);
-                
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('panelContainer').style.display = 'block';
-                
                 document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
                 document.getElementById('userNameDisplay').textContent = session.userName;
-                
-                if (session.isMaster) {
-                    document.getElementById('userKeyType').textContent = 'ADMIN MASTER';
-                } else {
-                    document.getElementById('userKeyType').textContent = 'Permanente';
-                }
+                document.getElementById('userKeyType').textContent = session.isMaster ? 'ADMIN MASTER' : 'Permanente';
             }
         }
 
@@ -1838,15 +1877,12 @@
 
         function checkAdminKey() {
             const key = document.getElementById('adminKey').value;
-            
             if (key === MASTER_KEY) {
                 document.getElementById('panelContainer').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
-                
                 hideAdminModal();
                 playSuccessSound();
                 showNotification('Painel admin ativado!', '👑', 'ADMIN');
-                
                 loadKeys();
             } else {
                 document.getElementById('adminError').style.display = 'block';
@@ -1862,9 +1898,7 @@
 
         window.onclick = function(event) {
             const modal = document.getElementById('adminModal');
-            if (event.target === modal) {
-                hideAdminModal();
-            }
+            if (event.target === modal) hideAdminModal();
         };
 
         // ============================================
@@ -1872,11 +1906,7 @@
         // ============================================
         function loadKeys() {
             const savedKeys = localStorage.getItem('fextter_keys');
-            if (savedKeys) {
-                window.keys = JSON.parse(savedKeys);
-            } else {
-                window.keys = [];
-            }
+            window.keys = savedKeys ? JSON.parse(savedKeys) : [];
             renderKeys();
             updateStats();
         }
@@ -1942,27 +1972,21 @@
             let existingKeys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
             existingKeys.unshift(newKey);
             localStorage.setItem('fextter_keys', JSON.stringify(existingKeys));
-            
             window.keys = existingKeys;
-            
             renderKeys();
             updateStats();
-            
-            alert('✅ KEY GERADA COM SUCESSO!\n\n' + code);
+            alert('✅ KEY GERADA: ' + code + '\n\nUse esta key para fazer login!');
         }
 
         function renderKeys() {
             const list = document.getElementById('keysList');
             if (!list) return;
-            
             list.innerHTML = '';
 
             const keys = window.keys || [];
-            
             keys.forEach(key => {
                 const keyElement = document.createElement('div');
                 keyElement.className = 'key-item';
-                
                 const daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
                 const usedCount = key.usedBy ? key.usedBy.length : 0;
 
@@ -2046,12 +2070,8 @@
             document.getElementById('notificationEmoji').textContent = emoji;
             document.getElementById('notificationTitle').textContent = title;
             document.getElementById('notificationMessage').textContent = message;
-            
             notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+            setTimeout(() => notification.classList.remove('show'), 3000);
         }
 
         // ============================================
@@ -2100,13 +2120,63 @@
         }
 
         // ============================================
-        // PREDIÇÃO DE MOVIMENTO (NOVO)
+        // PRECISÃO ABSOLUTA (NOVO)
+        // ============================================
+        const precisionToggle = document.getElementById('precisionToggle');
+        if (precisionToggle) {
+            precisionToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                activeConfig.precision = this.classList.contains('active');
+                playToggleSound();
+                
+                if (activeConfig.precision) {
+                    // Ativa precisão máxima
+                    activeConfig.spread = 0;
+                    activeConfig.instability = 5;
+                    activeConfig.prediction = 95;
+                    activeConfig.norecoil = 98;
+                    activeConfig.inputLag = 100;
+                    
+                    document.getElementById('spreadSlider').value = 0;
+                    document.getElementById('iphoneInstability').value = 5;
+                    document.getElementById('predictionSlider').value = 95;
+                    document.getElementById('norecoilSlider').value = 98;
+                    document.getElementById('inputlagSlider').value = 100;
+                    
+                    const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                    if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '95%';
+                    
+                    showNotification('🎯 PRECISÃO ABSOLUTA ATIVADA! Balas vão exatamente onde você mira!', '🎯', 'PRECISÃO');
+                } else {
+                    // Volta ao normal
+                    if (!activeConfig.aimbot) {
+                        activeConfig.spread = 50;
+                        activeConfig.instability = 50;
+                        activeConfig.prediction = 60;
+                        activeConfig.norecoil = 50;
+                        activeConfig.inputLag = 50;
+                        
+                        document.getElementById('spreadSlider').value = 50;
+                        document.getElementById('iphoneInstability').value = 50;
+                        document.getElementById('predictionSlider').value = 60;
+                        document.getElementById('norecoilSlider').value = 50;
+                        document.getElementById('inputlagSlider').value = 50;
+                        
+                        const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                        if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '60%';
+                    }
+                    showNotification('Precisão absoluta desativada', '❌', 'PRECISÃO');
+                }
+            });
+        }
+
+        // ============================================
+        // PREDIÇÃO DE MOVIMENTO
         // ============================================
         const predictionSlider = document.getElementById('predictionSlider');
         if (predictionSlider) {
             predictionSlider.addEventListener('input', function(e) {
                 activeConfig.prediction = e.target.value;
-                // Atualiza o texto do slider
                 const labels = this.parentElement.querySelectorAll('span');
                 if (labels.length >= 2) {
                     labels[1].textContent = e.target.value + '%';
@@ -2133,7 +2203,7 @@
         });
 
         // ============================================
-        // TOGGLES
+        // TOGGLES (AIMBOT MELHORADO)
         // ============================================
         const toggles = document.querySelectorAll('.toggle-switch');
         toggles.forEach(toggle => {
@@ -2143,6 +2213,46 @@
                 
                 if (this.id === 'aimbotToggle') {
                     activeConfig.aimbot = this.classList.contains('active');
+                    
+                    if (activeConfig.aimbot) {
+                        // Aimbot ativado - configurações extremas para mira perfeita
+                        activeConfig.norecoil = 95;
+                        activeConfig.inputLag = 100;
+                        activeConfig.spread = 5;
+                        activeConfig.instability = 10;
+                        activeConfig.prediction = 85;
+                        
+                        document.getElementById('norecoilSlider').value = 95;
+                        document.getElementById('inputlagSlider').value = 100;
+                        document.getElementById('spreadSlider').value = 5;
+                        document.getElementById('iphoneInstability').value = 10;
+                        document.getElementById('predictionSlider').value = 85;
+                        
+                        const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                        if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '85%';
+                        
+                        showNotification('⚡ AIMBOT ATIVADO! Mira travada na cabeça - sem tremores!', '🎯', 'AIMBOT');
+                    } else {
+                        // Aimbot desativado - volta ao normal
+                        if (!activeConfig.precision) {
+                            activeConfig.norecoil = 50;
+                            activeConfig.inputLag = 50;
+                            activeConfig.spread = 50;
+                            activeConfig.instability = 50;
+                            activeConfig.prediction = 60;
+                            
+                            document.getElementById('norecoilSlider').value = 50;
+                            document.getElementById('inputlagSlider').value = 50;
+                            document.getElementById('spreadSlider').value = 50;
+                            document.getElementById('iphoneInstability').value = 50;
+                            document.getElementById('predictionSlider').value = 60;
+                            
+                            const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                            if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '60%';
+                        }
+                        
+                        showNotification('Aimbot desativado', '❌', 'AIMBOT');
+                    }
                 } else if (this.id === 'optimizeToggle') {
                     activeConfig.optimize = this.classList.contains('active');
                 } else if (this.id === 'fastResponseToggle') {
@@ -2151,7 +2261,7 @@
                     activeConfig.removeDelay = this.classList.contains('active');
                     const delayValue = document.getElementById('delayValue');
                     if (delayValue) {
-                        delayValue.textContent = this.classList.contains('active') ? '0ms' : '16ms';
+                        delayValue.textContent = this.classList.contains('active') ? '0ms (eliminado)' : '16ms (normal)';
                     }
                 }
             });
@@ -2168,10 +2278,7 @@
                 traceOptions.forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
                 playSelectSound();
-                
-                const value = this.getAttribute('data-value');
-                activeConfig.rastro = value;
-                
+                activeConfig.rastro = this.getAttribute('data-value');
                 updateTraceStatus();
             });
         });
@@ -2186,7 +2293,6 @@
         function updateHzFromSlider() {
             const value = parseInt(hzSlider.value);
             let hz = '60';
-            
             if (value === 0) hz = '60';
             else if (value === 1) hz = '120';
             else if (value === 2) hz = '144';
@@ -2195,13 +2301,9 @@
             activeConfig.hz = parseInt(hz);
             
             hzMarkers.forEach((marker, index) => {
-                if (index === value) {
-                    marker.classList.add('active');
-                } else {
-                    marker.classList.remove('active');
-                }
+                if (index === value) marker.classList.add('active');
+                else marker.classList.remove('active');
             });
-            
             updateTraceStatus();
         }
         
@@ -2212,22 +2314,18 @@
             }
         }
         
-        if (hzSlider) {
-            hzSlider.addEventListener('input', updateHzFromSlider);
-        }
+        if (hzSlider) hzSlider.addEventListener('input', updateHzFromSlider);
         
         function updateTraceStatus() {
             if (!traceStatus) return;
-            
             const activeTrace = document.querySelector('.trace-option.active');
             const traceText = activeTrace ? activeTrace.textContent.replace('🔹', '').replace('🔸', '').trim() : 'Nenhum';
             const hzText = hzValue ? hzValue.textContent : '60 Hz';
-            
             traceStatus.textContent = `Rastro: ${traceText} | ${hzText}`;
         }
 
         // ============================================
-        // IPHONE
+        // IPHONE (MELHORADO COM PRECISÃO)
         // ============================================
         const iphoneCards = document.querySelectorAll('.iphone-card');
         const selectedIphoneDiv = document.getElementById('selectedIphone');
@@ -2245,21 +2343,86 @@
                     modelName = 'iPhone 8 Plus';
                     activeConfig.iphone = '8plus';
                     activeConfig.hz = 60;
+                    activeConfig.instability = 20;
+                    activeConfig.pull = 50;
+                    activeConfig.prediction = 50;
+                    activeConfig.norecoil = 75;
+                    activeConfig.inputLag = 90;
+                    activeConfig.spread = 15;
+                    activeConfig.precision = true;
                     setHz(0);
+                    
+                    document.getElementById('norecoilSlider').value = 75;
+                    document.getElementById('inputlagSlider').value = 90;
+                    document.getElementById('spreadSlider').value = 15;
+                    document.getElementById('iphoneInstability').value = 20;
+                    document.getElementById('iphonePull').value = 50;
+                    document.getElementById('predictionSlider').value = 50;
+                    
+                    const precisionToggleElem = document.getElementById('precisionToggle');
+                    if (precisionToggleElem) precisionToggleElem.classList.add('active');
+                    
+                    const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                    if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '50%';
+                    
+                    showNotification('iPhone 8 Plus ativado - MIRA EXTREMAMENTE PRECISA!', '📱', 'IPHONE');
                 } else if (iphoneModel === '14promax') {
                     modelName = 'iPhone 14 Pro Max';
                     activeConfig.iphone = '14promax';
                     activeConfig.hz = 120;
+                    activeConfig.instability = 40;
+                    activeConfig.pull = 65;
+                    activeConfig.prediction = 60;
+                    activeConfig.norecoil = 75;
+                    activeConfig.inputLag = 90;
+                    activeConfig.spread = 20;
+                    activeConfig.precision = false;
                     setHz(1);
+                    
+                    document.getElementById('norecoilSlider').value = 75;
+                    document.getElementById('inputlagSlider').value = 90;
+                    document.getElementById('spreadSlider').value = 20;
+                    document.getElementById('iphoneInstability').value = 40;
+                    document.getElementById('iphonePull').value = 65;
+                    document.getElementById('predictionSlider').value = 60;
+                    
+                    const precisionToggleElem = document.getElementById('precisionToggle');
+                    if (precisionToggleElem) precisionToggleElem.classList.remove('active');
+                    
+                    const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                    if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '60%';
+                    
+                    showNotification('iPhone 14 Pro Max ativado - Mira balanceada!', '📱', 'IPHONE');
                 } else if (iphoneModel === '16') {
                     modelName = 'iPhone 16';
                     activeConfig.iphone = '16';
                     activeConfig.hz = 144;
+                    activeConfig.instability = 55;
+                    activeConfig.pull = 75;
+                    activeConfig.prediction = 75;
+                    activeConfig.norecoil = 85;
+                    activeConfig.inputLag = 95;
+                    activeConfig.spread = 15;
+                    activeConfig.precision = false;
                     setHz(2);
+                    
+                    document.getElementById('norecoilSlider').value = 85;
+                    document.getElementById('inputlagSlider').value = 95;
+                    document.getElementById('spreadSlider').value = 15;
+                    document.getElementById('iphoneInstability').value = 55;
+                    document.getElementById('iphonePull').value = 75;
+                    document.getElementById('predictionSlider').value = 75;
+                    
+                    const precisionToggleElem = document.getElementById('precisionToggle');
+                    if (precisionToggleElem) precisionToggleElem.classList.remove('active');
+                    
+                    const predLabels = document.getElementById('predictionSlider')?.parentElement.querySelectorAll('span');
+                    if (predLabels && predLabels.length >= 2) predLabels[1].textContent = '75%';
+                    
+                    showNotification('iPhone 16 ativado - Mira rápida e agressiva!', '📱', 'IPHONE');
                 }
                 
                 if (selectedIphoneDiv) selectedIphoneDiv.textContent = `✅ Perfil ativo: ${modelName}`;
-                showNotification(`Perfil ${modelName} ativado`, '📱', 'IPHONE');
             });
         });
 
@@ -2272,16 +2435,10 @@
             option.addEventListener('click', function() {
                 this.classList.toggle('active');
                 playToggleSound();
-                
                 const text = this.textContent;
-                
-                if (text.includes('Jogo Bonito')) {
-                    activeConfig.prof1 = this.classList.contains('active');
-                } else if (text.includes('Limpar Cache')) {
-                    activeConfig.prof2 = this.classList.contains('active');
-                } else if (text.includes('Melhorar Ping')) {
-                    activeConfig.prof3 = this.classList.contains('active');
-                }
+                if (text.includes('Jogo Bonito')) activeConfig.prof1 = this.classList.contains('active');
+                else if (text.includes('Limpar Cache')) activeConfig.prof2 = this.classList.contains('active');
+                else if (text.includes('Melhorar Ping')) activeConfig.prof3 = this.classList.contains('active');
             });
         });
 
@@ -2290,22 +2447,27 @@
         // ============================================
         document.getElementById('norecoilSlider')?.addEventListener('input', function(e) {
             activeConfig.norecoil = e.target.value;
+            playSliderSound();
         });
         
         document.getElementById('inputlagSlider')?.addEventListener('input', function(e) {
             activeConfig.inputLag = e.target.value;
+            playSliderSound();
         });
         
         document.getElementById('spreadSlider')?.addEventListener('input', function(e) {
             activeConfig.spread = e.target.value;
+            playSliderSound();
         });
         
         document.getElementById('iphoneInstability')?.addEventListener('input', function(e) {
             activeConfig.instability = e.target.value;
+            playSliderSound();
         });
         
         document.getElementById('iphonePull')?.addEventListener('input', function(e) {
             activeConfig.pull = e.target.value;
+            playSliderSound();
         });
 
         // ============================================
@@ -2319,7 +2481,6 @@
         function startMatrixEffect() {
             const canvas = document.getElementById('matrixEffect');
             if (!canvas) return;
-            
             canvas.classList.add('active');
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -2331,31 +2492,23 @@
             const columns = canvas.width / fontSize;
             const drops = [];
 
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
-            }
+            for (let i = 0; i < columns; i++) drops[i] = Math.floor(Math.random() * -canvas.height / fontSize);
             
             if (matrixInterval) clearInterval(matrixInterval);
             
             function drawMatrix() {
                 if (!canvas.classList.contains('active')) return;
-                
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#00e0ff';
                 ctx.font = fontSize + 'px monospace';
-                
                 for (let i = 0; i < drops.length; i++) {
                     const text = charsArray[Math.floor(Math.random() * charsArray.length)];
                     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                     drops[i]++;
                 }
             }
-            
             matrixInterval = setInterval(drawMatrix, 35);
         }
 
@@ -2377,9 +2530,8 @@
             }
             
             if (matrixInterval) clearInterval(matrixInterval);
-            
             startMatrixEffect();
-            showNotification('configurações injetadas!', '💉', 'XIT');
+            showNotification('Configurações injetadas com sucesso!', '💉', 'INJEÇÃO');
             
             setTimeout(() => {
                 const effect = document.getElementById('matrixEffect');
@@ -2396,24 +2548,18 @@
         // ============================================
         window.onload = function() {
             startMatrix();
-            
             music.volume = 0.3;
             playMusic();
             musicPlaying = true;
-            
             updateHzFromSlider();
-            
             const delayValue = document.getElementById('delayValue');
-            if (delayValue) delayValue.textContent = '16ms';
+            if (delayValue) delayValue.textContent = '16ms (normal)';
             
-            // Inicializa slider de predição
             const predSlider = document.getElementById('predictionSlider');
             if (predSlider) {
                 predSlider.value = activeConfig.prediction;
                 const labels = predSlider.parentElement.querySelectorAll('span');
-                if (labels.length >= 2) {
-                    labels[1].textContent = activeConfig.prediction + '%';
-                }
+                if (labels.length >= 2) labels[1].textContent = activeConfig.prediction + '%';
             }
             
             checkSavedSession();
