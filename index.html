@@ -311,8 +311,358 @@
             display: none;
         }
 
-        /* Header do painel */
-        .header {
+        /* PAINEL ADMIN */
+        .admin-panel {
+            width: 1300px;
+            background: #0f0f1a;
+            border: 2px solid #9b4dff;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(155, 77, 255, 0.3);
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            display: none;
+            margin: 0 auto;
+        }
+
+        .admin-panel .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #9b4dff40;
+        }
+
+        .admin-panel .header h1 {
+            color: #9b4dff;
+            font-size: 28px;
+            font-weight: 800;
+            text-shadow: 0 0 15px #9b4dff;
+        }
+
+        .admin-badge {
+            background: #9b4dff;
+            color: #0f0f1a;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px #9b4dff;
+        }
+
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .generate-btn {
+            background: #00cc66;
+            color: #0f0f1a;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #00cc66;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .days-selector, .phones-selector {
+            display: flex;
+            gap: 5px;
+            background: #0a0a12;
+            padding: 5px;
+            border-radius: 30px;
+            border: 1px solid #9b4dff40;
+        }
+
+        .day-pill, .phone-pill {
+            background: transparent;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 15px;
+            color: #9b4dff;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .day-pill.selected, .phone-pill.selected {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        .confirm-key-btn {
+            background: #9b4dff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #9b4dff;
+            display: none;
+        }
+
+        .confirm-key-btn.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-mini {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .stat-mini {
+            background: #0a0a12;
+            border: 1px solid #9b4dff40;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .stat-mini span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .keys-area {
+            background: rgba(155, 77, 255, 0.03);
+            border: 1px solid #9b4dff30;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .keys-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .keys-header h3 {
+            color: #9b4dff;
+            font-size: 18px;
+        }
+
+        .keys-count {
+            background: #0a0a12;
+            color: #9b4dff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid #9b4dff;
+        }
+
+        .keys-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .key-item {
+            background: #0a0a12;
+            border: 1px solid #9b4dff30;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .key-item:hover {
+            border-color: #9b4dff;
+            box-shadow: 0 0 20px #9b4dff;
+        }
+
+        .key-code {
+            color: #9b4dff;
+            font-size: 22px;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .key-details {
+            display: flex;
+            gap: 25px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .key-details span {
+            color: #9b4dff;
+            margin-right: 5px;
+        }
+
+        .key-users {
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .key-users.active {
+            color: #9b4dff;
+        }
+
+        .key-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .copy-small, .delete-small {
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #fff;
+        }
+
+        .copy-small {
+            background: #9b4dff;
+            color: #0f0f1a;
+        }
+
+        .delete-small {
+            background: #ff3366;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #0f0f1a;
+            border: 3px solid #ff3366;
+            border-radius: 30px;
+            padding: 30px;
+            width: 400px;
+            box-shadow: 0 0 60px #ff3366;
+        }
+
+        .modal-content h2 {
+            color: #ff3366;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a12;
+            border: 2px solid #ff3366;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn-remove {
+            flex: 1;
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .modal-btn-cancel {
+            flex: 1;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #9b4dff;
+            border-radius: 4px;
+        }
+
+        .voltar-btn {
+            background: #ff3366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px #ff3366;
+        }
+
+        /* Header do painel principal */
+        .main-header {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -321,20 +671,19 @@
             border-bottom: 1px solid #00e0ff40;
         }
 
-        .header-emoji {
+        .main-header .header-emoji {
             font-size: 32px;
             filter: drop-shadow(0 0 10px #00e0ff);
             color: #00e0ff;
         }
 
-        .header h1 {
+        .main-header h1 {
             color: #00e0ff;
             font-size: 32px;
             font-weight: 800;
             text-shadow: 0 0 15px #00e0ff;
         }
 
-        /* Tabs */
         .tabs-container {
             display: flex;
             gap: 15px;
@@ -419,10 +768,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .config-title span {
-            font-size: 22px;
         }
 
         .slider {
@@ -872,7 +1217,7 @@
         </div>
 
         <!-- Header do painel -->
-        <div class="header">
+        <div class="main-header">
             <span class="header-emoji">🎯</span>
             <h1>FEXTTER EXTERNAL</h1>
         </div>
@@ -945,6 +1290,7 @@
                                 <div class="hz-marker" data-hz="144">144 Hz</div>
                             </div>
                         </div>
+                        <div class="hz-value" id="hzValue">60 Hz</div>
                     </div>
                     <div class="status-display" id="traceStatus">Rastro: Nenhum | 60 Hz</div>
                 </div>
@@ -1027,6 +1373,69 @@
         </div>
     </div>
 
+    <!-- PAINEL ADMIN (inicialmente oculto) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="header">
+            <h1>⚡ FEXTTER ADMIN</h1>
+            <button class="voltar-btn" onclick="voltarAoPainel()">VOLTAR</button>
+        </div>
+
+        <div class="controls-bar">
+            <button class="generate-btn" onclick="toggleSelectors()">
+                <span>🔑</span> GERAR KEY
+            </button>
+
+            <div class="days-selector" id="daysSelector" style="display: none;">
+                <button class="day-pill" onclick="selectDays(3)">3 DIAS</button>
+                <button class="day-pill" onclick="selectDays(7)">7 DIAS</button>
+                <button class="day-pill" onclick="selectDays(30)">30 DIAS</button>
+                <button class="day-pill" onclick="selectDays(999)">∞ PERMANENTE</button>
+            </div>
+
+            <div class="phones-selector" id="phonesSelector" style="display: none;">
+                <button class="phone-pill" onclick="selectPhones(1)">1 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(2)">2 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(3)">3 TEL</button>
+                <button class="phone-pill" onclick="selectPhones(10)">10 TEL</button>
+            </div>
+
+            <button class="confirm-key-btn" id="confirmBtn" onclick="confirmAndGenerate()">
+                <span>✅</span> CONFIRMAR
+            </button>
+
+            <button class="remove-btn" onclick="showRemoveModal()">
+                <span>🗑️</span> REMOVER
+            </button>
+
+            <div class="stats-mini">
+                <div class="stat-mini"><span>📊</span> <strong id="totalKeys">0</strong></div>
+                <div class="stat-mini"><span>✅</span> <strong id="activeKeys">0</strong></div>
+                <div class="stat-mini"><span>👤</span> <strong id="usedKeys">0</strong></div>
+            </div>
+        </div>
+
+        <div class="keys-area">
+            <div class="keys-header">
+                <h3>📋 KEYS GERADAS</h3>
+                <div class="keys-count" id="keysCount">0 keys</div>
+            </div>
+
+            <div class="keys-list" id="keysList"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Remoção (Admin) -->
+    <div class="modal" id="removeModal">
+        <div class="modal-content">
+            <h2>🗑️ REMOVER KEY</h2>
+            <input type="text" id="removeKeyInput" placeholder="Digite o código da key">
+            <div class="modal-buttons">
+                <button class="modal-btn-remove" onclick="removeKey()">REMOVER</button>
+                <button class="modal-btn-cancel" onclick="closeRemoveModal()">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
     <audio id="backgroundMusic" loop preload="auto">
         <source src="https://s3.amazonaws.com/audio-files/doors-light-funk-ultra-slowed.mp3" type="audio/mpeg">
     </audio>
@@ -1038,6 +1447,10 @@
         let matrixInterval = null;
         let audioContext = null;
         let musicPlaying = false;
+        let selectedDays = 7;
+        let selectedPhones = 1;
+        let keys = JSON.parse(localStorage.getItem('fextter_keys')) || [];
+        let selectorsVisible = false;
         
         const music = document.getElementById('backgroundMusic');
         const musicIcon = document.getElementById('musicIcon');
@@ -1228,7 +1641,7 @@
             // KEY MESTRA
             if (userKey === MASTER_KEY) {
                 document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('panelContainer').classList.add('active');
+                document.getElementById('panelContainer').style.display = 'block';
                 
                 document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
                 document.getElementById('userNameDisplay').textContent = userName;
@@ -1261,7 +1674,7 @@
             }
 
             document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('panelContainer').classList.add('active');
+            document.getElementById('panelContainer').style.display = 'block';
             
             document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
             document.getElementById('userNameDisplay').textContent = userName;
@@ -1286,7 +1699,8 @@
         function logout() {
             localStorage.removeItem('fextter_session');
             document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('panelContainer').classList.remove('active');
+            document.getElementById('panelContainer').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'none';
             document.getElementById('userName').value = '';
             document.getElementById('userKey').value = '';
             playSelectSound();
@@ -1303,7 +1717,7 @@
                 
                 if (session.days === 999 || session.isMaster) {
                     document.getElementById('loginContainer').style.display = 'none';
-                    document.getElementById('panelContainer').classList.add('active');
+                    document.getElementById('panelContainer').style.display = 'block';
                     
                     document.getElementById('userAvatar').textContent = session.userName.charAt(0).toUpperCase();
                     document.getElementById('userNameDisplay').textContent = session.userName;
@@ -1318,7 +1732,7 @@
         }
 
         // ============================================
-        // ADMIN
+        // ADMIN (MOSTRA PAINEL NA MESMA PÁGINA)
         // ============================================
         function showAdminModal() {
             document.getElementById('adminModal').classList.add('active');
@@ -1335,14 +1749,29 @@
             const key = document.getElementById('adminKey').value;
             
             if (key === MASTER_KEY) {
-                window.open('https://enzorany651-ux.github.io/FextterX/admin.html', '_blank');
+                // ESCONDE PAINEL PRINCIPAL
+                document.getElementById('panelContainer').style.display = 'none';
+                
+                // MOSTRA PAINEL ADMIN
+                document.getElementById('adminPanel').style.display = 'block';
+                
                 hideAdminModal();
                 playSuccessSound();
-                showNotification('Acesso admin liberado!', '👑', 'ADMIN');
+                showNotification('Painel admin ativado!', '👑', 'ADMIN');
+                
+                // Renderiza as keys no admin
+                renderKeys();
+                updateStats();
             } else {
                 document.getElementById('adminError').style.display = 'block';
                 playToggleSound();
             }
+        }
+
+        function voltarAoPainel() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('panelContainer').style.display = 'block';
+            playSelectSound();
         }
 
         window.onclick = function(event) {
@@ -1351,6 +1780,162 @@
                 hideAdminModal();
             }
         };
+
+        // ============================================
+        // FUNÇÕES DO ADMIN (GERADOR DE KEYS)
+        // ============================================
+        function toggleSelectors() {
+            selectorsVisible = !selectorsVisible;
+            const daysSelector = document.getElementById('daysSelector');
+            const phonesSelector = document.getElementById('phonesSelector');
+            const confirmBtn = document.getElementById('confirmBtn');
+            
+            if (selectorsVisible) {
+                daysSelector.style.display = 'flex';
+                phonesSelector.style.display = 'flex';
+                confirmBtn.classList.add('show');
+                selectDays(7);
+                selectPhones(1);
+            } else {
+                daysSelector.style.display = 'none';
+                phonesSelector.style.display = 'none';
+                confirmBtn.classList.remove('show');
+            }
+        }
+
+        function selectDays(days) {
+            selectedDays = days;
+            document.querySelectorAll('.day-pill').forEach(pill => pill.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        function selectPhones(phones) {
+            selectedPhones = phones;
+            document.querySelectorAll('.phone-pill').forEach(pill => pill.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        function confirmAndGenerate() {
+            generateKey();
+            toggleSelectors();
+        }
+
+        function generateKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+                if (i % 4 === 3 && i < 15) code += '-';
+            }
+
+            let expiryDate = null;
+            if (selectedDays !== 999) {
+                expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + selectedDays);
+            }
+
+            const newKey = {
+                code: code,
+                days: selectedDays,
+                phones: selectedPhones,
+                expiryDate: expiryDate,
+                createdAt: new Date().toLocaleString(),
+                usedBy: [],
+                isActive: true
+            };
+
+            keys.unshift(newKey);
+            saveKeys();
+            renderKeys();
+            updateStats();
+            alert('✅ Key gerada: ' + code);
+        }
+
+        function renderKeys() {
+            const list = document.getElementById('keysList');
+            if (!list) return;
+            
+            list.innerHTML = '';
+
+            keys.forEach(key => {
+                const keyElement = document.createElement('div');
+                keyElement.className = 'key-item';
+                
+                const daysText = key.days === 999 ? 'Permanente' : key.days + ' dias';
+                const usedCount = key.usedBy ? key.usedBy.length : 0;
+
+                keyElement.innerHTML = `
+                    <div class="key-info">
+                        <div class="key-code">${key.code}</div>
+                        <div class="key-details">
+                            <span>📅</span> ${daysText} 
+                            <span>📱</span> ${usedCount}/${key.phones}
+                            <span>🕐</span> ${key.createdAt}
+                        </div>
+                        <div class="key-users ${usedCount > 0 ? 'active' : ''}">
+                            ${usedCount > 0 ? '👤 ' + key.usedBy.join(', ') : '👤 Nenhum usuário'}
+                        </div>
+                    </div>
+                    <div class="key-actions">
+                        <button class="copy-small" onclick="copyKey('${key.code}')">📋 Copiar</button>
+                        <button class="delete-small" onclick="deleteKey('${key.code}')">🗑️</button>
+                    </div>
+                `;
+                list.appendChild(keyElement);
+            });
+
+            const keysCount = document.getElementById('keysCount');
+            if (keysCount) keysCount.textContent = keys.length + ' keys';
+        }
+
+        function copyKey(code) {
+            navigator.clipboard.writeText(code);
+            alert('✅ Key copiada!');
+        }
+
+        function deleteKey(code) {
+            if (confirm('Remover esta key?')) {
+                keys = keys.filter(k => k.code !== code);
+                saveKeys();
+                renderKeys();
+                updateStats();
+            }
+        }
+
+        function showRemoveModal() {
+            document.getElementById('removeModal').classList.add('active');
+        }
+
+        function closeRemoveModal() {
+            document.getElementById('removeModal').classList.remove('active');
+            document.getElementById('removeKeyInput').value = '';
+        }
+
+        function removeKey() {
+            const code = document.getElementById('removeKeyInput').value.trim();
+            if (code) {
+                deleteKey(code);
+                closeRemoveModal();
+            }
+        }
+
+        function saveKeys() {
+            localStorage.setItem('fextter_keys', JSON.stringify(keys));
+        }
+
+        function updateStats() {
+            const total = keys.length;
+            const active = keys.filter(k => k.isActive).length;
+            const used = keys.filter(k => k.usedBy && k.usedBy.length > 0).length;
+
+            const totalEl = document.getElementById('totalKeys');
+            const activeEl = document.getElementById('activeKeys');
+            const usedEl = document.getElementById('usedKeys');
+            
+            if (totalEl) totalEl.textContent = total;
+            if (activeEl) activeEl.textContent = active;
+            if (usedEl) usedEl.textContent = used;
+        }
 
         // ============================================
         // NOTIFICAÇÃO
@@ -1447,7 +2032,10 @@
                     activeConfig.fastResponse = this.classList.contains('active');
                 } else if (this.id === 'removeDelayToggle') {
                     activeConfig.removeDelay = this.classList.contains('active');
-                    document.getElementById('delayValue').textContent = this.classList.contains('active') ? '0ms' : '16ms';
+                    const delayValue = document.getElementById('delayValue');
+                    if (delayValue) {
+                        delayValue.textContent = this.classList.contains('active') ? '0ms' : '16ms';
+                    }
                 }
             });
         });
