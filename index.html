@@ -122,46 +122,6 @@
       color: #0ff;
     }
 
-    .counter-container {
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
-      border: 1px solid #0ff;
-      border-radius: 60px;
-      padding: 12px 24px;
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      margin: 20px 0 0;
-      box-shadow: 0 0 15px rgba(0,255,255,0.3);
-    }
-
-    .counter-label {
-      font-size: 0.9rem;
-      color: #0ff;
-      letter-spacing: 1px;
-    }
-
-    .counter-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-      background: #00ffff10;
-      padding: 4px 16px;
-      border-radius: 40px;
-      font-family: monospace;
-    }
-
-    .counter-icon {
-      font-size: 1.5rem;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; text-shadow: 0 0 5px #0ff; }
-      50% { opacity: 0.7; text-shadow: 0 0 15px #0ff; }
-    }
-
     .neon-card {
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(12px);
@@ -178,9 +138,20 @@
     }
 
     .price-big {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 800;
       color: #0ff;
+    }
+
+    .price-small {
+      font-size: 1.2rem;
+      color: #88aaff;
+    }
+
+    .installment {
+      font-size: 1rem;
+      color: #ccc;
+      margin-top: 8px;
     }
 
     .btn-pix {
@@ -196,6 +167,9 @@
       transition: all 0.3s;
       margin: 24px 0 16px;
       font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
     }
 
     .btn-pix:hover {
@@ -314,71 +288,6 @@
       margin-bottom: 16px;
     }
 
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.98);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: #0f0f1a;
-      border: 2px solid #0ff;
-      border-radius: 40px;
-      padding: 48px 32px;
-      max-width: 500px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 0 60px #0ff;
-    }
-
-    .pix-key-box {
-      background: #00ffff10;
-      border: 1px solid #0ff;
-      border-radius: 20px;
-      padding: 16px;
-      margin: 20px 0;
-      word-break: break-all;
-      font-family: monospace;
-      font-size: 1.1rem;
-    }
-
-    .btn-copy {
-      background: #0ff;
-      color: #000;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 10px 0;
-    }
-
-    .btn-whatsapp {
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-      font-size: 1rem;
-      width: 100%;
-    }
-
-    .btn-close {
-      background: #ff3366;
-      margin-top: 12px;
-    }
-
     .faq {
       padding: 80px 0;
       background: #05050a;
@@ -422,7 +331,6 @@
     @media (max-width: 850px) {
       h1 { font-size: 2rem; }
       .hero-content { flex-direction: column; }
-      .counter-value { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -437,14 +345,7 @@
     <div class="hero-left">
       <div class="hero-badge"><i class="fas fa-gem"></i> 🔥 MAIS DE 10 MIL ALUNOS SATISFEITOS</div>
       <h1>TORNE-SE UM <span class="neon-text">EXPERT EM MARKETING DIGITAL</span> COM OS 7 CURSOS COMPLETOS</h1>
-      <p>Mais de R$ 47 milhões gerados para nossos alunos. Método testado e aprovado. De R$997 por apenas <strong style="color:#0ff">R$29,90</strong>.</p>
-      
-      <div class="counter-container">
-        <i class="fas fa-eye counter-icon"></i>
-        <span class="counter-label">PESSOAS VISUALIZANDO ESTA PÁGINA AGORA:</span>
-        <span class="counter-value" id="visitCounter">0</span>
-        <i class="fas fa-user-friends counter-icon"></i>
-      </div>
+      <p>Mais de R$ 47 milhões gerados para nossos alunos. Método testado e aprovado. De R$997 por apenas <strong style="color:#0ff">R$29,99</strong>.</p>
 
       <div class="stats">
         <div class="stat-item"><span class="stat-number">7</span><br>CURSOS COMPLETOS</div>
@@ -457,10 +358,18 @@
         <i class="fas fa-bolt" style="font-size: 2rem; color:#0ff;"></i>
         <h3 style="margin: 12px 0;">PACK COMPLETO</h3>
         <div><span style="text-decoration: line-through; opacity:0.6;">De R$ 997,00</span></div>
-        <div class="price-big">12x R$ 29,90</div>
-        <div style="margin-bottom: 16px;">ou R$ 299,90 à vista</div>
-        <button class="btn-pix" id="openModalBtn">💚 PAGAR COM PIX 💚</button>
+        <div class="price-big">R$ 29,99</div>
+        <div class="installment">ou 4x de R$ 7,50 sem juros</div>
+        
+        <!-- 🔥 BOTÃO COM SEU LINK DA KIWIFY -->
+        <a href="https://pay.kiwify.com.br/qsQmomF" target="_blank" class="btn-pix" id="btnComprar">
+          💚 COMPRAR COM PIX 💚
+        </a>
+        
         <div><i class="fas fa-lock"></i> Pagamento 100% seguro • Acesso vitalício • Garantia 7 dias</div>
+        <div style="margin-top: 12px; font-size: 0.75rem;">
+          <i class="fas fa-check-circle"></i> Aceita PIX, Cartão (4x) e Boleto
+        </div>
       </div>
     </div>
   </div>
@@ -513,115 +422,22 @@
   <div class="container">
     <div class="section-title">❓ DÚVIDAS FREQUENTES</div>
     <div class="faq-list">
-      <div class="faq-item"><div class="faq-question">Como funciona o acesso após o pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Após realizar o PIX, envie o comprovante pelo WhatsApp e em até 5 minutos seu acesso será liberado. Você receberá login e senha para a plataforma.</div></div>
+      <div class="faq-item"><div class="faq-question">Como funciona o acesso após o pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Após realizar o PIX ou cartão, o sistema Kiwify libera automaticamente seu acesso. Você receberá um e-mail com login e senha para a área de membros em até 2 minutos.</div></div>
       <div class="faq-item"><div class="faq-question">O acesso é vitalício? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Sim! Você terá acesso aos 7 cursos para sempre, inclusive atualizações futuras.</div></div>
       <div class="faq-item"><div class="faq-question">E se eu não gostar? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Garantia incondicional de 7 dias. Se não ficar satisfeito, devolvemos 100% do seu dinheiro.</div></div>
       <div class="faq-item"><div class="faq-question">Preciso de experiência prévia? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Não! Os cursos são do zero ao avançado, com linguagem simples e prática.</div></div>
+      <div class="faq-item"><div class="faq-question">Quais formas de pagamento aceitam? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Aceitamos PIX, Cartão de Crédito (em até 4x sem juros) e Boleto Bancário.</div></div>
     </div>
   </div>
 </section>
 
 <footer>
   <p>© 2025 NEON ACADEMY • CNPJ 49.288.888/0001-90 • Todos os direitos reservados</p>
-  <p style="margin-top: 12px;"><i class="fas fa-shield-alt"></i> Ambiente 100% seguro • Pagamento via PIX • Atendimento humanizado</p>
+  <p style="margin-top: 12px;"><i class="fas fa-shield-alt"></i> Ambiente 100% seguro • Pagamento via Kiwify • Atendimento humanizado</p>
 </footer>
 
-<div id="pixModal" class="modal">
-  <div class="modal-content">
-    <i class="fas fa-qrcode" style="font-size: 3.5rem; color:#0ff;"></i>
-    <h2 style="margin: 16px 0;">💚 PAGUE COM PIX 💚</h2>
-    <p>Após o pagamento, envie o comprovante no WhatsApp e seu acesso será liberado em até 5 minutos.</p>
-    <div class="pix-key-box">
-      <strong>📧 Chave PIX (e-mail):</strong><br>
-      <span id="pixKey">abreuenzoraya@gmail.com</span>
-    </div>
-    <button class="btn-copy" id="copyPixBtn">📋 COPIAR CHAVE PIX</button>
-    <div style="margin: 16px 0;">
-      <strong>💰 Valor: R$ 29,90</strong> (ou R$ 299,90 à vista)
-    </div>
-    <a href="https://wa.me/5521971299370?text=Olá! Acabei de fazer o PIX para o curso NEON ACADEMY. Meu e-mail é: " target="_blank">
-      <button class="btn-whatsapp"><i class="fab fa-whatsapp"></i> 📲 ENVIAR COMPROVANTE NO WHATSAPP</button>
-    </a>
-    <button class="btn-whatsapp btn-close" id="closeModalBtn">❌ FECHAR</button>
-    <p style="font-size: 12px; margin-top: 16px;">Após o envio do comprovante, você receberá seu acesso em até 5 minutos.</p>
-  </div>
-</div>
-
 <script>
-  // CONTADOR DE VISITAS
-  const STORAGE_KEY = 'neon_academy_visitor_id';
-  const COUNTER_KEY = 'neon_academy_total_visits';
-  
-  function getVisitorId() {
-    let visitorId = localStorage.getItem(STORAGE_KEY);
-    if (!visitorId) {
-      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem(STORAGE_KEY, visitorId);
-    }
-    return visitorId;
-  }
-  
-  function registerVisit() {
-    const hasVisitedBefore = sessionStorage.getItem('has_counted_session');
-    if (hasVisitedBefore) {
-      updateCounterDisplay();
-      return;
-    }
-    
-    let totalVisits = localStorage.getItem(COUNTER_KEY);
-    if (!totalVisits) {
-      totalVisits = 15847;
-      localStorage.setItem(COUNTER_KEY, totalVisits);
-    } else {
-      totalVisits = parseInt(totalVisits);
-    }
-    
-    const newTotal = totalVisits + 1;
-    localStorage.setItem(COUNTER_KEY, newTotal);
-    sessionStorage.setItem('has_counted_session', 'true');
-    updateCounterDisplay();
-  }
-  
-  function updateCounterDisplay() {
-    const counterElement = document.getElementById('visitCounter');
-    if (counterElement) {
-      const onlineNow = Math.floor(Math.random() * 28) + 12;
-      counterElement.textContent = onlineNow;
-    }
-  }
-  
-  registerVisit();
-  
-  setInterval(() => {
-    const counterElement = document.getElementById('visitCounter');
-    if (counterElement) {
-      const onlineNow = Math.floor(Math.random() * 45) + 8;
-      counterElement.textContent = onlineNow;
-    }
-  }, 12000);
-  
-  // MODAL
-  const modal = document.getElementById("pixModal");
-  const openBtn = document.getElementById("openModalBtn");
-  const closeBtn = document.getElementById("closeModalBtn");
-  
-  openBtn.onclick = () => { modal.style.display = "flex"; };
-  closeBtn.onclick = () => { modal.style.display = "none"; };
-  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-  
-  // COPIAR CHAVE PIX
-  const copyBtn = document.getElementById("copyPixBtn");
-  const pixKey = document.getElementById("pixKey").innerText;
-  
-  copyBtn.onclick = () => {
-    navigator.clipboard.writeText(pixKey).then(() => {
-      alert("✅ Chave PIX copiada: " + pixKey + "\n\nAgora é só pagar e enviar o comprovante no WhatsApp!");
-    }).catch(() => {
-      alert("❌ Não foi possível copiar. Copie manualmente: " + pixKey);
-    });
-  };
-  
-  // FAQ
+  // FAQ ACCORDION
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(item => {
     const question = item.querySelector('.faq-question');
