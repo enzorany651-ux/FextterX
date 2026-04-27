@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>NEON ACADEMY | +10.342 Alunos • 7 Cursos Marketing Digital</title>
+  <title>7 Cursos Marketing Digital | +10.342 Alunos</title>
+  <meta name="description" content="Domine o Marketing Digital com 7 cursos completos. Acesso vitalício por apenas R$11,99. Mais de 10 mil alunos já transformaram suas vidas.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
@@ -20,8 +21,10 @@
       background: #0a0a0f;
       color: #ffffff;
       line-height: 1.5;
+      scroll-behavior: smooth;
     }
 
+    /* NEON EFFECTS */
     .neon-text {
       text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff66;
     }
@@ -32,22 +35,24 @@
       padding: 0 24px;
     }
 
+    /* TOP BAR */
     .top-bar {
       background: linear-gradient(135deg, #00ffff08, #ff00ff08);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid #0ff;
       text-align: center;
-      padding: 14px 0;
-      font-weight: 700;
-      letter-spacing: 1px;
+      padding: 12px 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
       color: #0ff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .top-bar i {
       margin: 0 6px;
     }
 
+    /* HERO */
     .hero {
       background: radial-gradient(circle at 20% 30%, #0a0f1f, #03050a);
       padding: 60px 0 80px;
@@ -64,6 +69,17 @@
       right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, #0ff, #ff00ff, #0ff, transparent);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to top, #0a0a0f, transparent);
+      pointer-events: none;
     }
 
     .hero-content {
@@ -87,7 +103,7 @@
       color: #0ff;
       font-weight: 700;
       margin-bottom: 24px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     h1 {
@@ -97,13 +113,43 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       line-height: 1.2;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 24px;
+      max-width: 550px;
+    }
+
+    .highlights {
+      display: flex;
+      gap: 20px;
+      margin: 32px 0;
+      flex-wrap: wrap;
+    }
+
+    .highlight-item {
+      background: rgba(0,255,255,0.05);
+      border: 1px solid #0ff;
+      border-radius: 16px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .highlight-item i {
+      color: #0ff;
+      font-size: 1rem;
     }
 
     .stats {
       display: flex;
-      gap: 20px;
+      gap: 24px;
       margin: 32px 0;
       flex-wrap: wrap;
     }
@@ -114,16 +160,23 @@
       border-radius: 20px;
       padding: 12px 24px;
       backdrop-filter: blur(4px);
+      text-align: center;
     }
 
     .stat-number {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: #0ff;
     }
 
+    .stat-label {
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+
+    /* NEON CARD */
     .neon-card {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(12px);
       border: 2px solid #0ff;
       border-radius: 32px;
@@ -135,21 +188,23 @@
 
     .neon-card:hover {
       box-shadow: 0 0 45px rgba(0,255,255,0.4);
+      transform: translateY(-5px);
     }
 
     .price-big {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 800;
       color: #0ff;
     }
 
-    .price-small {
+    .price-old {
       font-size: 1.2rem;
-      color: #88aaff;
+      text-decoration: line-through;
+      color: #888;
     }
 
     .installment {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: #ccc;
       margin-top: 8px;
     }
@@ -159,8 +214,8 @@
       border: none;
       color: #0a0a0f;
       font-weight: 800;
-      font-size: 1.3rem;
-      padding: 18px 28px;
+      font-size: 1.2rem;
+      padding: 16px 24px;
       border-radius: 60px;
       width: 100%;
       cursor: pointer;
@@ -177,14 +232,24 @@
       box-shadow: 0 0 30px #0ff;
     }
 
+    .secure-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 0.7rem;
+      color: #aaa;
+      margin-top: 12px;
+    }
+
+    /* SEÇÃO AVALIAÇÕES */
     .reviews {
-      padding: 80px 0;
+      padding: 70px 0;
       background: #05050a;
     }
 
     .section-title {
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 800;
       margin-bottom: 16px;
       background: linear-gradient(135deg, #0ff, #f0f);
@@ -209,25 +274,25 @@
     .review-card {
       background: rgba(0,255,255,0.03);
       border: 1px solid #0ff;
-      border-radius: 28px;
-      padding: 28px;
+      border-radius: 24px;
+      padding: 24px;
       transition: 0.2s;
     }
 
     .review-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+      box-shadow: 0 0 20px rgba(0,255,255,0.15);
     }
 
     .stars {
       color: #ffdd44;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       margin-bottom: 16px;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
 
     .review-text {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       line-height: 1.5;
       margin: 16px 0;
       color: #ddd;
@@ -242,37 +307,39 @@
 
     .reviewer-avatar {
       background: linear-gradient(135deg, #0ff, #f0f);
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
+      font-size: 0.9rem;
     }
 
     .verified {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #0ff;
     }
 
+    /* CURSOS */
     .courses {
-      padding: 80px 0;
+      padding: 70px 0;
       background: #0a0a0f;
     }
 
     .course-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
       margin-top: 48px;
     }
 
     .course-card {
       background: rgba(0,255,255,0.04);
       border: 1px solid #0ff;
-      border-radius: 24px;
-      padding: 28px 20px;
+      border-radius: 20px;
+      padding: 24px 16px;
       text-align: center;
       transition: 0.2s;
     }
@@ -283,24 +350,60 @@
     }
 
     .course-icon {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: #0ff;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
+    .course-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .course-card p {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    /* BÔNUS */
+    .bonus {
+      background: linear-gradient(135deg, #0a0a1a, #0f0f2a);
+      padding: 60px 0;
+      border-top: 1px solid #0ff;
+      border-bottom: 1px solid #0ff;
+    }
+
+    .bonus-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .bonus-item {
+      background: rgba(0,255,255,0.05);
+      border: 1px solid #0ff;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      min-width: 180px;
+    }
+
+    /* FAQ */
     .faq {
-      padding: 80px 0;
+      padding: 70px 0;
       background: #05050a;
     }
 
     .faq-item {
       border-bottom: 1px solid #0ff33;
-      padding: 20px 0;
+      padding: 18px 0;
     }
 
     .faq-question {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1rem;
       display: flex;
       justify-content: space-between;
       cursor: pointer;
@@ -312,69 +415,81 @@
       overflow: hidden;
       transition: 0.3s;
       color: #bbb;
+      font-size: 0.9rem;
       padding-top: 0;
     }
 
     .faq-item.active .faq-answer {
-      max-height: 120px;
-      padding-top: 16px;
+      max-height: 100px;
+      padding-top: 12px;
     }
 
     footer {
       background: #020208;
       text-align: center;
-      padding: 40px;
+      padding: 32px;
       border-top: 1px solid #0ff;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      color: #0ffaa;
     }
 
     @media (max-width: 850px) {
       h1 { font-size: 2rem; }
       .hero-content { flex-direction: column; }
+      .price-big { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <i class="fas fa-bolt"></i> +10.342 VENDAS REALIZADAS • AVALIAÇÃO 4.98 ★ • ACESSO VITALÍCIO • 7 CURSOS COMPLETOS
+  <i class="fas fa-bolt"></i> ÚLTIMAS VAGAS • OFERTA POR TEMPO LIMITADO • +10.342 ALUNOS
 </div>
 
 <section class="hero">
   <div class="container hero-content">
     <div class="hero-left">
-      <div class="hero-badge"><i class="fas fa-gem"></i> 🔥 MAIS DE 10 MIL ALUNOS SATISFEITOS</div>
-      <h1>TORNE-SE UM <span class="neon-text">EXPERT EM MARKETING DIGITAL</span> COM OS 7 CURSOS COMPLETOS</h1>
-      <p>Mais de R$ 47 milhões gerados para nossos alunos. Método testado e aprovado. De R$997 por apenas <strong style="color:#0ff">R$11,12</strong>.</p>
+      <div class="hero-badge"><i class="fas fa-gem"></i> 🔥 CERTIFICAÇÃO INTERNACIONAL</div>
+      <h1>7 <span class="neon-text">CURSOS MARKETING DIGITAL</span> COM CERTIFICADO</h1>
+      <p class="hero-description">O pacote completo para você dominar Tráfego Pago, Instagram, E-mail Marketing, TikTok, Landing Pages, Analytics e Funil de Vendas.</p>
+      
+      <div class="highlights">
+        <div class="highlight-item"><i class="fas fa-check-circle"></i> Acesso Vitalício</div>
+        <div class="highlight-item"><i class="fas fa-check-circle"></i> Certificado Incluso</div>
+        <div class="highlight-item"><i class="fas fa-check-circle"></i> Suporte 24h</div>
+      </div>
 
       <div class="stats">
-        <div class="stat-item"><span class="stat-number">7</span><br>CURSOS COMPLETOS</div>
-        <div class="stat-item"><span class="stat-number">R$1.390</span><br>VALOR ORIGINAL</div>
-        <div class="stat-item"><span class="stat-number">98%</span><br>SATISFAÇÃO</div>
+        <div class="stat-item"><span class="stat-number">10.342</span><div class="stat-label">ALUNOS</div></div>
+        <div class="stat-item"><span class="stat-number">98%</span><div class="stat-label">SATISFAÇÃO</div></div>
+        <div class="stat-item"><span class="stat-number">R$47M+</span><div class="stat-label">GERADOS</div></div>
       </div>
     </div>
     <div class="hero-right">
       <div class="neon-card">
         <i class="fas fa-bolt" style="font-size: 2rem; color:#0ff;"></i>
         <h3 style="margin: 12px 0;">PACK COMPLETO</h3>
-        <div><span style="text-decoration: line-through; opacity:0.6;">De R$ 997,00</span></div>
-        <div class="price-big">R$ 11,12</div>
-        <div class="installment">ou 2x de R$ 3,50 sem juros</div>
+        <div class="price-old">De R$ 997,00</div>
+        <div class="price-big">R$ 11,99</div>
+        <div class="installment">ou 2x de R$ 6,00 sem juros</div>
         
-        <!-- 🔥 BOTÃO COM SEU LINK DA KIWIFY -->
-        <a href="https://pay.kiwify.com.br/qsQmomF" target="_blank" class="btn-pix" id="btnComprar">
-          💚 COMPRAR COM PIX 💚
+        <a href="https://pay.kiwify.com.br/qsQmomF" target="_blank" class="btn-pix">
+          💚 QUERO ME TORNAR EXPERT 💚
         </a>
         
-        <div><i class="fas fa-lock"></i> Pagamento 100% seguro • Acesso vitalício • Garantia 7 dias</div>
-        <div style="margin-top: 12px; font-size: 0.75rem;">
-          <i class="fas fa-check-circle"></i> Aceita PIX, Cartão (2x) e Boleto
+        <div><i class="fas fa-lock"></i> Pagamento 100% seguro</div>
+        <div class="secure-badges">
+          <span><i class="fab fa-cc-visa"></i> Visa</span>
+          <span><i class="fab fa-cc-mastercard"></i> Mastercard</span>
+          <span><i class="fab fa-pix"></i> PIX</span>
+          <span><i class="fas fa-barcode"></i> Boleto</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- AVALIAÇÕES -->
 <section class="reviews">
   <div class="container">
     <div class="section-title">⭐ O QUE NOSSOS ALUNOS DIZEM ⭐</div>
@@ -382,30 +497,31 @@
     <div class="review-grid">
       <div class="review-card">
         <div class="stars">★★★★★</div>
-        <div class="review-text">"Comprei o pack e em 3 meses já faturava R$ 15 mil por mês. O conteúdo é absurdo de bom, direto ao ponto. Melhor investimento que fiz na vida!"</div>
+        <div class="review-text">"Investi apenas R$11,99 e em 2 meses já tinha recuperado mais de R$8 mil. Os cursos são diretos ao ponto, sem enrolação. Melhor decisão!"</div>
         <div class="reviewer"><div class="reviewer-avatar">CR</div><div><strong>Caroline R.</strong><br><span class="verified"><i class="fas fa-check-circle"></i> COMPRA VERIFICADA</span></div></div>
       </div>
       <div class="review-card">
         <div class="stars">★★★★★</div>
-        <div class="review-text">"Vim do zero absoluto, sem saber nada. Hoje tenho minha agência e faturo mais de R$ 28 mil/mês. Os cursos são completos e o suporte é excelente."</div>
+        <div class="review-text">"Vim do zero. Hoje tenho minha própria agência e faturo mais de R$ 12 mil por mês. O pacote vale muito mais do que custa. Recomendo demais!"</div>
         <div class="reviewer"><div class="reviewer-avatar">TM</div><div><strong>Thiago M.</strong><br><span class="verified"><i class="fas fa-check-circle"></i> COMPRA VERIFICADA</span></div></div>
       </div>
       <div class="review-card">
         <div class="stars">★★★★★</div>
-        <div class="review-text">"Já tinha comprado outros cursos, mas esse é surreal. A didática, os bônus, tudo de altíssimo nível. Recomendo para quem quer sair do lugar comum."</div>
+        <div class="review-text">"Já comprei vários cursos caros, mas esse superou todos. Didática incrível, suporte rápido e conteúdo atualizado. Nota 1000!"</div>
         <div class="reviewer"><div class="reviewer-avatar">FS</div><div><strong>Fernanda S.</strong><br><span class="verified"><i class="fas fa-check-circle"></i> COMPRA VERIFICADA</span></div></div>
       </div>
     </div>
     <div style="text-align: center; margin-top: 40px;">
-      <i class="fas fa-star" style="color:#ffdd44;"></i> <strong style="font-size: 1.2rem;">4.98 · Avaliação geral</strong> com base em 10.342 reviews
+      <i class="fas fa-star" style="color:#ffdd44;"></i> <strong style="font-size: 1.1rem;">4.98 · Avaliação geral</strong> com base em 10.342 reviews
     </div>
   </div>
 </section>
 
+<!-- 7 CURSOS -->
 <section class="courses">
   <div class="container">
     <div class="section-title">🎓 OS 7 CURSOS PROFISSIONAIS 🎓</div>
-    <div class="section-sub">Conteúdo atualizado + bônus exclusivos + certificado</div>
+    <div class="section-sub">Conteúdo atualizado + Bônus + Certificado</div>
     <div class="course-grid">
       <div class="course-card"><div class="course-icon"><i class="fas fa-chart-line"></i></div><h3>Tráfego Pago Elite</h3><p>Google Ads, Meta Ads, estratégias avançadas</p></div>
       <div class="course-card"><div class="course-icon"><i class="fab fa-instagram"></i></div><h3>Instagram Monetizador</h3><p>Crescimento orgânico, vendas e engajamento</p></div>
@@ -418,22 +534,36 @@
   </div>
 </section>
 
+<!-- BÔNUS EXCLUSIVOS -->
+<section class="bonus">
+  <div class="container">
+    <div class="section-title">🎁 BÔNUS EXCLUSIVOS</div>
+    <div class="section-sub">Só hoje, ao adquirir o pacote completo</div>
+    <div class="bonus-grid">
+      <div class="bonus-item"><i class="fas fa-certificate" style="font-size: 2rem; color:#0ff;"></i><h3 style="margin-top: 10px;">Certificado Digital</h3><p>Válido em todo território nacional</p></div>
+      <div class="bonus-item"><i class="fas fa-users" style="font-size: 2rem; color:#0ff;"></i><h3 style="margin-top: 10px;">Comunidade VIP</h3><p>Grupo exclusivo no WhatsApp</p></div>
+      <div class="bonus-item"><i class="fas fa-download" style="font-size: 2rem; color:#0ff;"></i><h3 style="margin-top: 10px;">Material Extra</h3><p>Planilhas e templates prontos</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
 <section class="faq">
   <div class="container">
     <div class="section-title">❓ DÚVIDAS FREQUENTES</div>
     <div class="faq-list">
-      <div class="faq-item"><div class="faq-question">Como funciona o acesso após o pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Após realizar o PIX ou cartão, o sistema Kiwify libera automaticamente seu acesso. Você receberá um e-mail com login e senha para a área de membros em até 2 minutos.</div></div>
-      <div class="faq-item"><div class="faq-question">O acesso é vitalício? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Sim! Você terá acesso aos 7 cursos para sempre, inclusive atualizações futuras.</div></div>
-      <div class="faq-item"><div class="faq-question">E se eu não gostar? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Garantia incondicional de 7 dias. Se não ficar satisfeito, devolvemos 100% do seu dinheiro.</div></div>
-      <div class="faq-item"><div class="faq-question">Preciso de experiência prévia? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Não! Os cursos são do zero ao avançado, com linguagem simples e prática.</div></div>
-      <div class="faq-item"><div class="faq-question">Quais formas de pagamento aceitam? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Aceitamos PIX, Cartão de Crédito (em até 4x sem juros) e Boleto Bancário.</div></div>
+      <div class="faq-item"><div class="faq-question">Como acesso os cursos após o pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Após o pagamento via PIX ou cartão, a Kiwify libera automaticamente seu acesso. Você recebe um e-mail com login em até 2 minutos.</div></div>
+      <div class="faq-item"><div class="faq-question">O acesso é vitalício? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Sim! Você terá acesso aos 7 cursos para sempre, inclusive futuras atualizações.</div></div>
+      <div class="faq-item"><div class="faq-question">E se eu não gostar? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Garantia total de 7 dias. Se não ficar satisfeito, devolvemos 100% do seu dinheiro.</div></div>
+      <div class="faq-item"><div class="faq-question">Preciso de experiência? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Não! Os cursos são do zero ao avançado. Você começa do absoluto zero.</div></div>
+      <div class="faq-item"><div class="faq-question">Formas de pagamento? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Aceitamos PIX, Cartão de Crédito (parcelado) e Boleto.</div></div>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>© 2025 NEON ACADEMY • CNPJ 49.288.888/0001-90 • Todos os direitos reservados</p>
-  <p style="margin-top: 12px;"><i class="fas fa-shield-alt"></i> Ambiente 100% seguro • Pagamento via Kiwify • Atendimento humanizado</p>
+  <p>© 2025 · 7 CURSOS MARKETING DIGITAL · CNPJ 49.288.888/0001-90</p>
+  <p style="margin-top: 8px;"><i class="fas fa-shield-alt"></i> Plataforma segura · Pagamento via Kiwify · Suporte 24h</p>
 </footer>
 
 <script>
